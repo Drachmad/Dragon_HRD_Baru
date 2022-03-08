@@ -409,6 +409,15 @@ class Laporan extends CI_Controller
 					CONCAT(hrd_absen.kd_grup,' - ',hrd_absen.nm_grup) AS GRUP,
 					CONCAT(hrd_absend.kd_peg,' - ',hrd_absend.nm_peg) AS PEGAWAI,
 
+					(SELECT SUM(hrd_lemd.ulembur)
+								FROM hrd_absen, hrd_absend, hrd_lemd
+								WHERE hrd_absen.per='$per'
+								AND hrd_absen.kd_bag BETWEEN '" . $kd_bag_1 . "'AND '" . $kd_bag_2 . "'
+								AND hrd_absen.flag='HR'
+								AND hrd_lemd.kd_peg=hrd_absend.kd_peg
+								AND hrd_lemd.kd_bag=hrd_absen.kd_bag
+								AND hrd_lemd.per='$per') AS TUNJANGAN,
+
 					hrd_absend.nm_peg AS NM_PEG,
 					hrd_absend.ptkp AS PTKP,
 					hrd_absend.hr AS HR,
@@ -438,6 +447,7 @@ class Laporan extends CI_Controller
 					"NM_PEG" => $row1["NM_PEG"],
 					"HR" => $row1["HR"],
 					"GAJI" => $row1["GAJI"],
+					"TUNJANGAN" => $row1["TUNJANGAN"],
 					"LB" => $row1["LB"],
 					"LEM1" => $row1["LEM1"],
 					"LEM2" => $row1["LEM2"],
