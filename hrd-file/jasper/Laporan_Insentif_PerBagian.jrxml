@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="columns" columnCount="5" printOrder="Horizontal" pageWidth="650" pageHeight="842" columnWidth="106" columnSpacing="20" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="adca597a-f8d3-4f9f-ae19-21b3272acdb9">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="foodmart"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[(SELECT 100 customerID, 'Sadakar' CustomerName, 'Hyd' CustomerCity FROM customer limit 1)
+UNION ALL
+(SELECT 101 customerID, 'Hasini' CustomerName, 'MNCL' CustomerCity FROM customer limit 1)
+UNION ALL
+(SELECT 102 customerID, 'Venkat' CustomerName, 'Banglore' CustomerCity FROM customer limit 1)
+UNION ALL
+(SELECT 103 customerID, 'Robert' CustomerName, 'Chenni' CustomerCity FROM customer limit 1)
+UNION ALL
+(SELECT 104 customerID, 'Soujanya' CustomerName, 'MMR' CustomerCity FROM customer limit 1)]]>
+	</queryString>
+	<field name="$NM_PEG" class="java.lang.Integer"/>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="610" height="46" uuid="217244d6-5976-4298-bf74-d5e93099b5c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEST PRINT HORIZONTAL"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="50"/>
+	</columnHeader>
+	<detail>
+		<band height="100" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="14" width="105" height="25" uuid="160c2caa-87e8-4757-8b6d-7ff9daad46e8">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["PEGAWAI"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="39" width="105" height="25" uuid="91ef78c5-4eae-43a4-9f64-8a6848961018">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_PEG}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="64" width="105" height="25" uuid="f3c5ce61-e141-409e-8b21-86d4cdbfd7e5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["TUNJANGAN"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
