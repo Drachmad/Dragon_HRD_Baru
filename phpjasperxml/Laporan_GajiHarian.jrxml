@@ -24,6 +24,7 @@
 	<parameter name="NETT" class="java.lang.String"/>
 	<parameter name="GRUP" class="java.lang.String"/>
 	<parameter name="PTKP" class="java.lang.String"/>
+	<parameter name="TUNJANGAN" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -44,6 +45,7 @@
 	<field name="LEM2" class="java.lang.String"/>
 	<field name="GRUP" class="java.lang.String"/>
 	<field name="PTKP" class="java.lang.String"/>
+	<field name="TUNJANGAN" class="java.lang.String"/>
 	<variable name="T_HR" class="java.lang.String" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{HR}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{HR}]]></initialValueExpression>
@@ -260,9 +262,9 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8"/>
+						<font fontName="Times New Roman" size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{T_TUNJANGAN}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement x="580" y="2" width="50" height="15" forecolor="#000000" uuid="0083c17a-a15b-48be-8433-98dd9aa5779a">
@@ -855,7 +857,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{TUNJANGAN}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="580" y="16" width="50" height="20" forecolor="#000000" uuid="a26c21d5-f506-4a73-b5a0-b1550cdd94d6">
@@ -1076,7 +1078,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{TUNJANGAN}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="580" y="0" width="50" height="20" forecolor="#000000" uuid="09ae3d4e-728d-444a-8f76-034f9c71a39b">
@@ -1321,9 +1323,9 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{T_TUNJANGAN}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="580" y="1" width="50" height="15" forecolor="#000000" uuid="66fd27b3-b3cf-4c71-ac4e-a8ba821bff1e">

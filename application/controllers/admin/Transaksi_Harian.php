@@ -178,10 +178,6 @@ class Transaksi_Harian extends CI_Controller
             'notes' => $this->input->post('NOTES', TRUE),
             'tharian' => str_replace(',', '', $this->input->post('THARIAN', TRUE)),
             't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
-            'tjam1thl' => str_replace(',', '', $this->input->post('TJAM1THL', TRUE)),
-            'tjam2thl' => str_replace(',', '', $this->input->post('TJAM2THL', TRUE)),
-            'tjam1rpthl' => str_replace(',', '', $this->input->post('TJAM1RPTHL', TRUE)),
-            'tjam2rpthl' => str_replace(',', '', $this->input->post('TJAM2RPTHL', TRUE)),
             'tjam1' => str_replace(',', '', $this->input->post('TJAM1', TRUE)),
             'tjam2' => str_replace(',', '', $this->input->post('TJAM2', TRUE)),
             'tjam1rp' => str_replace(',', '', $this->input->post('TJAM1RP', TRUE)),
@@ -205,10 +201,6 @@ class Transaksi_Harian extends CI_Controller
         $NM_PEG = $this->input->post('NM_PEG');
         $PTKP = $this->input->post('PTKP');
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
-        $JAM1THL = str_replace(',', '', $this->input->post('JAM1THL', TRUE));
-        $JAM2THL = str_replace(',', '', $this->input->post('JAM2THL', TRUE));
-        $JAM1RPTHL = str_replace(',', '', $this->input->post('JAM1RPTHL', TRUE));
-        $JAM2RPTHL = str_replace(',', '', $this->input->post('JAM2RPTHL', TRUE));
         $JAM1 = str_replace(',', '', $this->input->post('JAM1', TRUE));
         $JAM2 = str_replace(',', '', $this->input->post('JAM2', TRUE));
         $JAM1RP = str_replace(',', '', $this->input->post('JAM1RP', TRUE));
@@ -236,10 +228,6 @@ class Transaksi_Harian extends CI_Controller
                 'nm_peg' => $NM_PEG[$i],
                 'ptkp' => $PTKP[$i],
                 'hr' => str_replace(',', '', $HR[$i]),
-                'jam1thl' => str_replace(',', '', $JAM1THL[$i]),
-                'jam2thl' => str_replace(',', '', $JAM2THL[$i]),
-                'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$i]),
-                'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$i]),
                 'jam1' => str_replace(',', '', $JAM1[$i]),
                 'jam2' => str_replace(',', '', $JAM2[$i]),
                 'jam1rp' => str_replace(',', '', $JAM1RP[$i]),
@@ -279,10 +267,6 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.notes AS NOTES,
                 hrd_absen.tharian AS THARIAN,
                 hrd_absen.t_hr AS T_HR,
-                hrd_absen.tjam1thl AS TJAM1THL,
-                hrd_absen.tjam2thl AS TJAM2THL,
-                hrd_absen.tjam1rpthl AS TJAM1RPTHL,
-                hrd_absen.tjam2rpthl AS TJAM2RPTHL,
                 hrd_absen.tjam1 AS TJAM1,
                 hrd_absen.tjam2 AS TJAM2,
                 hrd_absen.tjam1rp AS TJAM1RP,
@@ -300,10 +284,6 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absend.nm_peg AS NM_PEG,
                 hrd_absend.ptkp AS PTKP,
                 hrd_absend.hr AS HR,
-                hrd_absend.jam1thl AS JAM1THL,
-                hrd_absend.jam2thl AS JAM2THL,
-                hrd_absend.jam1rpthl AS JAM1RPTHL,
-                hrd_absend.jam2rpthl AS JAM2RPTHL,
                 hrd_absend.jam1 AS JAM1,
                 hrd_absend.jam2 AS JAM2,
                 hrd_absend.jam1rp AS JAM1RP,
@@ -336,10 +316,6 @@ class Transaksi_Harian extends CI_Controller
             'notes' => $this->input->post('NOTES', TRUE),
             'tharian' => str_replace(',', '', $this->input->post('THARIAN', TRUE)),
             't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
-            'tjam1thl' => str_replace(',', '', $this->input->post('TJAM1THL', TRUE)),
-            'tjam2thl' => str_replace(',', '', $this->input->post('TJAM2THL', TRUE)),
-            'tjam1rpthl' => str_replace(',', '', $this->input->post('TJAM1RPTHL', TRUE)),
-            'tjam2rpthl' => str_replace(',', '', $this->input->post('TJAM2RPTHL', TRUE)),
             'tjam1' => str_replace(',', '', $this->input->post('TJAM1', TRUE)),
             'tjam2' => str_replace(',', '', $this->input->post('TJAM2', TRUE)),
             'tjam1rp' => str_replace(',', '', $this->input->post('TJAM1RP', TRUE)),
@@ -365,10 +341,6 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.notes AS NOTES,
                 hrd_absen.tharian AS THARIAN,
                 hrd_absen.t_hr AS T_HR,
-                hrd_absen.tjam1thl AS TJAM1THL,
-                hrd_absen.tjam2thl AS TJAM2THL,
-                hrd_absen.tjam1rpthl AS TJAM1RPTHL,
-                hrd_absen.tjam2rpthl AS TJAM2RPTHL,
                 hrd_absen.tjam1 AS TJAM1,
                 hrd_absen.tjam2 AS TJAM2,
                 hrd_absen.tjam1rp AS TJAM1RP,
@@ -386,10 +358,6 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absend.nm_peg AS NM_PEG,
                 hrd_absend.ptkp AS PTKP,
                 hrd_absend.hr AS HR,
-                hrd_absend.jam1thl AS JAM1THL,
-                hrd_absend.jam2thl AS JAM2THL,
-                hrd_absend.jam1rpthl AS JAM1RPTHL,
-                hrd_absend.jam2rpthl AS JAM2RPTHL,
                 hrd_absend.jam1 AS JAM1,
                 hrd_absend.jam2 AS JAM2,
                 hrd_absend.jam1rp AS JAM1RP,
@@ -414,10 +382,6 @@ class Transaksi_Harian extends CI_Controller
         $NM_PEG = $this->input->post('NM_PEG');
         $PTKP = $this->input->post('PTKP');
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
-        $JAM1THL = str_replace(',', '', $this->input->post('JAM1THL', TRUE));
-        $JAM2THL = str_replace(',', '', $this->input->post('JAM2THL', TRUE));
-        $JAM1RPTHL = str_replace(',', '', $this->input->post('JAM1RPTHL', TRUE));
-        $JAM2RPTHL = str_replace(',', '', $this->input->post('JAM2RPTHL', TRUE));
         $JAM1 = str_replace(',', '', $this->input->post('JAM1', TRUE));
         $JAM2 = str_replace(',', '', $this->input->post('JAM2', TRUE));
         $JAM1RP = str_replace(',', '', $this->input->post('JAM1RP', TRUE));
@@ -449,10 +413,6 @@ class Transaksi_Harian extends CI_Controller
                     'nm_peg' => $NM_PEG[$URUT],
                     'ptkp' => $PTKP[$URUT],
                     'hr' => str_replace(',', '', $HR[$URUT]),
-                    'jam1thl' => str_replace(',', '', $JAM1THL[$URUT]),
-                    'jam2thl' => str_replace(',', '', $JAM2THL[$URUT]),
-                    'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$URUT]),
-                    'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$URUT]),
                     'jam1' => str_replace(',', '', $JAM1[$URUT]),
                     'jam2' => str_replace(',', '', $JAM2[$URUT]),
                     'jam1rp' => str_replace(',', '', $JAM1RP[$URUT]),
@@ -497,10 +457,6 @@ class Transaksi_Harian extends CI_Controller
                     'nm_peg' => $NM_PEG[$i],
                     'ptkp' => $PTKP[$i],
                     'hr' => str_replace(',', '', $HR[$i]),
-                    'jam1thl' => str_replace(',', '', $JAM1THL[$i]),
-                    'jam2thl' => str_replace(',', '', $JAM2THL[$i]),
-                    'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$i]),
-                    'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$i]),
                     'jam1' => str_replace(',', '', $JAM1[$i]),
                     'jam2' => str_replace(',', '', $JAM2[$i]),
                     'jam1rp' => str_replace(',', '', $JAM1RP[$i]),
@@ -634,14 +590,14 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.tjumlah AS TJUMLAH,
 
                 (SELECT SUM(hrd_lemd.ulembur)
-					FROM hrd_absen, hrd_absend, hrd_lemd
-					WHERE hrd_absen.no_id='$id'
-					AND hrd_peg.kd_peg=hrd_absend.kd_peg
-					AND hrd_absen.no_id=hrd_absend.id
-					AND hrd_lemd.kd_peg=hrd_absend.kd_peg
-					AND hrd_lemd.kd_bag=hrd_absen.kd_bag
-					AND hrd_lemd.per='$per'
-                ) AS TUNJANGAN,
+								FROM hrd_absen, hrd_absend, hrd_lemd
+								WHERE hrd_absen.no_id='$id'
+								AND hrd_peg.kd_peg=hrd_absend.kd_peg
+								AND hrd_absen.no_id=hrd_absend.id
+								AND hrd_lemd.kd_peg=hrd_absend.kd_peg
+								AND hrd_lemd.kd_bag=hrd_absen.kd_bag
+								AND hrd_lemd.per='$per') AS TUNJANGAN,
+								
                 hrd_absend.no_id AS NO_ID,
                 hrd_absend.rec AS REC,
                 hrd_absend.nm_peg AS NM_PEG,
