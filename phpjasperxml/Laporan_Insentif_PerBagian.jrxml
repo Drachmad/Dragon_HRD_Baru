@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan_DaftarAbsen_Absen" language="groovy" printOrder="Horizontal" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan_DaftarAbsen_Absen" language="groovy" printOrder="Horizontal" pageWidth="612" pageHeight="792" orientation="Landscape" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="145"/>
 	<property name="ireport.y" value="0"/>
@@ -30,6 +30,7 @@
 	<parameter name="E3" class="java.lang.String"/>
 	<parameter name="E4" class="java.lang.String"/>
 	<parameter name="TGL_CETAK" class="java.lang.String"/>
+	<parameter name="NO_ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -50,6 +51,7 @@
 	<field name="E3" class="java.lang.String"/>
 	<field name="E4" class="java.lang.String"/>
 	<field name="TGL_CETAK" class="java.lang.String"/>
+	<field name="NO_ID" class="java.lang.String"/>
 	<variable name="LUSIN" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{PAIR}]]></variableExpression>
 	</variable>
@@ -559,10 +561,6 @@
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{C4}]]></textFieldExpression>
-				</textField>
-				<textField textAdjust="ScaleFont">
-					<reportElement x="150" y="40" width="180" height="73" uuid="3676f8d9-931a-4202-b3ea-4be2ac638b03"/>
-					<textFieldExpression><![CDATA[$F{TGL_CETAK}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

@@ -215,7 +215,7 @@ class Transaksi_UML_Harian extends CI_Controller
         }
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

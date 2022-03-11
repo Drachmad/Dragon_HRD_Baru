@@ -4,20 +4,72 @@
 <?php $dr = $this->session->userdata['dr']; ?>
 
 <style>
-    .alert-container { background-color: #9c774c; color: black; font-weight: bolder;}
-    .table {height: 350px; overflow: scroll;}
-    .table>thead>tr>th { background-color: #9c774c; top: 0; position: sticky !important; z-index: 999; text-align: center; color: black; font-weight: bold; }
-    .table>tbody>tr>td { color: black; text-align: center; }
-    .table-striped>tbody>tr:nth-child(odd)>td, 
-    .table-striped>tbody>tr:nth-child(odd)>th { background-color: #edb472; }
+    .alert-container {
+        background-color: #9c774c;
+        color: black;
+        font-weight: bolder;
+    }
+
+    .table {
+        height: 350px;
+        overflow: scroll;
+    }
+
+    .table>thead>tr>th {
+        background-color: #9c774c;
+        top: 0;
+        position: sticky !important;
+        z-index: 999;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+    }
+
+    .table>tbody>tr>td {
+        color: black;
+        text-align: center;
+    }
+
+    .table-striped>tbody>tr:nth-child(odd)>td,
+    .table-striped>tbody>tr:nth-child(odd)>th {
+        background-color: #edb472;
+    }
+
     .table-striped>tbody>tr:nth-child(even)>td,
-    .table-striped>tbody>tr:nth-child(even)>th { background-color: #e8d1b7; }
-    .table>tbody>tr>td>div {text-align: center;}
-    .table>tbody>tr>td>div>a { font-size: 13px; color: black; background-color: #9c774c; }
-    .table>tbody>tr>td>div>a:hover { transition: 0.4s; color: #b3b3b3; background-color: #9c774c; }
-    .table>tbody>tr>td>div>a::selection { color: white;}
-    .table>tbody>tr>td>div>div>a:hover {transition: 0.4s; color: white; background-color: #9c774c;}
-    .table>tbody>tr>td>div>div>a>i {color: black; background-color: transparent;}
+    .table-striped>tbody>tr:nth-child(even)>th {
+        background-color: #e8d1b7;
+    }
+
+    .table>tbody>tr>td>div {
+        text-align: center;
+    }
+
+    .table>tbody>tr>td>div>a {
+        font-size: 13px;
+        color: black;
+        background-color: #9c774c;
+    }
+
+    .table>tbody>tr>td>div>a:hover {
+        transition: 0.4s;
+        color: #b3b3b3;
+        background-color: #9c774c;
+    }
+
+    .table>tbody>tr>td>div>a::selection {
+        color: white;
+    }
+
+    .table>tbody>tr>td>div>div>a:hover {
+        transition: 0.4s;
+        color: white;
+        background-color: #9c774c;
+    }
+
+    .table>tbody>tr>td>div>div>a>i {
+        color: black;
+        background-color: transparent;
+    }
 </style>
 
 <section>

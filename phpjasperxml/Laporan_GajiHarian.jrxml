@@ -79,7 +79,7 @@
 		<variableExpression><![CDATA[$V{COLUMN_COUNT}]]></variableExpression>
 		<initialValueExpression><![CDATA[$V{COLUMN_COUNT}]]></initialValueExpression>
 	</variable>
-	<group name="GroupT">
+	<group name="GroupT" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{NO_BUKTI}]]></groupExpression>
 		<groupHeader>
 			<band height="20">

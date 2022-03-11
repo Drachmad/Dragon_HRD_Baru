@@ -580,7 +580,7 @@ class Laporan_model extends CI_Model
 	{
 		$kd_grup_1 = $this->input->post('KD_GRUP_1');
 		$kd_grup_2 = $this->input->post('KD_GRUP_2');
-		$per = $this->session->userdata('periode');
+		$per = $this->input->post('PER');
 		$q1 = "SELECT hrd_absen.per AS PER, 
 				hrd_absen.no_bukti AS NO_BUKTI, 
 				hrd_absen.flag AS FLAG, 
