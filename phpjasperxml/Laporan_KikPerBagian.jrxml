@@ -80,6 +80,7 @@
 	<field name="KAPROD" class="java.lang.String"/>
 	<field name="KAMAINT" class="java.lang.String"/>
 	<field name="QC2" class="java.lang.String"/>
+	<field name="QC1" class="java.lang.String"/>
 	<variable name="SUB_LBL" class="java.lang.Double" resetType="Group" resetGroup="SUB KD_BAG" calculation="Sum">
 		<variableExpression><![CDATA[$F{LBL}]]></variableExpression>
 	</variable>

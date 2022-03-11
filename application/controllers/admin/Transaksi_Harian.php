@@ -166,7 +166,13 @@ class Transaksi_Harian extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pr = substr($this->session->userdata['periode'], 0, 2);
         $pr1 = substr($this->session->userdata['periode'], -2) . substr($this->session->userdata['periode'], 0, 2);
-        $bukti = 'HR' . $pr1 . '.' . $pr . '-' . $kd_bag;
+        $pt = $this->session->userdata['pt'];
+        if ($pt == '1') {
+            $pt = "PT";
+        } else {
+            $pt = "CV";
+        }
+        $bukti = 'HR' . $pr1 . '.' . $pr . '-' . $kd_bag . '-' . $pt;
         $datah = array(
             'flag' => 'HR',
             'no_bukti' => $bukti,

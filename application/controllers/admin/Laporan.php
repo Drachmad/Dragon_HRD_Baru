@@ -29,6 +29,7 @@ class Laporan extends CI_Controller
 		header('Cache-Control: post-check=0, pre-check=0', false);
 		header('Pragma: no-cache');
 		$this->load->helper('file');
+		$this->load->helper('terbilang');
 		if (!isset($this->session->userdata['username'])) {
 			$this->session->set_flashdata(
 				'pesan',
@@ -339,8 +340,8 @@ class Laporan extends CI_Controller
 					hrd_lemd.rec AS REC,
 					hrd_lemd.kd_bag AS KD_BAG,
 					hrd_lemd.nm_bag AS NM_BAG,
-					'-' AS JENIS,
-					'-' AS ACNO,
+					hrd_.flag AS JENIS,
+					hrd_bag.acno AS ACNO,
 					hrd_lemd.nm_peg AS NM_PEG,
 					hrd_lemd.ulembur AS NETT
 				FROM hrd_lem, hrd_lemd, hrd_bag
@@ -401,7 +402,7 @@ class Laporan extends CI_Controller
 			$kd_bag_1 = $this->input->post('KD_BAG_1');
 			$kd_bag_2 = $this->input->post('KD_BAG_2');
 			$per = $this->session->userdata['periode'];
-			$query = " SELECT hrd_absen.per AS PER,
+			$query = "SELECT hrd_absen.per AS PER,
 					hrd_absen.no_bukti AS NO_BUKTI,
 					hrd_absen.nm_bag AS NM_BAG,
 					hrd_absen.kd_bag AS KD_BAG,
@@ -416,7 +417,7 @@ class Laporan extends CI_Controller
 								AND hrd_absen.flag='HR'
 								AND hrd_lemd.kd_peg=hrd_absend.kd_peg
 								AND hrd_lemd.kd_bag=hrd_absen.kd_bag
-								AND hrd_lemd.per='$per') AS TUNJANGAN,
+								AND hrd_lemd.per='02/2022') AS TUNJANGAN,
 
 					hrd_absend.nm_peg AS NM_PEG,
 					hrd_absend.ptkp AS PTKP,
@@ -818,7 +819,6 @@ class Laporan extends CI_Controller
 
 	public function index_Insentif_PerBagian()
 	{
-		$TGL_CETAK = $this->input->post('TGL_CETAK');
 		if (isset($_POST["print"])) {
 			$CI = &get_instance();
 			$CI->load->database();
@@ -839,6 +839,7 @@ class Laporan extends CI_Controller
 			$kd_bag_2 = $this->input->post('KD_BAG_2');
 			$per = $this->input->post('PER');
 			$per2 = $this->input->post('PER2');
+			$TGL_CETAK = $this->input->post('TGL_CETAK');
 			$query = "SELECT 
 					hrd_absend.nm_peg AS NM_PEG,
 					hrd_absend.kd_peg AS NIK,
@@ -852,26 +853,9 @@ class Laporan extends CI_Controller
 				ORDER BY hrd_absen.flag, hrd_absen.kd_bag, hrd_absend.rec";
 			$NO_ID = 0;
 			$X = 0;
-			$B1 = '';
-			$C1 = '';
-			$D1 = '';
-			$E1 = '';
-			$B2 = '';
-			$C2 = '';
-			$D2 = '';
-			$E2 = '';
-			$B3 = '';
-			$C3 = '';
-			$D3 = '';
-			$E3 = '';
-			$B4 = '';
-			$C4 = '';
-			$D4 = '';
-			$E4 = '';
-			$TGL_CETAK = '';
 			$result1 = mysqli_query($conn, $query);
 			while ($row1 = mysqli_fetch_assoc($result1)) {
-				$X = $X + 1;
+				$X += 1;
 				if ($X == 1) {
 					$NO_ID = $NO_ID + 1;
 					$B1 = '';
@@ -891,7 +875,7 @@ class Laporan extends CI_Controller
 					$D4 = '';
 					$E4 = '';
 					$TGL_CETAK = '';
-				};
+				}
 
 				if ($X == 1) {
 					$E1 = $row1["NM_PEG"];
@@ -899,22 +883,19 @@ class Laporan extends CI_Controller
 					$C1 = $row1["KD_BAG"];
 					$TGL_CETAK = $row1["TGL_CETAK"];
 					$D1 = $row1["INSENTIF"];
-				};
-				if ($X == 2) {
+				} else if ($X == 2) {
 					$E2 = $row1["NM_PEG"];
 					$B2 = $row1["NIK"];
 					$C2 = $row1["KD_BAG"];
 					$TGL_CETAK = $row1["TGL_CETAK"];
 					$D2 = $row1["INSENTIF"];
-				};
-				if ($X == 3) {
+				} else if ($X == 3) {
 					$E3 = $row1["NM_PEG"];
 					$B3 = $row1["NIK"];
 					$C3 = $row1["KD_BAG"];
 					$TGL_CETAK = $row1["TGL_CETAK"];
 					$D3 = $row1["INSENTIF"];
-				};
-				if ($X == 4) {
+				} else if ($X == 4) {
 					$E4 = $row1["NM_PEG"];
 					$B4 = $row1["NIK"];
 					$C4 = $row1["KD_BAG"];
@@ -922,6 +903,7 @@ class Laporan extends CI_Controller
 					$D4 = $row1["INSENTIF"];
 
 					array_push($PHPJasperXML->arraysqltable, array(
+						"NO_ID" => $NO_ID,
 						"B1" => $B1,
 						"B2" => $B2,
 						"B3" => $B3,
@@ -1001,11 +983,10 @@ class Laporan extends CI_Controller
 			$PHPJasperXML = new \PHPJasperXML();
 			$PHPJasperXML->load_xml_file("phpjasperxml/Laporan_Insentif_PerGrup.jrxml");
 			$PHPJasperXML->transferDBtoArray($servername, $username, $password, $database);
+			$this->load->helper("terbilang");
 			$kd_grup_1 = $this->input->post('KD_GRUP_1');
 			$kd_grup_2 = $this->input->post('KD_GRUP_2');
-			$bulan = substr($this->input->post('PER'), 0, 2);
-			$tahun = substr($this->input->post('PER'), -4);
-			$per = $tahun . $bulan;
+			$per = $this->input->post('PER');
 			$query = "SELECT hrd_absen.per AS PER, 
 					hrd_absen.no_bukti AS NO_BUKTI, 
 					hrd_absen.flag AS FLAG,
@@ -1013,21 +994,30 @@ class Laporan extends CI_Controller
 					hrd_absen.kd_grup AS KD_GRUP,
 					hrd_absen.nm_grup AS NM_GRUP,
 
-
 					hrd_absend.rec AS REC,
 					hrd_absend.kd_bag AS KD_BAG,
 					hrd_absend.nm_bag AS NM_BAG,
-					'-' AS TYPE,
-					'-' AS ACNO,
+					hrd_absen.flag AS `TYPE`,
+					hrd_bag.acno AS ACNO,
 					hrd_absend.nm_peg AS NM_PEG,
 					hrd_absend.gaji AS INSENTIF,
+					
+					(SELECT SUM(hrd_absend.gaji)
+						FROM hrd_absen, hrd_absend, hrd_bag
+						WHERE hrd_absen.no_bukti=hrd_absend.no_bukti 
+						AND hrd_absen.kd_bag=hrd_bag.kd_bag 
+						AND hrd_absen.per ='12/2021'
+						AND hrd_absen.kd_grup BETWEEN 'A01' AND 'F03'
+						ORDER BY hrd_absen.flag, hrd_absen.kd_grup) AS T_INSENTIF,
+
 					CONCAT(hrd_absen.kd_bag,' - ',hrd_absen.nm_bag) AS BAGIAN,
 					CONCAT(hrd_absen.kd_grup,' - ',hrd_absen.nm_grup) AS GRUP,
 					CONCAT(hrd_absend.kd_peg,' - ',hrd_absend.nm_peg) AS PEGAWAI,
 					hrd_absend.tperbulan AS TPERBULAN
-				FROM hrd_absen, hrd_absend
+				FROM hrd_absen, hrd_absend, hrd_bag
 				WHERE hrd_absen.no_bukti=hrd_absend.no_bukti 
-				AND CONCAT(RIGHT(hrd_absen.per,4),left(hrd_absen.per,2))<='$per'
+				AND hrd_absen.kd_bag=hrd_bag.kd_bag 
+				AND hrd_absen.per ='$per'
 				AND hrd_absen.kd_grup BETWEEN '" . $kd_grup_1 . "' AND '" . $kd_grup_2 . "'
 				ORDER BY hrd_absen.flag, hrd_absen.kd_grup";
 			$result1 = mysqli_query($conn, $query);
@@ -1044,10 +1034,15 @@ class Laporan extends CI_Controller
 					"ACNO" => $row1["ACNO"],
 					"NM_PEG" => $row1["NM_PEG"],
 					"INSENTIF" => $row1["INSENTIF"],
+					"T_INSENTIF" => $row1["T_INSENTIF"],
+					"BILANG_T_INSENTIF" =>  ucwords(number_to_words($row1["T_INSENTIF"])),
 				));
+				// $aaa = number_to_words($row1["T_INSENTIF"]);
 			}
 			ob_end_clean();
 			$PHPJasperXML->outpage("I");
+			$tes = 'tes';
+			echo ("<script type='text/javascript'> console.log('$tes');</script>");
 		} else {
 			$data = array(
 				'KD_GRUP_1' => set_value('KD_GRUP_1'),
@@ -1737,5 +1732,6 @@ class Laporan extends CI_Controller
 	}
 
 	//////		BATAS AJAX GLOBAL		/////
+
 
 }

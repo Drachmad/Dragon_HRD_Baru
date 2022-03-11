@@ -391,7 +391,7 @@
 							<option value=""></option>
 						</select>
 					</div>
-					<div class="col-md-1">
+					<!-- <div class="col-md-1">
 						<label class="label">PT</label>
 					</div>
 					<div class="col-md-1 text_input">
@@ -399,7 +399,7 @@
 							<option value="1">PT</option>
 							<option value="0">CV</option>
 						</select>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="col-md-12">
@@ -456,7 +456,7 @@
 						<label class="label">T Perbulan</label>
 					</div>
 					<div class="col-md-3 ">
-						<input type="text" id="TPERBULAN" name="TPERBULAN" class="form-control number_input TPERBULAN num" onkeyup="hitung()" value="0">
+						<input type="text" id="TPERBULAN" name="TPERBULAN" class="form-control number_input TPERBULAN num" value="0">
 					</div>
 					<div class="col-md-1">
 						<label class="label">T Astek</label>
@@ -650,7 +650,6 @@
 		var pokok = parseFloat($('#POKOK').val().replace(/,/g, ''));
 		var umakan = parseFloat($('#UMAKAN').val().replace(/,/g, ''));
 		var tjabatan = parseFloat($('#TJABATAN').val().replace(/,/g, ''));
-		var tperbulan = parseFloat($('#TPERBULAN').val().replace(/,/g, ''));
 		var tastek = parseFloat($('#TASTEK').val().replace(/,/g, ''));
 		var premi = parseFloat($('#PREMI').val().replace(/,/g, ''));
 		var lbl = parseFloat($('#LBL').val().replace(/,/g, ''));
@@ -662,7 +661,7 @@
 		$('#GAJI').val(numberWithCommas(gaji));
 		$("#GAJI").autoNumeric('update');
 
-		var nett = gaji + tperbulan + tastek + premi + lbl;
+		var nett = gaji + tastek + premi + lbl;
 		if (isNaN(nett)) nett = 0;
 		$('#NETT').val(numberWithCommas(nett));
 		$("#NETT").autoNumeric('update');

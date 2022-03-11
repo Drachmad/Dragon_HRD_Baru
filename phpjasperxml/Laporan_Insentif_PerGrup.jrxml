@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Rekap Insentif" printOrder="Horizontal" pageWidth="612" pageHeight="792" columnWidth="572" columnSpacing="20" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="adca597a-f8d3-4f9f-ae19-21b3272acdb9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="foodmart"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -21,6 +21,8 @@
 	<parameter name="TYPE" class="java.lang.String"/>
 	<parameter name="ACNO" class="java.lang.String"/>
 	<parameter name="NM_PEG" class="java.lang.String"/>
+	<parameter name="BILANG_T_INSENTIF" class="java.lang.String"/>
+	<parameter name="T_INSENTIF" class="java.lang.String"/>
 	<parameter name="INSENTIF" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[(SELECT 100 customerID, 'Sadakar' CustomerName, 'Hyd' CustomerCity FROM customer limit 1)
@@ -44,6 +46,8 @@ UNION ALL
 	<field name="ACNO" class="java.lang.String"/>
 	<field name="NM_PEG" class="java.lang.String"/>
 	<field name="INSENTIF" class="java.lang.String"/>
+	<field name="T_INSENTIF" class="java.lang.String"/>
+	<field name="BILANG_T_INSENTIF" class="java.lang.String"/>
 	<variable name="T_INSENTIF" class="java.lang.String" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{INSENTIF}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{INSENTIF}]]></initialValueExpression>
@@ -78,7 +82,7 @@ UNION ALL
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="101">
+			<band height="69">
 				<line>
 					<reportElement x="321" y="3" width="250" height="1" uuid="a82e6c36-50e0-4686-a399-fefa8b0e4385"/>
 					<graphicElement>
@@ -97,34 +101,41 @@ UNION ALL
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{T_INSENTIF}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{T_INSENTIF}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="16" y="28" width="100" height="22" uuid="6c323220-9084-4d99-bc9a-b50640b1cc8f"/>
+					<reportElement x="16" y="4" width="100" height="22" uuid="6c323220-9084-4d99-bc9a-b50640b1cc8f"/>
 					<textElement verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Total ..."]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="16" y="50" width="100" height="22" uuid="e524f6a1-9795-4f9a-b435-5243e6bb0650"/>
+					<reportElement x="16" y="26" width="74" height="22" uuid="e524f6a1-9795-4f9a-b435-5243e6bb0650"/>
 					<textElement verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Terbilang : "]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement x="1" y="97" width="571" height="1" uuid="f01e156f-11ac-4c7f-aaa3-8c28c64d417a"/>
+					<reportElement x="1" y="63" width="571" height="1" uuid="f01e156f-11ac-4c7f-aaa3-8c28c64d417a"/>
 					<graphicElement>
 						<pen lineStyle="Dashed"/>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement x="1" y="94" width="571" height="1" uuid="10107305-697e-4eaf-a25d-d0c08bf9527f"/>
+					<reportElement x="1" y="60" width="571" height="1" uuid="10107305-697e-4eaf-a25d-d0c08bf9527f"/>
 					<graphicElement>
 						<pen lineStyle="Dashed"/>
 					</graphicElement>
 				</line>
+				<textField pattern="#,##0.00">
+					<reportElement x="90" y="27" width="480" height="20" uuid="fc4fd003-adcf-4e95-b54e-bff4faae7bf0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{BILANG_T_INSENTIF}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
