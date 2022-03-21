@@ -4,27 +4,48 @@
         font-weight: bold;
         color: blue;
     }
-    .judulnya {
-        color: black;
-        background-color: #d2f4e8;
-    }
-    table {
-        table-layout: fixed;
-    }
-    /* .bodycontainer { max-height: 250px; width: 100%; margin: 0; overflow-y: auto; } */
-    .table-scrollable {
-        margin: 0;
-        padding: 0;
-    }
+
     .modal-bodys {
         max-height: 300px;
         overflow-y: auto;
+    }
+
+    .alert-container {
+        background-color: #9c774c;
+        color: black;
+        font-weight: bolder;
+    }
+
+    .text_input {
+        color: black;
+    }
+
+    .label-title {
+        color: black;
+        font-weight: bold;
+        background-color: #9c774c;
+    }
+
+    .label {
+        color: black;
+        font-weight: bold;
+    }
+
+    .detail {
+        color: black;
+        text-align: center;
+    }
+
+    .footerCss {
+        color: black;
+        font-weight: bold;
     }
 </style>
 
 <section>
     <div class="container-fluid">
-        <div class="alert alert-success" role="alert">
+        <br>
+        <div class="alert alert-success alert-container" role="alert">
             <i class="fas fa-university"></i> Laporan Lembur Per Bagian Per jam
         </div>
         <?php echo $this->session->flashdata('pesan') ?>
@@ -32,8 +53,8 @@
             <div class="col-md-12">
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <label class="label-title">Bagian </label>
-                        </div>
+                        <label class="label">Bagian </label>
+                    </div>
                     <div class="col-md-3">
                         <select class="js-example-responsive form-control KD_BAG_1" name="KD_BAG_1" id="KD_BAG_1" style="width: 100%;">
                             <?php
@@ -42,24 +63,21 @@
                             } ?>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group row">
                     <div class="col-md-1">
-                        <label class="label-title">Tanggal</label>
+                        <label class="label">Tanggal</label>
                     </div>
-                    <div class="col-md-3 nopadding">
-                        <input type="text" class="date form-control text_input" id="TGL_1" name="TGL_1" data-date-format="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) { echo $_POST["TGL_1"]; } else echo date('d-m-Y'); ?>">
+                    <div class="col-md-2 nopadding">
+                        <input type="text" class="date form-control text_input datepicker" id="TGL_1" name="TGL_1" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) {
+                                                                                                                                                                                        echo $_POST["TGL_1"];
+                                                                                                                                                                                    } else {
+                                                                                                                                                                                        echo '';
+                                                                                                                                                                                    } ?>">
                     </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-sm-2 nopadding">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-2">
                         <button class="btn btn-md btn-secondary" id="tampilkan" name="tampilkan"> Tampilkan </button>
                     </div>
-                    <div class="dropdown col-sm-2 nopadding">
+                    <div class="dropdown col-sm-2">
                         <button class="btn btn-outline secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-download"></i>
                         </button>
@@ -87,17 +105,18 @@
             <!-- PASTE DIBAWAH INI -->
             <!-- DISINI BATAS AWAL KOOLREPORT-->
             <?php
-                use \koolreport\widgets\koolphp\Table;
-                use \koolreport\widgets\google\BarChart;
-                use \koolreport\datagrid\DataTables;
+
+            use \koolreport\widgets\koolphp\Table;
+            use \koolreport\widgets\google\BarChart;
+            use \koolreport\datagrid\DataTables;
             ?>
             <div class="report-content">
                 <?php
                 DataTables::create(array(
                     "dataStore" => $lemburperbagian_perjam,
                     "name" => "example",
-                    "showFooter"=>true,
-                    "showFooter"=>"bottom",
+                    "showFooter" => true,
+                    "showFooter" => "bottom",
                     "columns" => array(
                         "NO_BUKTI" => array(
                             "label" => "No Bukti"
@@ -113,24 +132,18 @@
                         ),
                         "ULEMBUR" => array(
                             "label" => "U Lembur",
-                            "type"=>"number",
-                            "decimals"=>2,
-                            "decimalPoint"=>".",
-                            "thousandSeparator"=>",",
-							"footer"=>"sum",
+                            "type" => "number",
+                            "decimals" => 2,
+                            "decimalPoint" => ".",
+                            "thousandSeparator" => ",",
+                            "footer" => "sum",
                         )
                     ),
                     "cssClass" => array(
-                        "table" => "table table-hover table-bordered",
-                        "th" => "judulnya",
-                        "td" => function ($row, $colName) {
-                            if ($colName == "DEBET") {
-                                return "text-right";
-                            }
-                            if ($colName == "KREDIT") {
-                                return "text-right";
-                            }
-                        }
+                        "table" => "table table-hover table-striped table-bordered compact",
+                        "th" => "label-title",
+                        "td" => "detail",
+                        "tf" => "footerCss"
                     ),
                     "options" => array(
                         // "columnDefs"=>array(
@@ -143,8 +156,8 @@
                         "colReorder" => true,
                         "fixedHeader" => true,
                         "select" => true,
-                        "showFooter"=>true,
-                        "showFooter"=>"bottom",
+                        "showFooter" => true,
+                        "showFooter" => "bottom",
                         "dom" => 'lfrtip', // B e dilangi
                         // "dom" => '<"row"<col-md-6"B><"col-md-6"f>> <"row"<"col-md-12"t>><"row"<"col-md-12">>',
                         "buttons" => array(
@@ -164,10 +177,16 @@
                 ));
                 ?>
             </div>
-        <!-- DISINI BATAS AKHIR KOOLREPORT-->
-        </section>
+            <!-- DISINI BATAS AKHIR KOOLREPORT-->
+</section>
 <script type="text/javascript">
     $(document).ready(function() {
+
+        $('.datepicker').datepicker({
+            'dateFormat': "dd-mm-yy",
+        });
+
+
         $("#btnExportCopy").on("click", function() {
             var table = $('#example').DataTable();
             table.button('.buttons-copy').trigger();
@@ -221,7 +240,7 @@
                 },
                 cache: true
             },
-            placeholder: 'Masukan Bagian ...',
+            placeholder: 'Semua Bagian ...',
             minimumInputLength: 0,
             templateResult: format,
             templateSelection: formatSelection
@@ -234,8 +253,8 @@
         }
 
         var $container = $(
-            "<div class='select2-result-repository clearfix'>" +
-            "<div class='select2-result-repository__title'></div>" +
+            "<div class='select2-result-repository clearfix text_input'>" +
+            "<div class='select2-result-repository__title text_input'></div>" +
             "</div>"
         );
 

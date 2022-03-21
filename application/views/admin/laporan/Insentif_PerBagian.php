@@ -35,7 +35,7 @@
         </div>
         <?php echo $this->session->flashdata('pesan') ?>
         <form id="insentif_perbagian" method="post" action="<?php echo base_url('admin/laporan/index_Insentif_PerBagian') ?>">
-            <div class="col-md-12">
+            <!-- <div class="col-md-12">
                 <div class="form-group row">
                     <div class="col-md-1">
                         <label class="label">Periode </label>
@@ -72,15 +72,31 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-12">
                 <div class="form-group row">
-
+                    <div class="col-md-1 nopadding">
+                        <label class="label">Periode </label>
+                    </div>
+                    <div class="col-md-2 nopadding">
+                        <input type="text" value="<?= $this->session->userdata['periode'] ?>" class="form-control form-control-user" id="PER" name="PER" readonly>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="label">Grup </label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="js-example-responsive form-control KD_GRUP_1 text_input" name="KD_GRUP_1" id="KD_GRUP_1" style="width: 100%;">
+                            <?php
+                            if (isset($_POST["tampilkan"]) &&  $_POST["KD_GRUP_1"] == $KD_GRUP_1) {
+                                echo '<option value="' . $KD_GRUP_1 . '" selected >' . $KD_GRUP_1 . '</option>';
+                            } ?>
+                        </select>
+                    </div>
                     <div class="col-md-1">
                         <label class="label">Tanggal Cetak </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" value="<?php echo date('d-m-Y'); ?>" class="form-control form-control-user text_input" id="TGL_CETAK" placeholder="mm/yyyy" name="TGL_CETAK">
+                        <input type="text" value="<?php echo date('d-m-Y'); ?>" class="form-control form-control-user text_input datepicker" id="TGL_CETAK" placeholder="dd-mm-yyyy" name="TGL_CETAK">
                     </div>
                     <div class="col-sm-1 nopadding">
                         <button type="submit" class="btn btn-md btn-secondary" id="tampilkan" name="tampilkan"> Tampilkan </button>
@@ -198,6 +214,11 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        $('.datepicker').datepicker({
+            'dateFormat': "dd-mm-yy",
+        });
+
         $("#btnExportCopy").on("click", function() {
             var table = $('#example').DataTable();
             table.button('.buttons-copy').trigger();
@@ -232,6 +253,7 @@
     $(document).ready(function() {
         select_bagian_1();
         select_bagian_2();
+        select_grup_1();
     });
 
     function select_bagian_1() {
@@ -289,7 +311,38 @@
                 },
                 cache: true
             },
-            placeholder: 'Masukan Bagian ...',
+            placeholder: 'Semua Grup ...',
+            minimumInputLength: 0,
+            templateResult: format,
+            templateSelection: formatSelection
+        });
+    }
+
+    function select_grup_1() {
+        $('#KD_GRUP_1').select2({
+            ajax: {
+                url: "<?= base_url('admin/laporan/getData_master_grup_1') ?>",
+                dataType: "json",
+                type: "post",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        search: params.term,
+                        page: params.page
+                    }
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Masukan Grup ...',
             minimumInputLength: 0,
             templateResult: format,
             templateSelection: formatSelection

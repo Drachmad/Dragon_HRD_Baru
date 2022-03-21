@@ -38,6 +38,18 @@
             <div class="col-md-12">
                 <div class="form-group row">
                     <div class="col-md-1">
+                        <label class="label">Periode </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" value="<?= $PER_1 ?>" class="form-control form-control-user text_input" id="PER_1" placeholder="mm/yyyy" name="PER_1">
+                    </div>
+                    <div class="col-md-1">
+                        <label class="label">s/d</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" value="<?= $PER_2 ?>" class="form-control form-control-user text_input" id="PER_2" placeholder="mm/yyyy" name="PER_2">
+                    </div>
+                    <div class="col-md-1">
                         <label class="label">Bagian </label>
                     </div>
                     <div class="col-md-3">
@@ -48,7 +60,7 @@
                             } ?>
                         </select>
                     </div>
-                    <div class="col-md-1">
+                    <!-- <div class="col-md-1">
                         <label class="label">s/d</label>
                     </div>
                     <div class="col-md-3">
@@ -58,6 +70,23 @@
                                 echo '<option value="' . $KD_BAG_2 . '" selected >' . $KD_BAG_2 . '</option>';
                             } ?>
                         </select>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <label class="label">Fase </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" value="<?= $FASE_1 ?>" class="form-control form-control-user text_input" id="FASE_1" placeholder="Pilih Fase" name="FASE_1">
+                    </div>
+                    <div class="col-md-1">
+                        <label class="label">s/d</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" value="<?= $FASE_2 ?>" class="form-control form-control-user text_input" id="FASE_2" placeholder="Pilih Fase" name="FASE_2">
+
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1 nopadding">
@@ -244,7 +273,7 @@
 <script>
     $(document).ready(function() {
         select_bagian_1();
-        select_bagian_2();
+        // select_bagian_2();
     });
 
     function select_bagian_1() {
@@ -271,7 +300,7 @@
                 },
                 cache: true
             },
-            placeholder: 'Masukan Bagian ...',
+            placeholder: 'Semua Bagian ...',
             minimumInputLength: 0,
             templateResult: format,
             templateSelection: formatSelection

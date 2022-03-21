@@ -391,15 +391,19 @@
 							<option value=""></option>
 						</select>
 					</div>
-					<!-- <div class="col-md-1">
-						<label class="label">PT</label>
-					</div>
-					<div class="col-md-1 text_input">
+					<?php
+					if ($this->session->userdata['dr'] == 'I') {
+						echo '<div class="col-md-1">
+							<label class="label">PT</label>
+						</div>
+						<div class="col-md-1 text_input">
 						<select class="form-control text_input PT" name="PT" id="PT" style="width: 100%;">
 							<option value="1">PT</option>
 							<option value="0">CV</option>
 						</select>
-					</div> -->
+						</div>';
+					}
+					?>
 				</div>
 			</div>
 			<div class="col-md-12">

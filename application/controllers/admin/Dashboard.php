@@ -9,7 +9,7 @@ class Dashboard extends CI_Controller
 		if (!isset($this->session->userdata['username'])) {
 			$this->session->set_flashdata(
 				'pesan',
-				'<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				'<div class="alert alert-success alert-dismissible fade show" role="alert">
 					Anda Belum Login
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -29,7 +29,8 @@ class Dashboard extends CI_Controller
 			'level' => $data->AKSES,
 			'dr' => $data->DR,
 			'pt' => $data->PT,
-			// 'fase' => $this->session->userdata['fase'],
+			'cv' => $data->CV,
+			'fase' => $this->session->userdata['fase'],
 			'periode' => $this->session->userdata['periode'],
 		);
 		$this->load->view('templates_admin/header');
@@ -42,13 +43,16 @@ class Dashboard extends CI_Controller
 	{
 		$month = $this->input->post('bulan');
 		$year = $this->input->post('tahun');
+		$fase = $this->input->post('fase');
 		$periode = $month . '/' . $year;
 		$this->session->set_userdata('periode', $periode);
+		$this->session->set_userdata('fase', $fase);
 		$data = $this->user_model->ambil_data($this->session->userdata['username']);
 		$data = array(
 			'username' => $data->username,
 			'level'   => $data->level,
 			'periode' => $this->session->userdata['periode'],
+			'fase' => $this->session->userdata['fase'],
 		);
 		redirect('admin/dashboard');
 	}

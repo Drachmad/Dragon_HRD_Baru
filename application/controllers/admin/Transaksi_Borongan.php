@@ -10,7 +10,7 @@ class Transaksi_Borongan extends CI_Controller
             $this->session->set_flashdata(
                 'pesan',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Anda Belum Login
+            Anda Belum Login
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -34,11 +34,21 @@ class Transaksi_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        $pt = $this->session->userdata['pt'];
+        if ($dr != 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'pt' => $pt,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $this->db->select('*');
         $this->db->from('hrd_absen');
         $this->db->where($where);
@@ -84,11 +94,21 @@ class Transaksi_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        $pt = $this->session->userdata['pt'];
+        if ($dr != 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'pt' => $pt,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $this->db->from('hrd_absen');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -135,12 +155,22 @@ class Transaksi_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
         $this->session->set_userdata('judul', 'Transaksi Borongan');
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        if ($dr != 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'pt' => $pt,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $data['hrd_absen'] = $this->transaksi_model->tampil_data($where, 'hrd_absen', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');
@@ -160,28 +190,42 @@ class Transaksi_Borongan extends CI_Controller
     {
         $kd_bag = $this->input->post('KD_BAG', TRUE);
         $nm_bag = $this->input->post('NM_BAG', TRUE);
+        $fase = $this->input->post('FASE', TRUE);
+        $inisialpt = '';
+        if ($this->session->userdata['dr'] != 'I' && $this->session->userdata['pt'] == '1') {
+            $inisialpt = 'PT';
+        } elseif ($this->session->userdata['dr'] != 'I' &&  $this->session->userdata['pt'] == '0') {
+            $inisialpt = 'CV';
+        }
         $pr = substr($this->session->userdata['periode'], 0, 2);
         $pr1 = substr($this->session->userdata['periode'], -2) . substr($this->session->userdata['periode'], 0, 2);
-        $bukti = 'BR' . $pr1 . '.' . $pr . '-' . $kd_bag;
+        $bukti = 'BR' . $pr1 . '.' . $pr . '.' . $inisialpt . $fase . '-' . $kd_bag;
         $datah = array(
             'flag' => 'BR',
             'no_bukti' => $bukti,
             'kd_bag' => $this->input->post('KD_BAG', TRUE),
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
+            'kd_grup' => $this->input->post('KD_GRUP', TRUE),
+            'nm_grup' => $this->input->post('NM_GRUP', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
+            'premi' => str_replace(',', '', $this->input->post('PREMI', TRUE)),
             'tms' => str_replace(',', '', $this->input->post('TMS', TRUE)),
+            'tot_pot' => str_replace(',', '', $this->input->post('TOT_POT', TRUE)),
+            'netto' => str_replace(',', '', $this->input->post('NETTO', TRUE)),
+            'other' => str_replace(',', '', $this->input->post('OTHER', TRUE)),
+            'tot_bon' => str_replace(',', '', $this->input->post('TOT_BON', TRUE)),
+            'lain' => str_replace(',', '', $this->input->post('LAIN', TRUE)),
+            'kik_nett' => str_replace(',', '', $this->input->post('KIK_NETT', TRUE)),
             'tik' => str_replace(',', '', $this->input->post('TIK', TRUE)),
             'tnb' => str_replace(',', '', $this->input->post('TNB', TRUE)),
-            't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
-            'tgaji' => str_replace(',', '', $this->input->post('TNETT', TRUE)),
-            'tbon' => str_replace(',', '', $this->input->post('TBON', TRUE)),
-            'tsubsidi' => str_replace(',', '', $this->input->post('TSUBSIDI', TRUE)),
-            'tjumlah' => str_replace(',', '', $this->input->post('TJUMLAH', TRUE)),
-            'premi' => str_replace(',', '', $this->input->post('PREMI', TRUE)),
-            'kik_nett' => str_replace(',', '', $this->input->post('KIK_NETT', TRUE)),
+            'thr' => str_replace(',', '', $this->input->post('THR', TRUE)),
+            'ttotal' => str_replace(',', '', $this->input->post('TTOTAL', TRUE)),
             'tbon1' => str_replace(',', '', $this->input->post('TBON1', TRUE)),
-            'tot_kik' => str_replace(',', '', $this->input->post('tot_kik', TRUE)),
-            'other' => $this->input->post('OTHER', TRUE),
+            'tsubs' => str_replace(',', '', $this->input->post('TSUBS', TRUE)),
+            'ttot_hr' => str_replace(',', '', $this->input->post('TTOT_HR', TRUE)),
+            'tpotong' => str_replace(',', '', $this->input->post('TPOTONG', TRUE)),
+            'tjumlah' => str_replace(',', '', $this->input->post('TJUMLAH', TRUE)),
             'dr' => $this->session->userdata['dr'],
             'per' => $this->session->userdata['periode'],
             'usrnm' => $this->session->userdata['username'],
@@ -192,12 +236,24 @@ class Transaksi_Borongan extends CI_Controller
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
         $NM_PEG = $this->input->post('NM_PEG');
+        $KD_GRUP = $this->input->post('KD_GRUP');
+        $NM_GRUP = $this->input->post('NM_GRUP');
+        $PT = $this->input->post('PT');
         $PTKP = $this->input->post('PTKP');
+        $STAT = $this->input->post('STAT');
+        $TARIF1 = str_replace(',', '', $this->input->post('TARIF1', TRUE));
+        $TARIF2 = str_replace(',', '', $this->input->post('TARIF2', TRUE));
+        $TASTEK = str_replace(',', '', $this->input->post('TASTEK', TRUE));
+        $LBL = str_replace(',', '', $this->input->post('LBL', TRUE));
+        $PREMIPEG = str_replace(',', '', $this->input->post('PREMIPEG', TRUE));
+        $TUNJANGAN = str_replace(',', '', $this->input->post('TUNJANGAN', TRUE));
+        $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
+        $TOTALD = str_replace(',', '', $this->input->post('TOTALD', TRUE));
         $MSD = str_replace(',', '', $this->input->post('MSD', TRUE));
         $IK = str_replace(',', '', $this->input->post('IK', TRUE));
         $NB = str_replace(',', '', $this->input->post('NB', TRUE));
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
-        $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
+        $TOTAL = str_replace(',', '', $this->input->post('TOTAL', TRUE));
         $BON1 = str_replace(',', '', $this->input->post('BON1', TRUE));
         $SUBS = str_replace(',', '', $this->input->post('SUBS', TRUE));
         $SUB = $this->input->post('SUB');
@@ -211,22 +267,36 @@ class Transaksi_Borongan extends CI_Controller
                 'no_bukti' => $bukti,
                 'kd_bag' => $kd_bag,
                 'nm_bag' => $nm_bag,
+                'kd_grup' => $KD_GRUP,
+                'nm_grup' => $NM_GRUP,
                 'flag' => 'BR',
                 'rec' => $REC[$i],
                 'kd_peg' => $KD_PEG[$i],
                 'nm_peg' => $NM_PEG[$i],
+                'pt' => $PT[$i],
                 'ptkp' => $PTKP[$i],
+                'stat' => $STAT[$i],
+                'tarif1' => str_replace(',', '', $TARIF1[$i]),
+                'tarif2' => str_replace(',', '', $TARIF2[$i]),
+                'nett' => str_replace(',', '', $NETT[$i]),
+                'tastek' => str_replace(',', '', $TASTEK[$i]),
+                'lbl' => str_replace(',', '', $LBL[$i]),
+                'premipeg' => str_replace(',', '', $PREMIPEG[$i]),
+                'tunjangan' => str_replace(',', '', $TUNJANGAN[$i]),
+                'nett' => str_replace(',', '', $NETT[$i]),
+                'totald' => str_replace(',', '', $TOTALD[$i]),
                 'msd' => str_replace(',', '', $MSD[$i]),
                 'ik' => str_replace(',', '', $IK[$i]),
                 'nb' => str_replace(',', '', $NB[$i]),
                 'hr' => str_replace(',', '', $HR[$i]),
-                'gaji' => str_replace(',', '', $NETT[$i]),
+                'total' => str_replace(',', '', $TOTAL[$i]),
                 'bon1' => str_replace(',', '', $BON1[$i]),
                 'subs' => str_replace(',', '', $SUBS[$i]),
                 'sub' => isset($SUB[$i]) ? $SUB[$i] : 0,
                 'tot_hr' => str_replace(',', '', $TOT_HR[$i]),
                 'potong' => str_replace(',', '', $POTONG[$i]),
                 'jumlah' => str_replace(',', '', $JUMLAH[$i]),
+                'dr' => $this->session->userdata['dr'],
                 'per' => $this->session->userdata['periode'],
                 'usrnm' => $this->session->userdata['username'],
                 'i_tgl' => date("Y-m-d h:i a")
@@ -236,7 +306,7 @@ class Transaksi_Borongan extends CI_Controller
         }
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -252,39 +322,53 @@ class Transaksi_Borongan extends CI_Controller
                 hrd_absen.no_bukti AS NO_BUKTI,
                 hrd_absen.kd_bag AS KD_BAG,
                 hrd_absen.nm_bag AS NM_BAG,
-                hrd_absen.kd_grup AS KD_GRUP,
-                hrd_absen.nm_grup AS NM_GRUP,
-                hrd_absen.dr AS DR,
                 hrd_absen.notes AS NOTES,
-                hrd_absen.tpremi AS TPREMI,
-                hrd_absen.tpremi_hr AS TPREMI_HR,
-                hrd_absen.tharian AS THARIAN,
+                hrd_absen.fase AS FASE,
+                hrd_absen.premi AS PREMI,
                 hrd_absen.tms AS TMS,
+                hrd_absen.tot_pot AS TOT_POT,
+                hrd_absen.netto AS NETTO,
+                hrd_absen.other AS OTHER,
+                hrd_absen.tot_bon AS TOT_BON,
+                hrd_absen.lain AS LAIN,
+                hrd_absen.kik_nett AS KIK_NETT,
+                hrd_absen.tmsd AS TMSD,
                 hrd_absen.tik AS TIK,
                 hrd_absen.tnb AS TNB,
-                hrd_absen.t_hr AS T_HR,
-                hrd_absen.tgaji AS TNETT,
-                hrd_absen.tbon AS TBON,
-                hrd_absen.tsubsidi AS TSUBSIDI,
+                hrd_absen.thr AS THR,
+                hrd_absen.ttotal AS TTOTAL,
+                hrd_absen.tbon1 AS TBON1,
+                hrd_absen.tsubs AS TSUBS,
+                hrd_absen.ttot_hr AS TTOT_HR,
+                hrd_absen.tpotong AS TPOTONG,
                 hrd_absen.tjumlah AS TJUMLAH,
 
                 hrd_absend.no_id AS NO_ID,
                 hrd_absend.rec AS REC,
                 hrd_absend.kd_peg AS KD_PEG,
                 hrd_absend.nm_peg AS NM_PEG,
-                hrd_absend.premi AS PREMI,
-                hrd_absend.premi_hr AS PREMI_HR,
+                hrd_absend.pt AS PT,
                 hrd_absend.ptkp AS PTKP,
-                hrd_absend.ms AS MS,
+                hrd_absend.stat AS STAT,
+                hrd_absend.tarif1 AS TARIF1,
+                hrd_absend.tarif2 AS TARIF2,
+                hrd_absend.nett AS NETT,
+                hrd_absend.tastek AS TASTEK,
+                hrd_absend.lbl AS LBL,
+                hrd_absend.premipeg AS PREMIPEG,
+                hrd_absend.tunjangan AS TUNJANGAN,
+                hrd_absend.nett AS NETT,
+                hrd_absend.totald AS TOTALD,
+                hrd_absend.msd AS MSD,
                 hrd_absend.ik AS IK,
                 hrd_absend.nb AS NB,
                 hrd_absend.hr AS HR,
-                hrd_absend.gaji AS NETT,
-                hrd_absend.bon AS BON,
-                hrd_absend.subsidi AS SUBSIDI,
+                hrd_absend.total AS TOTAL,
+                hrd_absend.bon1 AS BON1,
+                hrd_absend.subs AS SUBS,
                 hrd_absend.sub AS SUB,
-                hrd_absend.harian AS HARIAN,
-                hrd_absend.lain AS LAIN,
+                hrd_absend.tot_hr AS TOT_HR,
+                hrd_absend.potong AS POTONG,
                 hrd_absend.jumlah AS JUMLAH
             FROM hrd_absen,hrd_absend 
             WHERE hrd_absen.no_id=$id 
@@ -304,21 +388,27 @@ class Transaksi_Borongan extends CI_Controller
             'no_bukti' => $this->input->post('NO_BUKTI', TRUE),
             'kd_bag' => $this->input->post('KD_BAG', TRUE),
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
-            'kd_grup' => $this->input->post('KD_GRUP', TRUE),
-            'nm_grup' => $this->input->post('NM_GRUP', TRUE),
-            'dr' => $this->input->post('DR', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
-            'tpremi' => str_replace(',', '', $this->input->post('TPREMI', TRUE)),
-            'tpremi_hr' => str_replace(',', '', $this->input->post('TPREMI_HR', TRUE)),
-            'tharian' => str_replace(',', '', $this->input->post('THARIAN', TRUE)),
+            'fase' => $this->input->post('FASE', TRUE),
+            'premi' => str_replace(',', '', $this->input->post('PREMI', TRUE)),
             'tms' => str_replace(',', '', $this->input->post('TMS', TRUE)),
+            'tot_pot' => str_replace(',', '', $this->input->post('TOT_POT', TRUE)),
+            'netto' => str_replace(',', '', $this->input->post('NETTO', TRUE)),
+            'other' => str_replace(',', '', $this->input->post('OTHER', TRUE)),
+            'tot_bon' => str_replace(',', '', $this->input->post('TOT_BON', TRUE)),
+            'lain' => str_replace(',', '', $this->input->post('LAIN', TRUE)),
+            'kik_nett' => str_replace(',', '', $this->input->post('KIK_NETT', TRUE)),
+            'tmsd' => str_replace(',', '', $this->input->post('TMSD', TRUE)),
             'tik' => str_replace(',', '', $this->input->post('TIK', TRUE)),
             'tnb' => str_replace(',', '', $this->input->post('TNB', TRUE)),
-            't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
-            'tgaji' => str_replace(',', '', $this->input->post('TNETT', TRUE)),
-            'tbon' => str_replace(',', '', $this->input->post('TBON', TRUE)),
-            'tsubsidi' => str_replace(',', '', $this->input->post('TSUBSIDI', TRUE)),
+            'thr' => str_replace(',', '', $this->input->post('THR', TRUE)),
+            'ttotal' => str_replace(',', '', $this->input->post('TTOTAL', TRUE)),
+            'tbon1' => str_replace(',', '', $this->input->post('TBON1', TRUE)),
+            'tsubs' => str_replace(',', '', $this->input->post('TSUBS', TRUE)),
+            'ttot_hr' => str_replace(',', '', $this->input->post('TTOT_HR', TRUE)),
+            'tpotong' => str_replace(',', '', $this->input->post('TPOTONG', TRUE)),
             'tjumlah' => str_replace(',', '', $this->input->post('TJUMLAH', TRUE)),
+            'dr' => $this->session->userdata['dr'],
             'per' => $this->session->userdata['periode'],
             'e_pc' => $this->session->userdata['username'],
             'e_tgl' => date("Y-m-d h:i a")
@@ -332,39 +422,53 @@ class Transaksi_Borongan extends CI_Controller
                 hrd_absen.no_bukti AS NO_BUKTI,
                 hrd_absen.kd_bag AS KD_BAG,
                 hrd_absen.nm_bag AS NM_BAG,
-                hrd_absen.kd_grup AS KD_GRUP,
-                hrd_absen.nm_grup AS NM_GRUP,
-                hrd_absen.dr AS DR,
                 hrd_absen.notes AS NOTES,
-                hrd_absen.tpremi AS TPREMI,
-                hrd_absen.tpremi_hr AS TPREMI_HR,
-                hrd_absen.tharian AS THARIAN,
+                hrd_absen.fase AS FASE,
+                hrd_absen.premi AS PREMI,
                 hrd_absen.tms AS TMS,
+                hrd_absen.tot_pot AS TOT_POT,
+                hrd_absen.netto AS NETTO,
+                hrd_absen.other AS OTHER,
+                hrd_absen.tot_bon AS TOT_BON,
+                hrd_absen.lain AS LAIN,
+                hrd_absen.kik_nett AS KIK_NETT,
+                hrd_absen.tmsd AS TMSD,
                 hrd_absen.tik AS TIK,
                 hrd_absen.tnb AS TNB,
-                hrd_absen.t_hr AS T_HR,
-                hrd_absen.tgaji AS TNETT,
-                hrd_absen.tbon AS TBON,
-                hrd_absen.tsubsidi AS TSUBSIDI,
+                hrd_absen.thr AS THR,
+                hrd_absen.ttotal AS TTOTAL,
+                hrd_absen.tbon1 AS TBON1,
+                hrd_absen.tsubs AS TSUBS,
+                hrd_absen.ttot_hr AS TTOT_HR,
+                hrd_absen.tpotong AS TPOTONG,
                 hrd_absen.tjumlah AS TJUMLAH,
 
                 hrd_absend.no_id AS NO_ID,
                 hrd_absend.rec AS REC,
                 hrd_absend.kd_peg AS KD_PEG,
                 hrd_absend.nm_peg AS NM_PEG,
-                hrd_absend.premi AS PREMI,
-                hrd_absend.premi_hr AS PREMI_HR,
+                hrd_absend.pt AS PT,
                 hrd_absend.ptkp AS PTKP,
-                hrd_absend.ms AS MS,
+                hrd_absend.stat AS STAT,
+                hrd_absend.tarif1 AS TARIF1,
+                hrd_absend.tarif2 AS TARIF2,
+                hrd_absend.nett AS NETT,
+                hrd_absend.tastek AS TASTEK,
+                hrd_absend.lbl AS LBL,
+                hrd_absend.premipeg AS PREMIPEG,
+                hrd_absend.tunjangan AS TUNJANGAN,
+                hrd_absend.nett AS NETT,
+                hrd_absend.totald AS TOTALD,
+                hrd_absend.msd AS MSD,
                 hrd_absend.ik AS IK,
                 hrd_absend.nb AS NB,
                 hrd_absend.hr AS HR,
-                hrd_absend.nett AS NETT,
-                hrd_absend.bon AS BON,
-                hrd_absend.subsidi AS SUBSIDI,
+                hrd_absend.total AS TOTAL,
+                hrd_absend.bon1 AS BON1,
+                hrd_absend.subs AS SUBS,
                 hrd_absend.sub AS SUB,
-                hrd_absend.harian AS HARIAN,
-                hrd_absend.lain AS LAIN,
+                hrd_absend.tot_hr AS TOT_HR,
+                hrd_absend.potong AS POTONG,
                 hrd_absend.jumlah AS JUMLAH
             FROM hrd_absen,hrd_absend 
             WHERE hrd_absen.no_id=$id 
@@ -374,20 +478,29 @@ class Transaksi_Borongan extends CI_Controller
         $NO_ID = $this->input->post('NO_ID');
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
-        $PREMI = str_replace(',', '', $this->input->post('PREMI', TRUE));
-        $PREMI_HR = str_replace(',', '', $this->input->post('PREMI_HR', TRUE));
         $NM_PEG = $this->input->post('NM_PEG');
+        $PT = $this->input->post('PT');
         $PTKP = $this->input->post('PTKP');
-        $MS = str_replace(',', '', $this->input->post('MS', TRUE));
+        $STAT = $this->input->post('STAT');
+        $TARIF1 = str_replace(',', '', $this->input->post('TARIF1', TRUE));
+        $TARIF2 = str_replace(',', '', $this->input->post('TARIF2', TRUE));
+        $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
+        $TASTEK = str_replace(',', '', $this->input->post('TASTEK', TRUE));
+        $LBL = str_replace(',', '', $this->input->post('LBL', TRUE));
+        $PREMIPEG = str_replace(',', '', $this->input->post('PREMIPEG', TRUE));
+        $TUNJANGAN = str_replace(',', '', $this->input->post('TUNJANGAN', TRUE));
+        $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
+        $TOTALD = str_replace(',', '', $this->input->post('TOTALD', TRUE));
+        $MSD = str_replace(',', '', $this->input->post('MSD', TRUE));
         $IK = str_replace(',', '', $this->input->post('IK', TRUE));
         $NB = str_replace(',', '', $this->input->post('NB', TRUE));
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
-        $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
-        $BON = str_replace(',', '', $this->input->post('BON', TRUE));
-        $SUBSIDI = str_replace(',', '', $this->input->post('SUBSIDI', TRUE));
+        $TOTAL = str_replace(',', '', $this->input->post('TOTAL', TRUE));
+        $BON1 = str_replace(',', '', $this->input->post('BON1', TRUE));
+        $SUBS = str_replace(',', '', $this->input->post('SUBS', TRUE));
         $SUB = $this->input->post('SUB');
-        $HARIAN = str_replace(',', '', $this->input->post('HARIAN', TRUE));
-        $LAIN = str_replace(',', '', $this->input->post('LAIN', TRUE));
+        $TOT_HR = str_replace(',', '', $this->input->post('TOT_HR', TRUE));
+        $POTONG = str_replace(',', '', $this->input->post('POTONG', TRUE));
         $JUMLAH = str_replace(',', '', $this->input->post('JUMLAH', TRUE));
         $jum = count($data);
         $ID = array_column($data, 'NO_ID');
@@ -401,25 +514,33 @@ class Transaksi_Borongan extends CI_Controller
                     'no_bukti' => $this->input->post('NO_BUKTI'),
                     'kd_bag' => $this->input->post('KD_BAG'),
                     'nm_bag' => $this->input->post('NM_BAG'),
-                    'kd_grup' => $this->input->post('KD_GRUP'),
-                    'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'rec' => $REC[$URUT],
                     'kd_peg' => $KD_PEG[$URUT],
                     'nm_peg' => $NM_PEG[$URUT],
-                    'premi' => str_replace(',', '', $PREMI[$URUT]),
-                    'premi_hr' => str_replace(',', '', $PREMI_HR[$URUT]),
+                    'pt' => $PT[$URUT],
                     'ptkp' => $PTKP[$URUT],
-                    'ms' => str_replace(',', '', $MS[$URUT]),
+                    'stat' => $STAT[$URUT],
+                    'tarif1' => str_replace(',', '', $TARIF1[$URUT]),
+                    'tarif2' => str_replace(',', '', $TARIF2[$URUT]),
+                    'nett' => str_replace(',', '', $NETT[$URUT]),
+                    'tastek' => str_replace(',', '', $TASTEK[$URUT]),
+                    'lbl' => str_replace(',', '', $LBL[$URUT]),
+                    'premipeg' => str_replace(',', '', $PREMIPEG[$URUT]),
+                    'tunjangan' => str_replace(',', '', $TUNJANGAN[$URUT]),
+                    'nett' => str_replace(',', '', $NETT[$URUT]),
+                    'totald' => str_replace(',', '', $TOTALD[$URUT]),
+                    'msd' => str_replace(',', '', $MSD[$URUT]),
                     'ik' => str_replace(',', '', $IK[$URUT]),
                     'nb' => str_replace(',', '', $NB[$URUT]),
                     'hr' => str_replace(',', '', $HR[$URUT]),
-                    'nett' => str_replace(',', '', $NETT[$URUT]),
-                    'bon' => str_replace(',', '', $BON[$URUT]),
-                    'sub' => $SUB[$URUT],
-                    'harian' => str_replace(',', '', $HARIAN[$URUT]),
-                    'lain' => str_replace(',', '', $LAIN[$URUT]),
+                    'total' => str_replace(',', '', $TOTAL[$URUT]),
+                    'bon1' => str_replace(',', '', $BON1[$URUT]),
+                    'subs' => str_replace(',', '', $SUBS[$URUT]),
+                    'sub' => isset($SUB[$URUT]) ? $SUB[$URUT] : 0,
+                    'tot_hr' => str_replace(',', '', $TOT_HR[$URUT]),
+                    'potong' => str_replace(',', '', $POTONG[$URUT]),
                     'jumlah' => str_replace(',', '', $JUMLAH[$URUT]),
+                    'dr' => $this->session->userdata['dr'],
                     'per' => $this->session->userdata['periode'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
@@ -445,26 +566,33 @@ class Transaksi_Borongan extends CI_Controller
                     'no_bukti' => $this->input->post('NO_BUKTI'),
                     'kd_bag' => $this->input->post('KD_BAG'),
                     'nm_bag' => $this->input->post('NM_BAG'),
-                    'kd_grup' => $this->input->post('KD_GRUP'),
-                    'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'rec' => $REC[$i],
                     'kd_peg' => $KD_PEG[$i],
-                    'premi' => str_replace(',', '', $PREMI[$i]),
-                    'premi_hr' => str_replace(',', '', $PREMI_HR[$i]),
                     'nm_peg' => $NM_PEG[$i],
+                    'pt' => $PT[$i],
                     'ptkp' => $PTKP[$i],
-                    'ms' => str_replace(',', '', $MS[$i]),
+                    'stat' => $STAT[$i],
+                    'tarif1' => str_replace(',', '', $TARIF1[$i]),
+                    'tarif2' => str_replace(',', '', $TARIF2[$i]),
+                    'nett' => str_replace(',', '', $NETT[$i]),
+                    'tastek' => str_replace(',', '', $TASTEK[$i]),
+                    'lbl' => str_replace(',', '', $LBL[$i]),
+                    'premipeg' => str_replace(',', '', $PREMIPEG[$i]),
+                    'tunjangan' => str_replace(',', '', $TUNJANGAN[$i]),
+                    'nett' => str_replace(',', '', $NETT[$i]),
+                    'totald' => str_replace(',', '', $TOTALD[$i]),
+                    'msd' => str_replace(',', '', $MSD[$i]),
                     'ik' => str_replace(',', '', $IK[$i]),
                     'nb' => str_replace(',', '', $NB[$i]),
                     'hr' => str_replace(',', '', $HR[$i]),
-                    'nett' => str_replace(',', '', $NETT[$i]),
-                    'bon' => str_replace(',', '', $BON[$i]),
-                    'subsidi' => str_replace(',', '', $SUBSIDI[$i]),
-                    'sub' => $SUB[$i],
-                    'harian' => str_replace(',', '', $HARIAN[$i]),
-                    'lain' => str_replace(',', '', $LAIN[$i]),
+                    'total' => str_replace(',', '', $TOTAL[$i]),
+                    'bon1' => str_replace(',', '', $BON1[$i]),
+                    'subs' => str_replace(',', '', $SUBS[$i]),
+                    'sub' => isset($SUB[$i]) ? $SUB[$i] : 0,
+                    'tot_hr' => str_replace(',', '', $TOT_HR[$i]),
+                    'potong' => str_replace(',', '', $POTONG[$i]),
                     'jumlah' => str_replace(',', '', $JUMLAH[$i]),
+                    'dr' => $this->session->userdata['dr'],
                     'per' => $this->session->userdata['periode'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
@@ -493,7 +621,7 @@ class Transaksi_Borongan extends CI_Controller
         $this->transaksi_model->hapus_data($where, 'hrd_absend');
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Deleted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -512,10 +640,19 @@ class Transaksi_Borongan extends CI_Controller
     function filter_kd_bag()
     {
         $kd_bag = $this->input->get('kd_bag');
-        $q1 = "SELECT hrd_peg.kd_peg AS KD_PEG, 
+        $dr = $this->session->userdata['dr'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        if ($this->session->userdata['dr'] == 'I') {
+            $q1 = "SELECT hrd_peg.kd_peg AS KD_PEG, 
                 hrd_peg.nm_peg AS NM_PEG, 
+                CASE 
+					WHEN hrd_peg.pt = 0 THEN 'CV'
+					WHEN hrd_peg.pt = 1 THEN 'PT'
+				END AS PT,
                 hrd_peg.ptkp AS PTKP,
                 hrd_peg.kd_grup AS KD_GRUP,
+                hrd_peg.nm_grup AS NM_GRUP,
                 ROUND(hrd_peg.gaji, 2) AS NETT,
                 -- ROUND(hrd_peg.nett, 2) AS NETT,
                 hrd_peg.STAT,
@@ -527,10 +664,41 @@ class Transaksi_Borongan extends CI_Controller
                 IF(hrd_bor.pkph IS NULL,0,hrd_bor.pkph) AS TARIF2
             FROM hrd_peg 
             LEFT JOIN hrd_bor ON hrd_peg.kd_bag=hrd_bor.kd_bag AND hrd_peg.stat=hrd_bor.stat 
-            WHERE hrd_peg.kd_bag='$kd_bag' AND hrd_peg.aktif='1' 
+            WHERE hrd_peg.kd_bag='$kd_bag'
+            AND hrd_peg.cv='$cv'
+            AND hrd_peg.aktif='1' 
             GROUP BY hrd_peg.kd_peg
             ORDER BY hrd_peg.STAT 
             DESC,hrd_peg.kd_peg ";
+        } else {
+            $q1 = "SELECT hrd_peg.kd_peg AS KD_PEG, 
+                hrd_peg.nm_peg AS NM_PEG, 
+                CASE 
+					WHEN hrd_peg.pt = 0 THEN 'CV'
+					WHEN hrd_peg.pt = 1 THEN 'PT'
+				END AS PT,
+                hrd_peg.ptkp AS PTKP,
+                hrd_peg.kd_grup AS KD_GRUP,
+                hrd_peg.nm_grup AS NM_GRUP,
+                ROUND(hrd_peg.gaji, 2) AS NETT,
+                -- ROUND(hrd_peg.nett, 2) AS NETT,
+                hrd_peg.STAT,
+                ROUND(hrd_peg.tastek, 2) AS TASTEK,
+                ROUND(hrd_peg.lbl, 2) AS LBL,
+                ROUND(hrd_peg.premi, 2) AS PREMIPEG,
+                ROUND(hrd_peg.tunjangan, 2) AS TUNJANGAN,
+                IF(hrd_bor.pk IS NULL,0,hrd_bor.pk) AS TARIF1,
+                IF(hrd_bor.pkph IS NULL,0,hrd_bor.pkph) AS TARIF2
+            FROM hrd_peg 
+            LEFT JOIN hrd_bor ON hrd_peg.kd_bag=hrd_bor.kd_bag AND hrd_peg.stat=hrd_bor.stat 
+            WHERE hrd_peg.kd_bag='$kd_bag' 
+            AND hrd_peg.aktif='1' 
+            AND hrd_peg.pt='$pt'
+            AND hrd_peg.cv='$cv'
+            GROUP BY hrd_peg.kd_peg
+            ORDER BY hrd_peg.STAT 
+            DESC,hrd_peg.kd_peg ";
+        }
         $q2 = $this->db->query($q1);
         if ($q2->num_rows() > 0) {
             foreach ($q2->result() as $row) {
@@ -550,7 +718,16 @@ class Transaksi_Borongan extends CI_Controller
             $xa = ($page - 1) * 10;
         }
         $perPage = 10;
-        $results = $this->db->query("SELECT no_id, nm_peg, kd_peg, ptkp, nett, premi
+        $results = $this->db->query("SELECT no_id, 
+                nm_peg, 
+                kd_peg, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS PT,
+                ptkp, 
+                nett, 
+                premi
             FROM hrd_peg
             WHERE nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR ptkp LIKE '%$search%' OR nett LIKE '%$search%' OR premi LIKE '%$search%' 
             ORDER BY nm_peg LIMIT $xa,$perPage");
@@ -564,6 +741,7 @@ class Transaksi_Borongan extends CI_Controller
                 'ptkp' => $row['ptkp'],
                 'nett' => $row['nett'],
                 'premi' => $row['premi'],
+                'pt' => $row['pt'],
             );
         }
         $select['total_count'] =  $results->NUM_ROWS();
@@ -587,7 +765,6 @@ class Transaksi_Borongan extends CI_Controller
         include_once("phpjasperxml/setting.php");
         $PHPJasperXML = new \PHPJasperXML();
         $PHPJasperXML->load_xml_file("phpjasperxml/Transaksi_Borongan.jrxml");
-        $no_id = $id;
         $query = "SELECT hrd_absen.no_id as ID,
                 hrd_absen.no_sp AS MODEL,
                 hrd_absen.perke AS PERKE,

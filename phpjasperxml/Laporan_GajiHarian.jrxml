@@ -25,6 +25,11 @@
 	<parameter name="GRUP" class="java.lang.String"/>
 	<parameter name="PTKP" class="java.lang.String"/>
 	<parameter name="TUNJANGAN" class="java.lang.String"/>
+	<parameter name="BRUTO" class="java.lang.String"/>
+	<parameter name="MAX_TUN" class="java.lang.String"/>
+	<parameter name="PT" class="java.lang.String"/>
+	<parameter name="JHT" class="java.lang.String"/>
+	<parameter name="PN" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -46,6 +51,11 @@
 	<field name="GRUP" class="java.lang.String"/>
 	<field name="PTKP" class="java.lang.String"/>
 	<field name="TUNJANGAN" class="java.lang.String"/>
+	<field name="BRUTO" class="java.lang.String"/>
+	<field name="MAX_TUN" class="java.lang.String"/>
+	<field name="PT" class="java.lang.String"/>
+	<field name="JHT" class="java.lang.String"/>
+	<field name="PN" class="java.lang.String"/>
 	<variable name="T_HR" class="java.lang.String" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{HR}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{HR}]]></initialValueExpression>
@@ -79,6 +89,15 @@
 		<variableExpression><![CDATA[$V{COLUMN_COUNT}]]></variableExpression>
 		<initialValueExpression><![CDATA[$V{COLUMN_COUNT}]]></initialValueExpression>
 	</variable>
+	<variable name="T_BRUTO" class="java.lang.String" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{BRUTO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{BRUTO}]]></initialValueExpression>
+	</variable>
+	<variable name="BRUTO" class="java.lang.String"/>
+	<variable name="T_PPH" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></initialValueExpression>
+	</variable>
 	<group name="GroupT" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{NO_BUKTI}]]></groupExpression>
 		<groupHeader>
@@ -94,7 +113,7 @@
 					<textFieldExpression><![CDATA["NOMOR BUKTI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="79" y="0" width="80" height="20" uuid="341ce369-1a5c-48ff-812f-3fb795683380">
+					<reportElement x="79" y="0" width="70" height="20" uuid="341ce369-1a5c-48ff-812f-3fb795683380">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -105,9 +124,9 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="21">
+			<band height="22">
 				<textField>
-					<reportElement x="0" y="2" width="160" height="15" forecolor="#000000" uuid="f8abd73c-dca5-49d7-bbd7-a74ca5d77853">
+					<reportElement x="0" y="2" width="150" height="15" forecolor="#000000" uuid="f8abd73c-dca5-49d7-bbd7-a74ca5d77853">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -132,7 +151,7 @@
 					</graphicElement>
 				</line>
 				<textField>
-					<reportElement x="200" y="2" width="40" height="15" forecolor="#000000" uuid="2e60ba98-f396-4591-a330-bd5ae3f5762e">
+					<reportElement x="190" y="2" width="40" height="15" forecolor="#000000" uuid="2e60ba98-f396-4591-a330-bd5ae3f5762e">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -148,7 +167,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_HR}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="#,##0.00">
 					<reportElement x="480" y="2" width="50" height="15" forecolor="#000000" uuid="0b64e5b8-7902-4634-b1da-bb4d630c4a33">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -165,8 +184,8 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_JUMLAH}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement x="240" y="2" width="40" height="15" forecolor="#000000" uuid="68e5ffdc-96a7-4427-8f14-9a465de5b645">
+				<textField pattern="#,##0.00">
+					<reportElement x="230" y="2" width="50" height="15" forecolor="#000000" uuid="68e5ffdc-96a7-4427-8f14-9a465de5b645">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -182,7 +201,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_GAJI}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="#,##0.00">
 					<reportElement x="280" y="2" width="50" height="15" forecolor="#000000" uuid="dedb1e9a-6604-4875-83c6-b73421834222">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -199,7 +218,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_LB}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="#,##0.00">
 					<reportElement x="330" y="2" width="50" height="15" forecolor="#000000" uuid="b31b7f19-21ac-40da-babf-23b0acee105f">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -216,7 +235,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_LEM1}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="#,##0.00">
 					<reportElement x="380" y="2" width="50" height="15" forecolor="#000000" uuid="a5ad318a-70e0-4ab3-9bf4-bfc27b2a01c0">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -233,7 +252,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_LEM2}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="#,##0.00">
 					<reportElement x="430" y="2" width="50" height="15" forecolor="#000000" uuid="7cc7fb7d-9d77-4297-9dbf-ab1b2516e931">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -250,7 +269,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_LAIN}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="StretchHeight">
+				<textField textAdjust="StretchHeight" pattern="#,##0.00">
 					<reportElement x="530" y="2" width="50" height="15" forecolor="#000000" uuid="0354c86b-496c-49ec-8730-66c67adaccee">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -266,7 +285,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$V{T_TUNJANGAN}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="StretchHeight">
+				<textField textAdjust="StretchHeight" pattern="#,##0.00">
 					<reportElement x="580" y="2" width="50" height="15" forecolor="#000000" uuid="0083c17a-a15b-48be-8433-98dd9aa5779a">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -281,9 +300,9 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{T_BRUTO}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="StretchHeight">
+				<textField textAdjust="StretchHeight" pattern="#,##0.00">
 					<reportElement x="630" y="2" width="50" height="15" forecolor="#000000" uuid="e2a39ba9-2dc8-42f0-8f1d-09fa2730c8f1">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -297,9 +316,9 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{T_PPH}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="StretchHeight">
+				<textField textAdjust="StretchHeight" pattern="#,##0.00">
 					<reportElement x="680" y="2" width="50" height="15" forecolor="#000000" uuid="ff296685-caf6-422e-8981-988fb9b322f8">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -446,7 +465,7 @@
 	<columnHeader>
 		<band height="40">
 			<textField>
-				<reportElement x="30" y="0" width="130" height="15" uuid="61db95c1-66a4-4e50-8283-39883a8430dc">
+				<reportElement x="30" y="0" width="120" height="15" uuid="61db95c1-66a4-4e50-8283-39883a8430dc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -479,7 +498,7 @@
 				<textFieldExpression><![CDATA["NO"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="200" y="0" width="40" height="15" uuid="6a943ebb-c5e1-482d-bb2f-f5d8ee422013">
+				<reportElement x="190" y="0" width="40" height="15" uuid="6a943ebb-c5e1-482d-bb2f-f5d8ee422013">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="0">
@@ -495,7 +514,7 @@
 				<textFieldExpression><![CDATA["HR"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="240" y="0" width="40" height="15" uuid="d972ea2d-e489-4d85-8552-c1e9c89919d3">
+				<reportElement x="230" y="0" width="50" height="15" uuid="d972ea2d-e489-4d85-8552-c1e9c89919d3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="0">
@@ -676,7 +695,7 @@
 				<textFieldExpression><![CDATA["NETTO"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="160" y="0" width="40" height="15" uuid="750825eb-6637-4537-8ba2-b20f49c76b82">
+				<reportElement x="150" y="0" width="40" height="15" uuid="750825eb-6637-4537-8ba2-b20f49c76b82">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="0">
@@ -692,7 +711,7 @@
 				<textFieldExpression><![CDATA["PTKP"]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="30" y="16" width="130" height="20" forecolor="#000000" uuid="5a653c8d-e746-44d9-8fb7-d4d2ec2590f3">
+				<reportElement x="30" y="16" width="120" height="20" forecolor="#000000" uuid="5a653c8d-e746-44d9-8fb7-d4d2ec2590f3">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -709,7 +728,7 @@
 				<textFieldExpression><![CDATA["Pindahan..."]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="160" y="16" width="40" height="20" forecolor="#000000" uuid="48d812a7-2a8a-4983-b892-722ca9016627">
+				<reportElement x="150" y="16" width="40" height="20" forecolor="#000000" uuid="48d812a7-2a8a-4983-b892-722ca9016627">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -726,7 +745,7 @@
 				<textFieldExpression><![CDATA[$F{PTKP}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="200" y="16" width="40" height="20" forecolor="#000000" uuid="15488338-d0b7-4ad9-8d83-e2bbdf57028d">
+				<reportElement x="190" y="16" width="40" height="20" forecolor="#000000" uuid="15488338-d0b7-4ad9-8d83-e2bbdf57028d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -742,8 +761,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{HR}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement x="240" y="16" width="40" height="20" forecolor="#000000" uuid="0347b00a-5af6-4b64-9964-044dfd850c19">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
+				<reportElement x="230" y="16" width="50" height="20" forecolor="#000000" uuid="0347b00a-5af6-4b64-9964-044dfd850c19">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -759,7 +778,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GAJI}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="280" y="16" width="50" height="20" forecolor="#000000" uuid="3db1891d-98b1-4dbf-9008-0ba02f22abd7">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -776,7 +795,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LB}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="330" y="16" width="50" height="20" forecolor="#000000" uuid="9dd3d9de-0e91-4122-b0aa-2935fd7cf31d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -793,7 +812,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LEM1}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="380" y="16" width="50" height="20" forecolor="#000000" uuid="43a68426-ff9e-464d-b21e-264db848f875">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -810,7 +829,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LEM2}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="430" y="16" width="50" height="20" forecolor="#000000" uuid="1a4eee81-c292-4b1b-8ead-2378325027c4">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -827,7 +846,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LAIN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="480" y="16" width="50" height="20" forecolor="#000000" uuid="71615886-3369-484e-be2a-a157590e6255">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -843,7 +862,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{JUMLAH}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="530" y="16" width="50" height="20" forecolor="#000000" uuid="bed01cf2-7380-43df-b5c9-7225eb1a4a42">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -859,7 +878,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TUNJANGAN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="580" y="16" width="50" height="20" forecolor="#000000" uuid="a26c21d5-f506-4a73-b5a0-b1550cdd94d6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -873,9 +892,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{BRUTO}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="630" y="16" width="50" height="20" forecolor="#000000" uuid="c0dc34ce-20ca-4a7e-a39f-fe177ddcc2b8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -891,7 +910,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="680" y="16" width="50" height="20" forecolor="#000000" uuid="a1061362-41f6-4a8f-a1d8-495941a2373c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -930,7 +949,7 @@
 				<patternExpression><![CDATA[$V{COLUMN_NUMBER}]]></patternExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="30" y="0" width="130" height="20" forecolor="#000000" uuid="733bfa41-c78d-4542-a6e0-d738e0c93958">
+				<reportElement x="30" y="0" width="120" height="20" forecolor="#000000" uuid="733bfa41-c78d-4542-a6e0-d738e0c93958">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -947,7 +966,7 @@
 				<textFieldExpression><![CDATA[$F{NM_PEG}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="200" y="0" width="40" height="20" forecolor="#000000" uuid="d5257af4-5de2-4b62-a1bf-58f6c71df2f2">
+				<reportElement x="190" y="0" width="40" height="20" forecolor="#000000" uuid="d5257af4-5de2-4b62-a1bf-58f6c71df2f2">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -963,7 +982,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{HR}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="480" y="0" width="50" height="20" forecolor="#000000" uuid="77544259-a136-4f38-8fc5-3467c7b5ef57">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -979,8 +998,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{JUMLAH}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement x="240" y="0" width="40" height="20" forecolor="#000000" uuid="1bad79f3-286d-410a-91bf-3f145af06386">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
+				<reportElement x="230" y="0" width="50" height="20" forecolor="#000000" uuid="1bad79f3-286d-410a-91bf-3f145af06386">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -996,7 +1015,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GAJI}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="280" y="0" width="50" height="20" forecolor="#000000" uuid="e16b73d0-54c0-486c-bb74-42a2713c89d0">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1013,7 +1032,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LB}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="330" y="0" width="50" height="20" forecolor="#000000" uuid="6ff605b7-eee3-47de-a345-cc3028c31c98">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1030,7 +1049,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LEM1}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="380" y="0" width="50" height="20" forecolor="#000000" uuid="e8a04d1a-c1b6-412c-a21b-a77b4dc6b15d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1047,7 +1066,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LEM2}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="430" y="0" width="50" height="20" forecolor="#000000" uuid="9bbbb8ba-0e2b-40e1-83ff-e024a6e23f86">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1064,7 +1083,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LAIN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="530" y="0" width="50" height="20" forecolor="#000000" uuid="db9c3afa-2de0-4cb2-8410-008aa25b1e26">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -1080,7 +1099,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TUNJANGAN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="580" y="0" width="50" height="20" forecolor="#000000" uuid="09ae3d4e-728d-444a-8f76-034f9c71a39b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -1094,9 +1113,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{BRUTO}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="630" y="0" width="50" height="20" forecolor="#000000" uuid="3128677f-7683-4f5f-980a-dab18d5e57e1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -1110,7 +1129,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="730" y="0" width="48" height="20" forecolor="#000000" uuid="2309f14a-8337-42c2-80b6-5cde6a578a68">
@@ -1129,7 +1148,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{NO}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="680" y="0" width="50" height="20" forecolor="#000000" uuid="94d96f21-93d8-45c9-89e1-f6480cab7ed0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -1146,7 +1165,7 @@
 				<textFieldExpression><![CDATA[$F{NETT}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="160" y="0" width="40" height="20" forecolor="#000000" uuid="7453aae2-cb7e-475d-8afa-14deb6ece19c">
+				<reportElement x="150" y="0" width="40" height="20" forecolor="#000000" uuid="7453aae2-cb7e-475d-8afa-14deb6ece19c">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -1168,7 +1187,7 @@
 		<band height="71">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="30" y="1" width="130" height="15" forecolor="#000000" uuid="5d44a998-d6c8-4d35-bf19-cc99b963d273">
+				<reportElement x="30" y="1" width="120" height="15" forecolor="#000000" uuid="5d44a998-d6c8-4d35-bf19-cc99b963d273">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1193,7 +1212,7 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="200" y="1" width="40" height="15" forecolor="#000000" uuid="c8419a0d-d9a9-4b7a-b2a7-bfcbbc1afc5d">
+				<reportElement x="190" y="1" width="40" height="15" forecolor="#000000" uuid="c8419a0d-d9a9-4b7a-b2a7-bfcbbc1afc5d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1209,7 +1228,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_HR}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="480" y="1" width="50" height="15" forecolor="#000000" uuid="76ccc18c-652b-4c40-8ebf-e210dcccc22f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1226,8 +1245,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_JUMLAH}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="240" y="1" width="40" height="15" forecolor="#000000" uuid="ea89f751-79cf-46f7-acd1-3710829d9a15">
+			<textField pattern="#,##0.00">
+				<reportElement x="230" y="1" width="50" height="15" forecolor="#000000" uuid="ea89f751-79cf-46f7-acd1-3710829d9a15">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1243,7 +1262,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_GAJI}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="280" y="1" width="50" height="15" forecolor="#000000" uuid="1e2a715e-89e2-4ef1-929b-783c7dc12336">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1260,7 +1279,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_LB}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="380" y="1" width="50" height="15" forecolor="#000000" uuid="b00e05a1-a89f-4492-829e-9588999150e4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1277,7 +1296,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_LEM2}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="330" y="1" width="50" height="15" forecolor="#000000" uuid="f101b0ef-5814-4a9e-9ca3-7e0faa6c1f89">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1294,7 +1313,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_LEM1}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="430" y="1" width="50" height="15" forecolor="#000000" uuid="1e50fd37-7ab8-4cb5-9434-4faeeeb6d6d8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1311,7 +1330,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_LAIN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="530" y="1" width="50" height="15" forecolor="#000000" uuid="195f531f-2883-4cd3-9b74-5f8f4c6818fb">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1327,7 +1346,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{T_TUNJANGAN}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="580" y="1" width="50" height="15" forecolor="#000000" uuid="66fd27b3-b3cf-4c71-ac4e-a8ba821bff1e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -1342,9 +1361,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{T_BRUTO}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="630" y="1" width="50" height="15" forecolor="#000000" uuid="ded6fea6-d3a6-41fe-8ecc-26fc8361d163">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1358,9 +1377,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{T_PPH}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="680" y="1" width="50" height="15" forecolor="#000000" uuid="be240f13-0b7c-4629-bb59-ab5b585ec8a3">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
