@@ -97,7 +97,7 @@
                         <th width="150px">Bagian</th>
                         <th width="100px">Status</th>
                         <th width="50px">Dragon</th>
-                        <th width="50px">PT</th>
+                        <th width="50px">PT/CV</th>
                     </tr>
                 </thead>
                 <tbody>

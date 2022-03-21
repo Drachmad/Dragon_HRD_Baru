@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Transaksi_Harian" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="760" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="145"/>
@@ -29,7 +29,7 @@
 	<parameter name="TASTEK" class="java.lang.Double"/>
 	<parameter name="LIBUR" class="java.lang.Double"/>
 	<parameter name="DP" class="java.lang.Double"/>
-	<parameter name="TAMBAHAN" class="java.lang.Double"/>
+	<parameter name="BRUTO" class="java.lang.Double"/>
 	<parameter name="LAIN" class="java.lang.Double"/>
 	<parameter name="TLAIN" class="java.lang.Double"/>
 	<parameter name="NETT" class="java.lang.String"/>
@@ -39,6 +39,11 @@
 	<parameter name="TGL" class="java.lang.String"/>
 	<parameter name="PER2" class="java.lang.String"/>
 	<parameter name="PTKP" class="java.lang.String"/>
+	<parameter name="MAX_TUN" class="java.lang.String"/>
+	<parameter name="PT" class="java.lang.String"/>
+	<parameter name="JHT" class="java.lang.String"/>
+	<parameter name="PN" class="java.lang.String"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -52,18 +57,15 @@
 	<field name="REC" class="java.lang.Integer"/>
 	<field name="JUMLAH" class="java.lang.Double"/>
 	<field name="TJUMLAH" class="java.lang.Double"/>
-	<field name="T_HR" class="java.lang.Double"/>
 	<field name="HARIAN" class="java.lang.Double"/>
 	<field name="THARIAN" class="java.lang.Double"/>
 	<field name="LBL" class="java.lang.Double"/>
 	<field name="JAM1RP" class="java.lang.Double"/>
 	<field name="JAM2RP" class="java.lang.Double"/>
-	<field name="TJAM1RP" class="java.lang.Double"/>
-	<field name="TJAM2RP" class="java.lang.Double"/>
 	<field name="TASTEK" class="java.lang.Double"/>
 	<field name="LIBUR" class="java.lang.Double"/>
 	<field name="DP" class="java.lang.Double"/>
-	<field name="TAMBAHAN" class="java.lang.Double"/>
+	<field name="BRUTO" class="java.lang.Double"/>
 	<field name="LAIN" class="java.lang.Double"/>
 	<field name="TLAIN" class="java.lang.Double"/>
 	<field name="GAJI" class="java.lang.String"/>
@@ -73,6 +75,10 @@
 	<field name="TGL" class="java.lang.String"/>
 	<field name="PER2" class="java.lang.String"/>
 	<field name="PTKP" class="java.lang.String"/>
+	<field name="MAX_TUN" class="java.lang.String"/>
+	<field name="PT" class="java.lang.String"/>
+	<field name="JHT" class="java.lang.String"/>
+	<field name="PN" class="java.lang.String"/>
 	<variable name="SUB_LBL" class="java.lang.Double" resetType="Group" resetGroup="GroupT" calculation="Sum">
 		<variableExpression><![CDATA[$F{LBL}]]></variableExpression>
 	</variable>
@@ -107,13 +113,13 @@
 		<variableExpression><![CDATA[$F{JUMLAH}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{JUMLAH}]]></initialValueExpression>
 	</variable>
-	<variable name="T_TAMBAHAN" class="java.lang.Integer" incrementType="Column" calculation="Sum">
-		<variableExpression><![CDATA[$F{TAMBAHAN}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{TAMBAHAN}]]></initialValueExpression>
+	<variable name="T_BRUTO" class="java.lang.Integer" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{BRUTO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{BRUTO}]]></initialValueExpression>
 	</variable>
 	<variable name="T_PPH" class="java.lang.Integer" incrementType="Column" calculation="Sum">
-		<variableExpression><![CDATA[$F{PPH}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{PPH}]]></initialValueExpression>
+		<variableExpression><![CDATA[($F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN})]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN})]]></initialValueExpression>
 	</variable>
 	<variable name="T_NETT" class="java.lang.Integer" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{NETT}]]></variableExpression>
@@ -122,6 +128,10 @@
 	<variable name="T_TUNJANGAN" class="java.lang.Integer" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{TUNJANGAN}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{TUNJANGAN}]]></initialValueExpression>
+	</variable>
+	<variable name="PPH" class="java.lang.String">
+		<variableExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></initialValueExpression>
 	</variable>
 	<group name="GroupT">
 		<groupExpression><![CDATA[$F{NO_BUKTI}]]></groupExpression>
@@ -307,7 +317,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{T_TAMBAHAN}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{T_BRUTO}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight" pattern="#,##0.00">
 					<reportElement x="630" y="2" width="50" height="15" forecolor="#000000" uuid="e2a39ba9-2dc8-42f0-8f1d-09fa2730c8f1">
@@ -875,7 +885,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{TAMBAHAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{BRUTO}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.00">
 				<reportElement x="630" y="0" width="50" height="20" forecolor="#000000" uuid="3128677f-7683-4f5f-980a-dab18d5e57e1">
@@ -891,7 +901,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PPH}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{BRUTO} - ($F{BRUTO}* $F{MAX_TUN}) - $F{PT} - $F{JHT} - $F{PN}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="730" y="0" width="48" height="20" forecolor="#000000" uuid="2309f14a-8337-42c2-80b6-5cde6a578a68">

@@ -1,16 +1,39 @@
 <style>
-	.alert-container { background-color: #9c774c; color: black; font-weight: bolder;}
-    .label-title { color: black; font-weight: bold; }
-    .label { color: black; font-weight: bold; }
-    .detail { color: black; text-align: center; }
-    .footerCss { color: black; font-weight: bold; }
-    .text_input { color: black; }
+    .alert-container {
+        background-color: #9c774c;
+        color: black;
+        font-weight: bolder;
+    }
+
+    .label-title {
+        color: black;
+        font-weight: bold;
+    }
+
+    .label {
+        color: black;
+        font-weight: bold;
+    }
+
+    .detail {
+        color: black;
+        text-align: center;
+    }
+
+    .footerCss {
+        color: black;
+        font-weight: bold;
+    }
+
+    .text_input {
+        color: black;
+    }
 </style>
 
 <section>
     <div class="container-fluid">
         <br>
-		<div class="alert alert-success alert-container" role="alert">
+        <div class="alert alert-success alert-container" role="alert">
             <i class="fas fa-university"></i> Laporan Absen
         </div>
         <?php echo $this->session->flashdata('pesan') ?>
@@ -29,10 +52,12 @@
                         </select>
                     </div>
                     <div class="col-md-1">
-                        <label class="label">Tanggal</label>
+                        <label class="label">Tanggal Cetak</label>
                     </div>
                     <div class="col-md-3 nopadding">
-                        <input type="text" class="date form-control text_input" id="TGL_1" name="TGL_1" data-date-format="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) { echo $_POST["TGL_1"]; } else echo date('d-m-Y'); ?>">
+                        <input type="text" class="date form-control text_input datepicker" id="TGL_1" name="TGL_1" data-date-format="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) {
+                                                                                                                                                            echo $_POST["TGL_1"];
+                                                                                                                                                        } else echo date('d-m-Y'); ?>">
                     </div>
                 </div>
             </div>
@@ -55,12 +80,13 @@
                             <button type="button" class="dropdown-item" id="btnExportCsv">
                                 <i class="fas fa-file-csv"></i> Csv
                             </button>
-                            <!-- <button type="button" class="dropdown-item" id="btnExportPdf">
-                                <i class="fa fa-file-pdf-o"></i> Pdf
-                            </button> -->
                             <button class="dropdown-item" id="print" name="print" value="print">
                                 <i class="fa fa-print"></i> Print
                             </button>
+                            <button class="dropdown-item" id="printSemua" name="printSemua" value="printSemua">
+                                <i class="fa fa-print"></i> Print Semua
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -69,7 +95,8 @@
             <!-- PASTE DIBAWAH INI -->
             <!-- DISINI BATAS AWAL KOOLREPORT-->
             <?php
-                use \koolreport\datagrid\DataTables;
+
+            use \koolreport\datagrid\DataTables;
             ?>
             <div class="report-content">
                 <?php
@@ -77,8 +104,8 @@
                     "dataStore" => $daftarabsen_lemburan,
                     "name" => "example",
                     "fixedHeader" => true,
-                    "showFooter"=>true,
-                    "showFooter"=>"bottom",
+                    "showFooter" => true,
+                    "showFooter" => "bottom",
                     "columns" => array(
                         "KD_PEG" => array(
                             "label" => "Kode Pegawai"
@@ -94,18 +121,18 @@
                         ),
                         "ULEMBUR" => array(
                             "label" => "U Lembur",
-                            "type"=>"number",
-                            "decimals"=>2,
-                            "decimalPoint"=>".",
-                            "thousandSeparator"=>",",
-							"footer"=>"sum",
+                            "type" => "number",
+                            "decimals" => 2,
+                            "decimalPoint" => ".",
+                            "thousandSeparator" => ",",
+                            "footer" => "sum",
                         )
                     ),
                     "cssClass" => array(
                         "table" => "table table-hover table-striped table-bordered compact",
                         "th" => "label-title",
                         "td" => "detail",
-                        "tf"=>"footerCss"
+                        "tf" => "footerCss"
                     ),
                     "options" => array(
                         "paging" => true,
@@ -131,12 +158,18 @@
                 ?>
             </div>
         </form>
-    <!-- DISINI BATAS AKHIR KOOLREPORT-->
+        <!-- DISINI BATAS AKHIR KOOLREPORT-->
     </div>
 </section>
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+
+        $('.datepicker').datepicker({
+            'dateFormat': "dd-mm-yy",
+        });
+
         $("#btnExportCopy").on("click", function() {
             var table = $('#example').DataTable();
             table.button('.buttons-copy').trigger();

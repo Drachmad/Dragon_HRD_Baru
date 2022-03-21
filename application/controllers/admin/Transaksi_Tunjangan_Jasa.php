@@ -34,11 +34,23 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'JS'
-        );
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        }
         $this->db->select('*');
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
@@ -84,11 +96,23 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'JS'
-        );
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        }
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -136,12 +160,24 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $this->session->set_userdata('judul', 'Transaksi Tunjangan Jasa');
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'JS'
-        );
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'JS'
+            );
+        }
         $data['hrd_tunjang'] = $this->transaksi_model->tampil_data($where, 'hrd_tunjang', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');
@@ -160,15 +196,33 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
     public function input_aksi()
     {
         $flag = 'JS';
+        if ($this->session->userdata['pt'] == '1') {
+            $inisialpt = 'PT';
+        }
+        if ($this->session->userdata['pt'] == '0') {
+            $inisialpt = 'CV';
+        }
         $dr = $this->session->userdata['dr'];
+        $pt = $this->session->userdata['pt'];
         $per = $this->session->userdata['periode'];
         $kd_bag = $this->input->post('KD_BAG', TRUE);
         $nm_bag = $this->input->post('NM_BAG', TRUE);
         $kd_grup = $this->input->post('KD_GRUP', TRUE);
         $nm_grup = $this->input->post('NM_GRUP', TRUE);
-        $xx = $this->db->query("CALL NO_BUKTI_TUNJANGAN('TUNJANGAN_$flag','tunjangan','$flag','$per','$dr','$kd_bag')")->result();
-        mysqli_next_result($this->db->conn_id);
-        $bukti = $xx[0]->BUKTIX;
+        $fase = $this->input->post('FASE', TRUE);
+        //        $xx = $this->db->query("CALL NO_BUKTI_TUNJANGAN('TUNJANGAN_$flag','tunjangan','$flag','$per','$dr','$kd_bag')")->result();
+        //        mysqli_next_result($this->db->conn_id);
+        //        $bukti = $xx[0]->BUKTIX;
+        $per = $this->session->userdata['periode'];
+        $pr = substr($this->session->userdata['periode'], 0, 2);
+        $pr1 = substr($this->session->userdata['periode'], -2) . substr($this->session->userdata['periode'], 0, 2);
+        $nomer = $this->db->query("SELECT MAX(no_bukti) as NO_BUKTI FROM hrd_tunjang WHERE per='$per' AND flag='$flag' AND dr='$dr' AND pt='$pt' ")->result();
+        $nom = array_column($nomer, 'NO_BUKTI');
+        $value11 = substr($nom[0], -4);
+        $value22 = STRVAL($value11) + 1;
+        $urut = str_pad($value22, 4, "0", STR_PAD_LEFT);
+        $bukti = $flag . '-' . $pr1 . $pr . '-' . $inisialpt . $fase . '-' .  $kd_bag . '-' . $urut;
+        //TJ-2106-711.02.B-0001
         $datah = array(
             'flag' => 'JS',
             'no_bukti' => $bukti,
@@ -176,6 +230,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
             'kd_grup' => $this->input->post('KD_GRUP', TRUE),
             'nm_grup' => $this->input->post('NM_GRUP', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
             'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
             'tjasa' => str_replace(',', '', $this->input->post('TJASA', TRUE)),
@@ -185,10 +240,11 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
             'i_tgl' => date("Y-m-d h:i a")
         );
         $this->transaksi_model->input_datah('hrd_tunjang', $datah);
-        $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_tunjang WHERE no_bukti = '$bukti' AND dr='$dr' AND per='$per' GROUP BY no_bukti")->result();
+        $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_tunjang WHERE no_bukti = '$bukti' GROUP BY no_bukti")->result();
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
         $NM_PEG = $this->input->post('NM_PEG');
+        $PT = $this->input->post('PT');
         $JASA = str_replace(',', '', $this->input->post('JASA', TRUE));
         $i = 0;
         foreach ($REC as $a) {
@@ -199,13 +255,14 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 'nm_bag' => $nm_bag,
                 'kd_grup' => $kd_grup,
                 'nm_grup' => $nm_grup,
-                'dr' => $dr,
                 'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
                 'flag' => 'JS',
                 'rec' => $REC[$i],
                 'kd_peg' => $KD_PEG[$i],
                 'nm_peg' => $NM_PEG[$i],
+                'pt' => $PT[$i],
                 'jasa' => str_replace(',', '', $JASA[$i]),
+                'dr' => $this->session->userdata['dr'],
                 'per' => $this->session->userdata['periode'],
                 'usrnm' => $this->session->userdata['username'],
                 'i_tgl' => date("Y-m-d h:i a")
@@ -215,7 +272,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         }
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -234,6 +291,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 hrd_tunjang.kd_grup AS KD_GRUP,
                 hrd_tunjang.nm_grup AS NM_GRUP,
                 hrd_tunjang.dr AS DR,
+                hrd_tunjang.fase AS FASE,
                 hrd_tunjang.notes AS NOTES,
                 hrd_tunjang.tgl AS TGL,
                 hrd_tunjang.tjasa AS TJASA,
@@ -242,6 +300,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 hrd_tunjangd.rec AS REC,
                 hrd_tunjangd.kd_peg AS KD_PEG,
                 hrd_tunjangd.nm_peg AS NM_PEG,
+                hrd_tunjangd.pt AS PT,
                 hrd_tunjangd.jasa AS JASA
             FROM hrd_tunjang,hrd_tunjangd 
             WHERE hrd_tunjang.no_id=$id 
@@ -263,10 +322,11 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
             'kd_grup' => $this->input->post('KD_GRUP', TRUE),
             'nm_grup' => $this->input->post('NM_GRUP', TRUE),
-            'dr' => $this->input->post('DR', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
             'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
             'tjasa' => str_replace(',', '', $this->input->post('TJASA', TRUE)),
+            'dr' => $this->session->userdata['dr'],
             'per' => $this->session->userdata['periode'],
             'e_pc' => $this->session->userdata['username'],
             'e_tgl' => date("Y-m-d h:i a")
@@ -283,6 +343,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 hrd_tunjang.kd_grup AS KD_GRUP,
                 hrd_tunjang.nm_grup AS NM_GRUP,
                 hrd_tunjang.dr AS DR,
+                hrd_tunjang.fase AS FASE,
                 hrd_tunjang.notes AS NOTES,
                 hrd_tunjang.tgl AS TGL,
                 hrd_tunjang.tjasa AS TJASA,
@@ -291,6 +352,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 hrd_tunjangd.rec AS REC,
                 hrd_tunjangd.kd_peg AS KD_PEG,
                 hrd_tunjangd.nm_peg AS NM_PEG,
+                hrd_tunjangd.pt AS PT,
                 hrd_tunjangd.jasa AS JASA
             FROM hrd_tunjang,hrd_tunjangd 
             WHERE hrd_tunjang.no_id=$id 
@@ -301,6 +363,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
         $NM_PEG = $this->input->post('NM_PEG');
+        $PT = $this->input->post('PT');
         $JASA = str_replace(',', '', $this->input->post('JASA', TRUE));
         $jum = count($data);
         $ID = array_column($data, 'NO_ID');
@@ -316,12 +379,13 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                     'nm_bag' => $this->input->post('NM_BAG'),
                     'kd_grup' => $this->input->post('KD_GRUP'),
                     'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
                     'rec' => $REC[$URUT],
                     'kd_peg' => $KD_PEG[$URUT],
                     'nm_peg' => $NM_PEG[$URUT],
+                    'pt' => $PT[$URUT],
                     'jasa' => str_replace(',', '', $JASA[$URUT]),
+                    'dr' => $this->session->userdata['dr'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
                 );
@@ -348,13 +412,14 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                     'nm_bag' => $this->input->post('NM_BAG'),
                     'kd_grup' => $this->input->post('KD_GRUP'),
                     'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
                     'rec' => $REC[$i],
                     'kd_peg' => $KD_PEG[$i],
                     'nm_peg' => $NM_PEG[$i],
+                    'pt' => $PT[$i],
                     'jasa' => str_replace(',', '', $JASA[$i]),
                     'per' => $this->session->userdata['periode'],
+                    'dr' => $this->session->userdata['dr'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
                 );
@@ -403,6 +468,10 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         $kd_bag = $this->input->get('kd_bag');
         $pt = $this->session->userdata['pt'];
         $q1 = "SELECT kd_peg AS KD_PEG, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS PT,
                 nm_peg AS NM_PEG
             FROM hrd_peg WHERE kd_bag='$kd_bag' AND aktif='1' AND pt='$pt' ORDER BY kd_peg ";
         $q2 = $this->db->query($q1);
@@ -426,7 +495,14 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
             $xa = ($page - 1) * 10;
         }
         $perPage = 10;
-        $results = $this->db->query("SELECT no_id, nm_peg, kd_peg, dr
+        $results = $this->db->query("SELECT no_id, 
+                nm_peg, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS pt,
+                kd_peg, 
+                dr
             FROM hrd_peg
             WHERE nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR dr LIKE '%$search%'
             ORDER BY nm_peg LIMIT $xa,$perPage");
@@ -437,6 +513,7 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
                 'text' => $row['nm_peg'],
                 'nm_peg' => $row['nm_peg'] . " - " . $row['kd_peg'] . " - " . $row['dr'],
                 'kd_peg' => $row['kd_peg'],
+                'pt' => $row['pt'],
             );
         }
         $select['total_count'] =  $results->NUM_ROWS();

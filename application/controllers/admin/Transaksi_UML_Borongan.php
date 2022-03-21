@@ -34,11 +34,23 @@ class Transaksi_UML_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $this->db->select('*');
         $this->db->from('hrd_lem');
         $this->db->where($where);
@@ -84,11 +96,23 @@ class Transaksi_UML_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $this->db->from('hrd_lem');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -136,12 +160,24 @@ class Transaksi_UML_Borongan extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $this->session->set_userdata('judul', 'Transaksi UML Borongan');
-        $where = array(
-            'dr' => $dr,
-            'per' => $per,
-            'flag' => 'BR'
-        );
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+                'per' => $per,
+                'flag' => 'BR'
+            );
+        }
         $data['hrd_lem'] = $this->transaksi_model->tampil_data($where, 'hrd_lem', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');
@@ -160,69 +196,107 @@ class Transaksi_UML_Borongan extends CI_Controller
     public function input_aksi()
     {
         $flag = 'BR';
+        if ($this->session->userdata['pt'] == '1') {
+            $inisialpt = 'PT';
+        }
+        if ($this->session->userdata['pt'] == '0') {
+            $inisialpt = 'CV';
+        }
         $dr = $this->session->userdata['dr'];
-        $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
         $kd_bag = $this->input->post('KD_BAG', TRUE);
         $nm_bag = $this->input->post('NM_BAG', TRUE);
         $kd_grup = $this->input->post('KD_GRUP', TRUE);
         $nm_grup = $this->input->post('NM_GRUP', TRUE);
-        $xx = $this->db->query("CALL NO_BUKTI_UML('UML_$flag','umlhr','$flag','$per','$dr','$kd_bag')")->result();
-        mysqli_next_result($this->db->conn_id);
-        $bukti = $xx[0]->BUKTIX;
-        $datah = array(
-            'flag' => 'BR',
-            'no_bukti' => $bukti,
-            'kd_bag' => $this->input->post('KD_BAG', TRUE),
-            'nm_bag' => $this->input->post('NM_BAG', TRUE),
-            'kd_grup' => $this->input->post('KD_GRUP', TRUE),
-            'nm_grup' => $this->input->post('NM_GRUP', TRUE),
-            'notes' => $this->input->post('NOTES', TRUE),
-            'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
-            't_ulembur' => str_replace(',', '', $this->input->post('T_ULEMBUR', TRUE)),
-            'dr' => $this->session->userdata['dr'],
-            'per' => $this->session->userdata['periode'],
-            'usrnm' => $this->session->userdata['username'],
-            'i_tgl' => date("Y-m-d h:i a")
-        );
-        $this->transaksi_model->input_datah('hrd_lem', $datah);
-        $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_lem WHERE no_bukti = '$bukti' AND dr='$dr' AND per='$per' GROUP BY no_bukti")->result();
-        $REC = $this->input->post('REC');
-        $KD_PEG = $this->input->post('KD_PEG');
-        $NM_PEG = $this->input->post('NM_PEG');
-        $ULEMBUR = str_replace(',', '', $this->input->post('ULEMBUR', TRUE));
-        $i = 0;
-        foreach ($REC as $a) {
-            $datad = array(
-                'id' => $ID[0]->no_id,
-                'no_bukti' => $bukti,
-                'kd_bag' => $kd_bag,
-                'nm_bag' => $nm_bag,
-                'kd_grup' => $kd_grup,
-                'nm_grup' => $nm_grup,
-                'dr' => $dr,
-                'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
+        $fase = $this->input->post('FASE', TRUE);
+        // $xx = $this->db->query("CALL NO_BUKTI_UML('UML_$flag','umlhr','$flag','$per','$dr','$kd_bag')")->result();
+        // mysqli_next_result($this->db->conn_id);
+        // $bukti = $xx[0]->BUKTIX;
+        $per = $this->session->userdata['periode'];
+        $pr = substr($this->session->userdata['periode'], 0, 2);
+        $pr1 = substr($this->session->userdata['periode'], -2) . substr($this->session->userdata['periode'], 0, 2);
+        $nomer = $this->db->query("SELECT MAX(no_bukti) as NO_BUKTI FROM hrd_lem WHERE per='$per' AND flag='$flag' AND dr='$dr' AND pt='$pt' ")->result();
+        $nom = array_column($nomer, 'NO_BUKTI');
+        $value11 = substr($nom[0], -4);
+        $value22 = STRVAL($value11) + 1;
+        $urut = str_pad($value22, 4, "0", STR_PAD_LEFT);
+        $bukti = $flag . '-' . $pr1 . $pr . '-' . $inisialpt . $fase . '-' .  $kd_bag . '-' . $urut;
+        $tgl = date("Y-m-d", strtotime($this->input->post('TGL', TRUE)));
+
+        $cekTGL = $this->db->query("SELECT count(tgl) AS TGLCEK FROM hrd_lem WHERE tgl='$tgl' AND kd_bag='$kd_bag' AND per='$per' AND dr='$dr' AND flag='$flag' AND fase='$fase'")->result();
+        foreach ($cekTGL as $tgl) {
+        }
+        if ($tgl->TGLCEK == 0) {
+            $datah = array(
                 'flag' => 'BR',
-                'rec' => $REC[$i],
-                'kd_peg' => $KD_PEG[$i],
-                'nm_peg' => $NM_PEG[$i],
-                'ulembur' => str_replace(',', '', $ULEMBUR[$i]),
+                'no_bukti' => $bukti,
+                'kd_bag' => $this->input->post('KD_BAG', TRUE),
+                'nm_bag' => $this->input->post('NM_BAG', TRUE),
+                'kd_grup' => $this->input->post('KD_GRUP', TRUE),
+                'nm_grup' => $this->input->post('NM_GRUP', TRUE),
+                'notes' => $this->input->post('NOTES', TRUE),
+                'fase' => $this->input->post('FASE', TRUE),
+                'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
+                't_ulembur' => str_replace(',', '', $this->input->post('T_ULEMBUR', TRUE)),
+                'pt' => $this->session->userdata['pt'],
+                'dr' => $this->session->userdata['dr'],
                 'per' => $this->session->userdata['periode'],
                 'usrnm' => $this->session->userdata['username'],
                 'i_tgl' => date("Y-m-d h:i a")
             );
-            $this->transaksi_model->input_datad('hrd_lemd', $datad);
-            $i++;
-        }
-        $this->session->set_flashdata(
-            'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            $this->transaksi_model->input_datah('hrd_lem', $datah);
+            $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_lem WHERE no_bukti = '$bukti' GROUP BY no_bukti")->result();
+            $REC = $this->input->post('REC');
+            $KD_PEG = $this->input->post('KD_PEG');
+            $NM_PEG = $this->input->post('NM_PEG');
+            $PT = $this->input->post('PT');
+            $ULEMBUR = str_replace(',', '', $this->input->post('ULEMBUR', TRUE));
+            $i = 0;
+            foreach ($REC as $a) {
+                $datad = array(
+                    'id' => $ID[0]->no_id,
+                    'no_bukti' => $bukti,
+                    'kd_bag' => $kd_bag,
+                    'nm_bag' => $nm_bag,
+                    'kd_grup' => $kd_grup,
+                    'nm_grup' => $nm_grup,
+                    'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
+                    'flag' => 'BR',
+                    'rec' => $REC[$i],
+                    'kd_peg' => $KD_PEG[$i],
+                    'nm_peg' => $NM_PEG[$i],
+                    'pt' => $PT[$i],
+                    'ulembur' => str_replace(',', '', $ULEMBUR[$i]),
+                    'dr' => $this->session->userdata['dr'],
+                    'per' => $this->session->userdata['periode'],
+                    'usrnm' => $this->session->userdata['username'],
+                    'i_tgl' => date("Y-m-d h:i a")
+                );
+                $this->transaksi_model->input_datad('hrd_lemd', $datad);
+                $i++;
+            }
+            $this->session->set_flashdata(
+                'pesan',
+                '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> 
             </div>'
-        );
-        redirect('admin/Transaksi_UML_Borongan/index_Transaksi_UML_Borongan');
+            );
+            redirect('admin/Transaksi_UML_Borongan/index_Transaksi_UML_Borongan');
+        } else {
+            $this->session->set_flashdata(
+                'pesan',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                Gagal Insert Data !  Periksa Kembali Tanggal Input.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+            </div>'
+            );
+            redirect('admin/Transaksi_UML_Borongan/index_Transaksi_UML_Borongan');
+        }
     }
 
     public function update($id)
@@ -237,11 +311,13 @@ class Transaksi_UML_Borongan extends CI_Controller
                 hrd_lem.notes AS NOTES,
                 hrd_lem.tgl AS TGL,
                 hrd_lem.t_ulembur AS T_ULEMBUR,
+                hrd_lem.fase AS FASE,
 
                 hrd_lemd.no_id AS NO_ID,
                 hrd_lemd.rec AS REC,
                 hrd_lemd.kd_peg AS KD_PEG,
                 hrd_lemd.nm_peg AS NM_PEG,
+                hrd_lemd.pt AS PT,
                 hrd_lemd.ulembur AS ULEMBUR
             FROM hrd_lem,hrd_lemd 
             WHERE hrd_lem.no_id=$id 
@@ -263,10 +339,12 @@ class Transaksi_UML_Borongan extends CI_Controller
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
             'kd_grup' => $this->input->post('KD_GRUP', TRUE),
             'nm_grup' => $this->input->post('NM_GRUP', TRUE),
-            'dr' => $this->input->post('DR', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
             'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
             't_ulembur' => str_replace(',', '', $this->input->post('T_ULEMBUR', TRUE)),
+            'pt' => $this->session->userdata['pt'],
+            'dr' => $this->session->userdata['dr'],
             'per' => $this->session->userdata['periode'],
             'e_pc' => $this->session->userdata['username'],
             'e_tgl' => date("Y-m-d h:i a")
@@ -286,11 +364,13 @@ class Transaksi_UML_Borongan extends CI_Controller
                 hrd_lem.notes AS NOTES,
                 hrd_lem.tgl AS TGL,
                 hrd_lem.t_ulembur AS T_ULEMBUR,
+                hrd_lem.fase AS FASE,
 
                 hrd_lemd.no_id AS NO_ID,
                 hrd_lemd.rec AS REC,
                 hrd_lemd.kd_peg AS KD_PEG,
                 hrd_lemd.nm_peg AS NM_PEG,
+                hrd_lemd.pt AS PT,
                 hrd_lemd.ulembur AS ULEMBUR
             FROM hrd_lem,hrd_lemd 
             WHERE hrd_lem.no_id=$id 
@@ -301,6 +381,7 @@ class Transaksi_UML_Borongan extends CI_Controller
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
         $NM_PEG = $this->input->post('NM_PEG');
+        $PT = $this->input->post('PT');
         $ULEMBUR = str_replace(',', '', $this->input->post('ULEMBUR', TRUE));
         $jum = count($data);
         $ID = array_column($data, 'NO_ID');
@@ -316,12 +397,13 @@ class Transaksi_UML_Borongan extends CI_Controller
                     'nm_bag' => $this->input->post('NM_BAG'),
                     'kd_grup' => $this->input->post('KD_GRUP'),
                     'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
                     'rec' => $REC[$URUT],
                     'kd_peg' => $KD_PEG[$URUT],
                     'nm_peg' => $NM_PEG[$URUT],
+                    'pt' => $PT[$URUT],
                     'ulembur' => str_replace(',', '', $ULEMBUR[$URUT]),
+                    'dr' => $this->session->userdata['dr'],
                     'per' => $this->session->userdata['periode'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
@@ -349,12 +431,13 @@ class Transaksi_UML_Borongan extends CI_Controller
                     'nm_bag' => $this->input->post('NM_BAG'),
                     'kd_grup' => $this->input->post('KD_GRUP'),
                     'nm_grup' => $this->input->post('NM_GRUP'),
-                    'dr' => $this->input->post('DR'),
                     'tgl' => date("Y-m-d", strtotime($this->input->post('TGL', TRUE))),
                     'rec' => $REC[$i],
                     'kd_peg' => $KD_PEG[$i],
                     'nm_peg' => $NM_PEG[$i],
+                    'pt' => $PT[$i],
                     'ulembur' => str_replace(',', '', $ULEMBUR[$i]),
+                    'dr' => $this->session->userdata['dr'],
                     'per' => $this->session->userdata['periode'],
                     'e_pc' => $this->session->userdata['username'],
                     'e_tgl' => date("Y-m-d h:i a")
@@ -383,7 +466,7 @@ class Transaksi_UML_Borongan extends CI_Controller
         $this->transaksi_model->hapus_data($where, 'hrd_lemd');
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Deleted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -404,6 +487,10 @@ class Transaksi_UML_Borongan extends CI_Controller
         $kd_bag = $this->input->get('kd_bag');
         $pt = $this->session->userdata['pt'];
         $q1 = "SELECT kd_peg AS KD_PEG, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS PT, 
                 nm_peg AS NM_PEG,
                 ROUND(ulembur, 2) AS ULEMBUR
             FROM hrd_peg WHERE kd_bag='$kd_bag' AND aktif='1' AND pt='$pt' ORDER BY kd_peg ";
@@ -426,7 +513,14 @@ class Transaksi_UML_Borongan extends CI_Controller
             $xa = ($page - 1) * 10;
         }
         $perPage = 10;
-        $results = $this->db->query("SELECT no_id, nm_peg, kd_peg, ulembur
+        $results = $this->db->query("SELECT no_id, 
+                nm_peg, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS pt, 
+                kd_peg, 
+                ulembur
             FROM hrd_peg
             WHERE nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR ulembur LIKE '%$search%'
             ORDER BY nm_peg LIMIT $xa,$perPage");
@@ -438,6 +532,7 @@ class Transaksi_UML_Borongan extends CI_Controller
                 'nm_peg' => $row['nm_peg'] . " - " . $row['kd_peg'] . " - " . $row['ulembur'],
                 'kd_peg' => $row['kd_peg'],
                 'ulembur' => $row['ulembur'],
+                'pt' => $row['pt'],
             );
         }
         $select['total_count'] =  $results->NUM_ROWS();

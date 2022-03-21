@@ -6,6 +6,8 @@ class Laporan_model extends CI_Model
 	public function tampil_data_daftarabsen_absen()
 	{
 		$per = $this->session->userdata['periode'];
+		$dr = $this->session->userdata['dr'];
+		$pt = $this->session->userdata['pt'];
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
 		$q1 = "SELECT hrd_peg.kd_peg AS KD_PEG,
 				hrd_peg.nm_peg AS NM_PEG,
@@ -19,6 +21,8 @@ class Laporan_model extends CI_Model
 			WHERE hrd_peg.kd_bag=hrd_bag.kd_bag 
 			AND hrd_peg.kd_bag='$kd_bag_1'
 			AND hrd_peg.aktif='1'
+			AND hrd_peg.pt='$pt'
+			AND hrd_peg.dr='$dr'
 			ORDER BY hrd_peg.kd_peg";
 		return $this->db->query($q1);
 	}
@@ -26,6 +30,12 @@ class Laporan_model extends CI_Model
 	public function tampil_data_daftarabsen_lemburan()
 	{
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
+		$dr = $this->session->userdata['dr'];
+		$pt = $this->session->userdata['pt'];
+		$tempKD_BAG = " ";
+		if ($kd_bag_1 != "") {
+			$tempKD_BAG = "AND hrd_peg.kd_bag='$kd_bag_1'";
+		}
 		$tgl_1 = date("Y-m-d", strtotime($this->input->post('TGL_1', TRUE)));
 		$q1 = "SELECT hrd_peg.kd_peg AS KD_PEG,
 				hrd_peg.nm_peg AS NM_PEG,
@@ -35,8 +45,10 @@ class Laporan_model extends CI_Model
 			FROM hrd_peg, hrd_bag
 			WHERE hrd_peg.kd_bag=hrd_bag.kd_bag 
 			AND hrd_peg.aktif='1' 
-			AND hrd_peg.kd_bag='$kd_bag_1'
-			ORDER BY hrd_peg.kd_peg";
+			AND hrd_peg.pt='$pt'
+			AND hrd_peg.dr='$dr'
+			$tempKD_BAG
+			ORDER BY hrd_peg.kd_peg, hrd_peg.kd_bag";
 		return $this->db->query($q1);
 	}
 
@@ -80,8 +92,17 @@ class Laporan_model extends CI_Model
 
 	public function tampil_data_lemburperbagian_perjam()
 	{
+		$per = $this->session->userdata['periode'];
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
 		$tgl_1 = date("Y-m-d", strtotime($this->input->post('TGL_1', TRUE)));
+		$tempKD_BAG = " ";
+		$tempTGL = " ";
+		if ($kd_bag_1 == " ") {
+			$tempKD_BAG = "AND hrd_lemd.kd_bag='$kd_bag_1'";
+		}
+		if ($tgl_1 == " ") {
+			$tempTGL = "AND hrd_lemd.tgl='$tgl_1'";
+		}
 		$q1 = "SELECT hrd_lemd.nm_peg AS NM_PEG,
 				hrd_lemd.no_bukti AS NO_BUKTI,
 				CONCAT(hrd_lemd.kd_peg,' - ',hrd_lemd.nm_peg) AS PEGAWAI,
@@ -90,8 +111,9 @@ class Laporan_model extends CI_Model
 				hrd_lemd.ulembur AS ULEMBUR
 			FROM hrd_lemd, hrd_bag
 			WHERE hrd_lemd.kd_bag=hrd_bag.kd_bag 
-			AND hrd_lemd.kd_bag='$kd_bag_1'
-			AND hrd_lemd.tgl='$tgl_1'
+			$tempKD_BAG
+			$tempTGL
+			AND hrd_lemd.per='$per'
 			AND hrd_lemd.flag='PJ'
 			ORDER BY hrd_lemd.kd_peg";
 		return $this->db->query($q1);
@@ -99,15 +121,29 @@ class Laporan_model extends CI_Model
 
 	public function tampil_data_gaji_harian()
 	{
-		$kd_bag_1 = $this->input->post('KD_BAG_1');
-		$kd_bag_2 = $this->input->post('KD_BAG_2');
 		$per = $this->session->userdata['periode'];
+		$fase_1 = $this->input->post('FASE_1');
+		$fase_2 = $this->input->post('FASE_2');
+		$filter_fase = " ";
+		if ($this->input->post('FASE_1', TRUE) != '') {
+			$filter_fase = "AND hrd_absen.fase BETWEEN '$fase_1' AND '$fase_2' ";
+		}
+		$per_1 = $this->input->post('PER_1');
+		$per_2 = $this->input->post('PER_2');
+		$filter_per = " ";
+		if ($this->input->post('PER_1', TRUE) != '') {
+			$filter_per = "AND hrd_absen.per BETWEEN '$per_1' AND '$per_2' ";
+		}
+		$kd_bag_1 = $this->input->post('KD_BAG_1');
+		$filter_kd_bag_1 = " ";
+		if ($this->input->post('KD_BAG_1', TRUE) != '') {
+			$filter_kd_bag_1 = "AND hrd_absen.kd_bag = '$kd_bag_1'";
+		}
 		$q1 = " SELECT hrd_absen.per AS PER,
 				hrd_absen.no_bukti AS NO_BUKTI,
 				CONCAT(hrd_absen.kd_bag,' - ',hrd_absen.nm_bag) AS BAGIAN,
 				CONCAT(hrd_absen.kd_grup,' - ',hrd_absen.nm_grup) AS GRUP,
 				CONCAT(hrd_absend.kd_peg,' - ',hrd_absend.nm_peg) AS PEGAWAI,
-
 				hrd_absend.rec AS REC,
 				hrd_absend.kd_bag AS KD_BAG,
 				hrd_absend.nm_bag AS NM_BAG,
@@ -121,17 +157,27 @@ class Laporan_model extends CI_Model
 				hrd_absend.nett AS NETT,
 				hrd_absend.jumlah AS JUMLAH
 			FROM hrd_absen, hrd_absend
-			WHERE hrd_absen.per='$per'
-			AND hrd_absen.kd_bag BETWEEN '" . $kd_bag_1 . "' AND '" . $kd_bag_2 . "'
-			AND hrd_absen.flag='HR'
+			WHERE hrd_absen.flag='HR'
+			AND hrd_absen.no_id=hrd_absend.id
+			AND hrd_absen.per = '$per'
+			$filter_fase
+			$filter_per
+			$filter_kd_bag_1
 			ORDER BY hrd_absen.no_bukti, hrd_absend.rec ASC";
 		return $this->db->query($q1);
 	}
 
 	public function tampil_data_karyawan()
 	{
+		$tempKD_PEG = " ";
 		$kd_peg_1 = $this->input->post('KD_PEG_1');
 		$kd_peg_2 = $this->input->post('KD_PEG_2');
+		$dr = $this->session->userdata['dr'];
+		$pt = $this->session->userdata['pt'];
+		if ($kd_peg_2 != "") {
+			$tempKD_PEG = "AND hrd_peg.kd_peg BETWEEN '$kd_peg_1' AND '$kd_peg_2'";
+		}
+
 		$per = $this->session->userdata['periode'];
 		$q1 = "SELECT hrd_peg.no_id AS NO_ID,
 				hrd_peg.subdep AS SUBDEP,
@@ -139,20 +185,39 @@ class Laporan_model extends CI_Model
 				CONCAT(hrd_peg.kd_bag,' - ',hrd_peg.nm_bag) AS BAGIAN,
 				hrd_peg.kd_bag AS KD_BAG,
 				hrd_peg.kd_peg AS KD_PEG,
-				hrd_peg.nm_peg AS NM_PEG
+				hrd_peg.nm_peg AS NM_PEG,
+				CASE
+    				WHEN hrd_peg.aktif = '1' THEN 'AKTIF'
+    				ELSE 'TIDAK AKTIF'
+				END AS AKTIF
 			FROM hrd_peg
-			WHERE hrd_peg.kd_peg BETWEEN '$kd_peg_1' AND '$kd_peg_2'
+			WHERE hrd_peg.pt='$pt'
+			AND hrd_peg.dr='$dr'
+			$tempKD_PEG
 			ORDER BY hrd_peg.kd_peg";
 		return $this->db->query($q1);
 	}
 
 	public function tampil_data_gaji_borongan()
 	{
+		$per = $this->session->userdata['periode'];
+		$fase_1 = $this->input->post('FASE_1');
+		$fase_2 = $this->input->post('FASE_2');
+		$filter_fase = " ";
+		if ($this->input->post('FASE_1', TRUE) != '') {
+			$filter_fase = "AND hrd_absen.fase BETWEEN '$fase_1' AND '$fase_2' ";
+		}
+		$per_1 = $this->input->post('PER_1');
+		$per_2 = $this->input->post('PER_2');
+		$filter_per = " ";
+		if ($this->input->post('PER_1', TRUE) != '') {
+			$filter_per = "AND hrd_absen.per BETWEEN '$per_1' AND '$per_2' ";
+		}
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
-		$kd_bag_2 = $this->input->post('KD_BAG_2');
-		$bulan = substr($this->input->post('PER'), 0, 2);
-		$tahun = substr($this->input->post('PER'), -4);
-		$per = $tahun . $bulan;
+		$filter_kd_bag_1 = " ";
+		if ($this->input->post('KD_BAG_1', TRUE) != '') {
+			$filter_kd_bag_1 = "AND hrd_absen.kd_bag = '$kd_bag_1'";
+		}
 		$q1 = " SELECT hrd_absen.per AS PER,
 				hrd_absen.no_bukti AS NO_BUKTI,
 				CONCAT(hrd_absen.kd_bag,' - ',hrd_absen.nm_bag) AS BAGIAN,
@@ -172,33 +237,50 @@ class Laporan_model extends CI_Model
 				hrd_absend.nett AS NETT,
 				hrd_absend.jumlah AS JUMLAH
 			FROM hrd_absen, hrd_absend
-			WHERE CONCAT(RIGHT(hrd_absen.per,4),left(hrd_absen.per,2))<='$per'
-			AND hrd_absen.kd_bag BETWEEN '" . $kd_bag_1 . "' AND '" . $kd_bag_2 . "'
-			AND hrd_absen.flag='BR'
+			WHERE hrd_absen.flag='BR'
+			AND hrd_absen.no_id=hrd_absend.id
+			$filter_fase
+			$filter_per
+			$filter_kd_bag_1
 			ORDER BY hrd_absen.no_bukti, hrd_absend.rec ASC";
 		return $this->db->query($q1);
 	}
 
 	public function tampil_data_gaji_rekapgaji()
 	{
-		$kd_grup_1 = $this->input->post('KD_GRUP_1');
-		$kd_grup_2 = $this->input->post('KD_GRUP_2');
+		$fase_1 = $this->input->post('FASE_1');
+		$fase_2 = $this->input->post('FASE_2');
+		$filter_fase = " ";
+		if ($this->input->post('FASE_1', TRUE) != '') {
+			$filter_fase = "AND hrd_absen.fase BETWEEN '$fase_1' AND '$fase_2' ";
+		}
 		$per_1 = $this->input->post('PER_1');
 		$per_2 = $this->input->post('PER_2');
-		$tgl_1 = date("Y-m-d", strtotime($this->input->post('TGL_1', TRUE)));
-		$tgl_2 = date("Y-m-d", strtotime($this->input->post('TGL_2', TRUE)));
+		$filter_per = " ";
+		if ($this->input->post('PER_1', TRUE) != '') {
+			$filter_per = "AND hrd_absen.per BETWEEN '$per_1' AND '$per_2' ";
+		}
+		$kd_grup_1 = $this->input->post('KD_GRUP_1');
+		$filter_kd_grup_1 = " ";
+		if ($this->input->post('KD_GRUP_1', TRUE) != '') {
+			$filter_kd_grup_1 = "AND hrd_absen.kd_grup = '$kd_grup_1'";
+		}
 		$q1 = "SELECT hrd_absen.per AS PER,
 				CONCAT(hrd_grup.kd_grup,' - ',hrd_grup.nm_grup) AS GRUP,
 				CONCAT(hrd_absen.kd_bag,' - ',hrd_absen.nm_bag) AS BAGIAN,
-				'HARIAN' AS FLAG,
+                CASE 
+					WHEN hrd_absen.flag = 'HR' THEN 'HARIAN'
+					WHEN hrd_absen.flag = 'BR' THEN 'BORONGAN'
+				END AS FLAG,
 				hrd_grup.acno AS ACNO,
 				hrd_absen.tjumlah AS JUMLAH,
 				'0' AS PPH,
 				(hrd_absen.tjumlah-'0') AS NETTO
 			FROM hrd_absen, hrd_grup
-			WHERE hrd_absen.per BETWEEN '" . $per_1 . "' AND '" . $per_2 . "'
-			AND hrd_absen.kd_grup=hrd_grup.kd_grup
-			AND hrd_absen.kd_grup BETWEEN '" . $kd_grup_1 . "' AND '" . $kd_grup_2 . "'
+			WHERE hrd_absen.kd_grup=hrd_grup.kd_grup
+			$filter_fase
+			$filter_per
+			$filter_kd_grup_1
 			ORDER BY hrd_grup.kd_grup, hrd_grup.nm_grup, hrd_absen.kd_bag";
 		return $this->db->query($q1);
 	}
@@ -243,7 +325,6 @@ class Laporan_model extends CI_Model
 			hrd_kik.tjumlah AS TJUMLAH,
 			hrd_kik.tsub AS TSUB,
 			hrd_kik.gt AS GT,
-
 			hrd_kikd.no_kik AS NO_KIK,
 			hrd_kikd.tgl_kik AS TGL_KIK,
 			hrd_kikd.model AS MODEL,
@@ -252,11 +333,9 @@ class Laporan_model extends CI_Model
 			hrd_kikd.org AS ORG,
 			hrd_kikd.jumlah AS JUMLAH,
 			hrd_kikd.sub AS SUB,
-
-			'-' AS KASI,
-			'-' AS KABAG,
-			'-' AS MAINT1,
-
+			-- '-' AS KASI,
+			-- '-' AS KABAG,
+			-- '-' AS MAINT1,
 			ROUND(1 / 100 * hrd_kik.tjumlah,2) AS hasil
 		FROM hrd_kik, hrd_kikd
 		WHERE hrd_kik.no_bukti=hrd_kikd.no_bukti 
@@ -512,7 +591,7 @@ class Laporan_model extends CI_Model
 	public function tampil_data_tunjangan_obat()
 	{
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
-		$tgl_1 = date("Y-m-d", strtotime($this->input->post('TGL_1', TRUE)));
+		$tgl_1 = date("dd-mm-yy", strtotime($this->input->post('TGL_1', TRUE)));
 		$per = $this->session->userdata['periode'];
 		$q1 = "SELECT hrd_tunjang.no_bukti AS NO_BUKTI, 
 				hrd_tunjang.per AS PER,
@@ -557,10 +636,13 @@ class Laporan_model extends CI_Model
 
 	public function tampil_data_insentif_perbagian()
 	{
-		$kd_bag_1 = $this->input->post('KD_BAG_1');
-		$kd_bag_2 = $this->input->post('KD_BAG_2');
 		$per = $this->input->post('PER');
-		$per2 = $this->input->post('PER2');
+		// $grup = $this->input->post('KD_GRUP_1');
+		$grup_1 = $this->input->post('KD_GRUP_1');
+		$filter_grup = " ";
+		if ($this->input->post('KD_GRUP_1', TRUE) != '') {
+			$filter_grup = "AND hrd_absen.kd_grup = '$grup_1'";
+		}
 		$q1 = "SELECT hrd_absen.per AS PER, 
 				hrd_absen.no_bukti AS NO_BUKTI, 
 				hrd_absen.flag AS FLAG, 
@@ -570,8 +652,8 @@ class Laporan_model extends CI_Model
 				hrd_absend.tperbulan AS TPERBULAN
 			FROM hrd_absen, hrd_absend
 			WHERE hrd_absen.no_bukti=hrd_absend.no_bukti 
-			AND hrd_absen.per BETWEEN '$per' AND '$per2'
-			AND hrd_absen.kd_bag BETWEEN '$kd_bag_1' AND '$kd_bag_2'
+			AND hrd_absen.per = '$per'
+			$filter_grup
 			ORDER BY hrd_absen.flag, hrd_absen.kd_bag, hrd_absend.rec";
 		return $this->db->query($q1);
 	}

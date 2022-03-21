@@ -10,7 +10,7 @@ class Transaksi_Harian extends CI_Controller
             $this->session->set_flashdata(
                 'pesan',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Anda Belum Login
+            Anda Belum Login
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -34,9 +34,13 @@ class Transaksi_Harian extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $where = array(
             'dr' => $dr,
             'per' => $per,
+            'pt' => $pt,
+            'cv' => $cv,
             'flag' => 'HR'
         );
         $this->db->select('*');
@@ -84,9 +88,13 @@ class Transaksi_Harian extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $where = array(
             'dr' => $dr,
             'per' => $per,
+            'pt' => $pt,
+            'cv' => $cv,
             'flag' => 'HR'
         );
         $this->db->from('hrd_absen');
@@ -135,10 +143,14 @@ class Transaksi_Harian extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $per = $this->session->userdata['periode'];
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $this->session->set_userdata('judul', 'Transaksi Harian');
         $where = array(
             'dr' => $dr,
             'per' => $per,
+            'pt' => $pt,
+            'cv' => $cv,
             'flag' => 'HR'
         );
         $data['hrd_absen'] = $this->transaksi_model->tampil_data($where, 'hrd_absen', 'no_id')->result();
@@ -162,28 +174,37 @@ class Transaksi_Harian extends CI_Controller
         $nm_bag = $this->input->post('NM_BAG', TRUE);
         $kd_grup = $this->input->post('KD_GRUP', TRUE);
         $nm_grup = $this->input->post('NM_GRUP', TRUE);
-        $dr = $this->input->post('DR', TRUE);
+        $fase = $this->input->post('FASE', TRUE);
+        $dr = $this->session->userdata['periode'];
+        if ($this->session->userdata['pt'] == '1') {
+            $inisialpt = 'PT';
+        }
+        if ($this->session->userdata['pt'] == '0') {
+            $inisialpt = 'CV';
+        }
         $per = $this->session->userdata['periode'];
         $pr = substr($this->session->userdata['periode'], 0, 2);
         $pr1 = substr($this->session->userdata['periode'], -2) . substr($this->session->userdata['periode'], 0, 2);
-        $pt = $this->session->userdata['pt'];
-        if ($pt == '1') {
-            $pt = "PT";
-        } else {
-            $pt = "CV";
-        }
-        $bukti = 'HR' . $pr1 . '.' . $pr . '-' . $kd_bag . '-' . $pt;
+        $bukti = 'HR' . $pr1 . '.' . $pr . '.' . $inisialpt . $fase . '-' . $kd_bag;
         $datah = array(
             'flag' => 'HR',
             'no_bukti' => $bukti,
+            // 'kd_bag' => $this->input->post('KD_BAG', TRUE),
             'kd_bag' => $this->input->post('KD_BAG', TRUE),
             'nm_bag' => $this->input->post('NM_BAG', TRUE),
             'kd_grup' => $this->input->post('KD_GRUP', TRUE),
             'nm_grup' => $this->input->post('NM_GRUP', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
             'dr' => $this->input->post('DR', TRUE),
+            'pt' => $this->session->userdata['pt'],
+            'cv' => $this->session->userdata['cv'],
             'notes' => $this->input->post('NOTES', TRUE),
             'tharian' => str_replace(',', '', $this->input->post('THARIAN', TRUE)),
             't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
+            'tjam1thl' => str_replace(',', '', $this->input->post('TJAM1THL', TRUE)),
+            'tjam2thl' => str_replace(',', '', $this->input->post('TJAM2THL', TRUE)),
+            'tjam1rpthl' => str_replace(',', '', $this->input->post('TJAM1RPTHL', TRUE)),
+            'tjam2rpthl' => str_replace(',', '', $this->input->post('TJAM2RPTHL', TRUE)),
             'tjam1' => str_replace(',', '', $this->input->post('TJAM1', TRUE)),
             'tjam2' => str_replace(',', '', $this->input->post('TJAM2', TRUE)),
             'tjam1rp' => str_replace(',', '', $this->input->post('TJAM1RP', TRUE)),
@@ -196,9 +217,11 @@ class Transaksi_Harian extends CI_Controller
             'i_tgl' => date("Y-m-d h:i a")
         );
         $this->transaksi_model->input_datah('hrd_absen', $datah);
-        $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_absen WHERE no_bukti = '$bukti' AND dr='$dr' AND per='$per' GROUP BY no_bukti")->result();
+        $ID = $this->db->query("SELECT MAX(no_id) AS no_id FROM hrd_absen WHERE no_bukti = '$bukti' GROUP BY no_bukti")->result();
         $REC = $this->input->post('REC');
         $KD_PEG = $this->input->post('KD_PEG');
+        $PT = $this->input->post('PT');
+        $CV = $this->session->userdata['cv'];
         $PL = str_replace(',', '', $this->input->post('PL', TRUE));
         $GAJI = str_replace(',', '', $this->input->post('GAJI', TRUE));
         $NETT = str_replace(',', '', $this->input->post('NETT', TRUE));
@@ -207,6 +230,10 @@ class Transaksi_Harian extends CI_Controller
         $NM_PEG = $this->input->post('NM_PEG');
         $PTKP = $this->input->post('PTKP');
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
+        $JAM1THL = str_replace(',', '', $this->input->post('JAM1THL', TRUE));
+        $JAM2THL = str_replace(',', '', $this->input->post('JAM2THL', TRUE));
+        $JAM1RPTHL = str_replace(',', '', $this->input->post('JAM1RPTHL', TRUE));
+        $JAM2RPTHL = str_replace(',', '', $this->input->post('JAM2RPTHL', TRUE));
         $JAM1 = str_replace(',', '', $this->input->post('JAM1', TRUE));
         $JAM2 = str_replace(',', '', $this->input->post('JAM2', TRUE));
         $JAM1RP = str_replace(',', '', $this->input->post('JAM1RP', TRUE));
@@ -228,12 +255,18 @@ class Transaksi_Harian extends CI_Controller
                 'flag' => 'HR',
                 'rec' => $REC[$i],
                 'kd_peg' => $KD_PEG[$i],
+                'pt' => $PT[$i],
+                'cv' => $CV,
                 'gaji' => str_replace(',', '', $GAJI[$i]),
                 'nett' => str_replace(',', '', $NETT[$i]),
                 'harian' => str_replace(',', '', $HARIAN[$i]),
                 'nm_peg' => $NM_PEG[$i],
                 'ptkp' => $PTKP[$i],
                 'hr' => str_replace(',', '', $HR[$i]),
+                'jam1thl' => str_replace(',', '', $JAM1THL[$i]),
+                'jam2thl' => str_replace(',', '', $JAM2THL[$i]),
+                'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$i]),
+                'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$i]),
                 'jam1' => str_replace(',', '', $JAM1[$i]),
                 'jam2' => str_replace(',', '', $JAM2[$i]),
                 'jam1rp' => str_replace(',', '', $JAM1RP[$i]),
@@ -251,7 +284,7 @@ class Transaksi_Harian extends CI_Controller
         }
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -270,9 +303,14 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.kd_grup AS KD_GRUP,
                 hrd_absen.nm_grup AS NM_GRUP,
                 hrd_absen.dr AS DR,
+                hrd_absen.fase AS FASE,
                 hrd_absen.notes AS NOTES,
                 hrd_absen.tharian AS THARIAN,
                 hrd_absen.t_hr AS T_HR,
+                hrd_absen.tjam1thl AS TJAM1THL,
+                hrd_absen.tjam2thl AS TJAM2THL,
+                hrd_absen.tjam1rpthl AS TJAM1RPTHL,
+                hrd_absen.tjam2rpthl AS TJAM2RPTHL,
                 hrd_absen.tjam1 AS TJAM1,
                 hrd_absen.tjam2 AS TJAM2,
                 hrd_absen.tjam1rp AS TJAM1RP,
@@ -284,12 +322,17 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absend.no_id AS NO_ID,
                 hrd_absend.rec AS REC,
                 hrd_absend.kd_peg AS KD_PEG,
+                hrd_absend.pt AS PT,
                 hrd_absend.gaji AS GAJI,
                 hrd_absend.nett AS NETT,
                 hrd_absend.harian AS HARIAN,
                 hrd_absend.nm_peg AS NM_PEG,
                 hrd_absend.ptkp AS PTKP,
                 hrd_absend.hr AS HR,
+                hrd_absend.jam1thl AS JAM1THL,
+                hrd_absend.jam2thl AS JAM2THL,
+                hrd_absend.jam1rpthl AS JAM1RPTHL,
+                hrd_absend.jam2rpthl AS JAM2RPTHL,
                 hrd_absend.jam1 AS JAM1,
                 hrd_absend.jam2 AS JAM2,
                 hrd_absend.jam1rp AS JAM1RP,
@@ -319,9 +362,14 @@ class Transaksi_Harian extends CI_Controller
             'kd_grup' => $this->input->post('KD_GRUP', TRUE),
             'nm_grup' => $this->input->post('NM_GRUP', TRUE),
             'dr' => $this->input->post('DR', TRUE),
+            'fase' => $this->input->post('FASE', TRUE),
             'notes' => $this->input->post('NOTES', TRUE),
             'tharian' => str_replace(',', '', $this->input->post('THARIAN', TRUE)),
             't_hr' => str_replace(',', '', $this->input->post('T_HR', TRUE)),
+            'tjam1thl' => str_replace(',', '', $this->input->post('TJAM1THL', TRUE)),
+            'tjam2thl' => str_replace(',', '', $this->input->post('TJAM2THL', TRUE)),
+            'tjam1rpthl' => str_replace(',', '', $this->input->post('TJAM1RPTHL', TRUE)),
+            'tjam2rpthl' => str_replace(',', '', $this->input->post('TJAM2RPTHL', TRUE)),
             'tjam1' => str_replace(',', '', $this->input->post('TJAM1', TRUE)),
             'tjam2' => str_replace(',', '', $this->input->post('TJAM2', TRUE)),
             'tjam1rp' => str_replace(',', '', $this->input->post('TJAM1RP', TRUE)),
@@ -344,9 +392,14 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.kd_grup AS KD_GRUP,
                 hrd_absen.nm_grup AS NM_GRUP,
                 hrd_absen.dr AS DR,
+                hrd_absen.fase AS FASE,
                 hrd_absen.notes AS NOTES,
                 hrd_absen.tharian AS THARIAN,
                 hrd_absen.t_hr AS T_HR,
+                hrd_absen.tjam1thl AS TJAM1THL,
+                hrd_absen.tjam2thl AS TJAM2THL,
+                hrd_absen.tjam1rpthl AS TJAM1RPTHL,
+                hrd_absen.tjam2rpthl AS TJAM2RPTHL,
                 hrd_absen.tjam1 AS TJAM1,
                 hrd_absen.tjam2 AS TJAM2,
                 hrd_absen.tjam1rp AS TJAM1RP,
@@ -359,11 +412,16 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absend.rec AS REC,
                 hrd_absend.kd_peg AS KD_PEG,
                 hrd_absend.gaji AS GAJI,
+                hrd_absend.pt AS PT,
                 hrd_absend.nett AS NETT,
                 hrd_absend.harian AS HARIAN,
                 hrd_absend.nm_peg AS NM_PEG,
                 hrd_absend.ptkp AS PTKP,
                 hrd_absend.hr AS HR,
+                hrd_absend.jam1thl AS JAM1THL,
+                hrd_absend.jam2thl AS JAM2THL,
+                hrd_absend.jam1rpthl AS JAM1RPTHL,
+                hrd_absend.jam2rpthl AS JAM2RPTHL,
                 hrd_absend.jam1 AS JAM1,
                 hrd_absend.jam2 AS JAM2,
                 hrd_absend.jam1rp AS JAM1RP,
@@ -388,6 +446,10 @@ class Transaksi_Harian extends CI_Controller
         $NM_PEG = $this->input->post('NM_PEG');
         $PTKP = $this->input->post('PTKP');
         $HR = str_replace(',', '', $this->input->post('HR', TRUE));
+        $JAM1THL = str_replace(',', '', $this->input->post('JAM1THL', TRUE));
+        $JAM2THL = str_replace(',', '', $this->input->post('JAM2THL', TRUE));
+        $JAM1RPTHL = str_replace(',', '', $this->input->post('JAM1RPTHL', TRUE));
+        $JAM2RPTHL = str_replace(',', '', $this->input->post('JAM2RPTHL', TRUE));
         $JAM1 = str_replace(',', '', $this->input->post('JAM1', TRUE));
         $JAM2 = str_replace(',', '', $this->input->post('JAM2', TRUE));
         $JAM1RP = str_replace(',', '', $this->input->post('JAM1RP', TRUE));
@@ -419,6 +481,10 @@ class Transaksi_Harian extends CI_Controller
                     'nm_peg' => $NM_PEG[$URUT],
                     'ptkp' => $PTKP[$URUT],
                     'hr' => str_replace(',', '', $HR[$URUT]),
+                    'jam1thl' => str_replace(',', '', $JAM1THL[$URUT]),
+                    'jam2thl' => str_replace(',', '', $JAM2THL[$URUT]),
+                    'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$URUT]),
+                    'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$URUT]),
                     'jam1' => str_replace(',', '', $JAM1[$URUT]),
                     'jam2' => str_replace(',', '', $JAM2[$URUT]),
                     'jam1rp' => str_replace(',', '', $JAM1RP[$URUT]),
@@ -463,6 +529,10 @@ class Transaksi_Harian extends CI_Controller
                     'nm_peg' => $NM_PEG[$i],
                     'ptkp' => $PTKP[$i],
                     'hr' => str_replace(',', '', $HR[$i]),
+                    'jam1thl' => str_replace(',', '', $JAM1THL[$i]),
+                    'jam2thl' => str_replace(',', '', $JAM2THL[$i]),
+                    'jam1rpthl' => str_replace(',', '', $JAM1RPTHL[$i]),
+                    'jam2rpthl' => str_replace(',', '', $JAM2RPTHL[$i]),
                     'jam1' => str_replace(',', '', $JAM1[$i]),
                     'jam2' => str_replace(',', '', $JAM2[$i]),
                     'jam1rp' => str_replace(',', '', $JAM1RP[$i]),
@@ -481,7 +551,7 @@ class Transaksi_Harian extends CI_Controller
         }
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-success alert-dismissible fade show" role="alert"> Bukti ' . $this->input->post('NO_MANUAL') . $this->input->post('NO_BUKTI') . ' Berhasil Di Update.
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> Bukti ' . $this->input->post('NO_BUKTI') . ' Berhasil Di Update.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> 
@@ -498,7 +568,7 @@ class Transaksi_Harian extends CI_Controller
         $this->transaksi_model->hapus_data($where, 'hrd_absend');
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Deleted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -517,14 +587,24 @@ class Transaksi_Harian extends CI_Controller
     function filter_kd_bag()
     {
         $kd_bag = $this->input->get('kd_bag');
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
         $q1 = "SELECT kd_peg AS KD_PEG, 
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS PT, 
+                nm_peg AS NM_PEG,
                 nm_peg AS NM_PEG, 
-                ptkp AS PTKP, 
+                ptkp AS PTKP,
                 hari AS HR, 
                 ROUND(tperbulan, 0) AS TPERBULAN, 
                 ROUND(gaji, 0) AS GAJI,
                 ROUND(nett, 0) AS NETT
-            FROM hrd_peg WHERE kd_bag='$kd_bag' AND aktif='1'";
+            FROM hrd_peg WHERE kd_bag='$kd_bag' 
+            AND aktif='1'
+            AND pt='$pt'
+            AND cv='$cv'";
         $q2 = $this->db->query($q1);
         if ($q2->num_rows() > 0) {
             foreach ($q2->result() as $row) {
@@ -544,7 +624,17 @@ class Transaksi_Harian extends CI_Controller
             $xa = ($page - 1) * 10;
         }
         $perPage = 10;
-        $results = $this->db->query("SELECT no_id, nm_peg, kd_peg, ptkp, gaji, nett, tperbulan
+        $results = $this->db->query("SELECT no_id, 
+                nm_peg, 
+                kd_peg, 
+                ptkp, 
+                gaji, 
+                nett, 
+                tperbulan,
+                CASE 
+					WHEN pt = 0 THEN 'CV'
+					WHEN pt = 1 THEN 'PT'
+				END AS pt
             FROM hrd_peg
             WHERE nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR ptkp LIKE '%$search%' OR nett LIKE '%$search%' OR tperbulan LIKE '%$search%' 
             ORDER BY nm_peg LIMIT $xa,$perPage");
@@ -559,6 +649,7 @@ class Transaksi_Harian extends CI_Controller
                 'nett' => $row['nett'],
                 'gaji' => $row['gaji'],
                 'tperbulan' => $row['tperbulan'],
+                'pt' => $row['pt'],
             );
         }
         $select['total_count'] =  $results->NUM_ROWS();
@@ -588,34 +679,46 @@ class Transaksi_Harian extends CI_Controller
                 hrd_absen.nm_bag AS NM_BAG,
                 hrd_absen.per AS PER,
                 CONCAT(hrd_absen.kd_grup,' - ',hrd_absen.nm_grup) AS GRUP,
-                hrd_absen.t_hr AS T_HR,
-                hrd_absen.tharian AS THARIAN,
-                hrd_absen.tjam1rp AS TJAM1RP,
-                hrd_absen.tjam2rp AS TJAM2RP,
-                hrd_absen.tlain AS TLAIN,
-                hrd_absen.tjumlah AS TJUMLAH,
 
-                (SELECT SUM(hrd_lemd.ulembur)
-								FROM hrd_absen, hrd_absend, hrd_lemd
-								WHERE hrd_absen.no_id='$id'
-								AND hrd_peg.kd_peg=hrd_absend.kd_peg
-								AND hrd_absen.no_id=hrd_absend.id
-								AND hrd_lemd.kd_peg=hrd_absend.kd_peg
-								AND hrd_lemd.kd_bag=hrd_absen.kd_bag
-								AND hrd_lemd.per='$per') AS TUNJANGAN,
-								
+                (SELECT IF ( ISNULL( SUM(hrd_lemd.ulembur)), 0, SUM(hrd_lemd.ulembur) ) as TUNJANGAN
+					FROM hrd_lemd
+					WHERE hrd_lemd.kd_peg=hrd_absend.kd_peg
+					AND hrd_lemd.kd_bag=hrd_absen.kd_bag
+					AND hrd_lemd.flag=hrd_absen.flag
+					AND hrd_lemd.per=hrd_absend.per ) AS TUNJANGAN,
+
+				(hrd_absend.JUMLAH + (SELECT IF ( ISNULL( SUM(hrd_lemd.ulembur)), 0, SUM(hrd_lemd.ulembur) ) as TUNJANGAN
+					FROM hrd_lemd
+					WHERE hrd_lemd.kd_peg=hrd_absend.kd_peg
+					AND hrd_lemd.kd_bag=hrd_absen.kd_bag
+					AND hrd_lemd.flag=hrd_absen.flag
+					AND hrd_lemd.per=hrd_absend.per )) AS BRUTO,
+
+                ((CASE
+					WHEN hrd_absend.ptkp = 'TK/0' THEN 1100000
+					WHEN hrd_absend.ptkp = 'TK/1' THEN 1200000
+					WHEN hrd_absend.ptkp = 'TK/2' THEN 1300000
+					WHEN hrd_absend.ptkp = 'TK/3' THEN 1400000
+					WHEN hrd_absend.ptkp = 'K/3' THEN 1500000
+					WHEN hrd_absend.ptkp = 'K/I/3' THEN 2800000
+					ELSE 0
+				END)) AS PT,
+				0.05 AS MAX_TUN,
+				37376 AS JHT,
+				18688 AS PN,
+
+                hrd_absend.nett AS NETT,
                 hrd_absend.no_id AS NO_ID,
                 hrd_absend.rec AS REC,
                 hrd_absend.nm_peg AS NM_PEG,
+                hrd_absend.ptkp AS PTKP,
                 hrd_absend.hr AS HR,
+                (hrd_absend.gaji * hrd_absend.hr) AS GAJI,
                 hrd_absend.harian AS HARIAN,
                 hrd_peg.lbl AS LBL,
                 hrd_absend.jam1rp AS JAM1RP,
                 hrd_absend.jam2rp AS JAM2RP,
                 hrd_peg.tastek AS TASTEK,
-                '0' AS LIBUR,
-                '0' AS DP,
-                '0' AS TAMBAHAN,
                 hrd_absend.lain AS LAIN,
                 hrd_absend.jumlah AS JUMLAH
             FROM hrd_absen,hrd_absend,hrd_peg
@@ -633,22 +736,19 @@ class Transaksi_Harian extends CI_Controller
                 "NM_BAG" => $row1["NM_BAG"],
                 "PER" => $row1["PER"],
                 "GRUP" => $row1["GRUP"],
-                "T_HR" => $row1["T_HR"],
-                "THARIAN" => $row1["THARIAN"],
-                "TJAM1RP" => $row1["TJAM1RP"],
-                "TJAM2RP" => $row1["TJAM2RP"],
-                "TLAIN" => $row1["TLAIN"],
-                "TJUMLAH" => $row1["TJUMLAH"],
                 "REC" => $row1["REC"],
                 "NM_PEG" => $row1["NM_PEG"],
+                "PTKP" => $row1["PTKP"],
                 "HR" => $row1["HR"],
+                "GAJI" => $row1["GAJI"],
                 "HARIAN" => $row1["HARIAN"],
                 "LBL" => $row1["LBL"],
                 "TASTEK" => $row1["TASTEK"],
                 "LIBUR" => $row1["LIBUR"],
                 "DP" => $row1["DP"],
                 "TUNJANGAN" => $row1["TUNJANGAN"],
-                "TAMBAHAN" => $row1["TAMBAHAN"],
+                "BRUTO" => $row1["BRUTO"],
+                "NETT" => $row1["NETT"],
                 "JAM1RP" => $row1["JAM1RP"],
                 "JAM2RP" => $row1["JAM2RP"],
                 "LAIN" => $row1["LAIN"],

@@ -56,6 +56,10 @@ UNION ALL
 		<variableExpression><![CDATA[$V{PAGE_COUNT}]]></variableExpression>
 		<initialValueExpression><![CDATA[$V{PAGE_COUNT}]]></initialValueExpression>
 	</variable>
+	<variable name="NO" class="java.lang.Integer" resetType="Group" resetGroup="KD_GRUP" incrementType="Column" calculation="Count">
+		<variableExpression><![CDATA[$V{COLUMN_COUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{COLUMN_COUNT}]]></initialValueExpression>
+	</variable>
 	<group name="KD_GRUP" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupHeader>
 			<band height="27">
@@ -129,12 +133,12 @@ UNION ALL
 						<pen lineStyle="Dashed"/>
 					</graphicElement>
 				</line>
-				<textField pattern="#,##0.00">
+				<textField>
 					<reportElement x="90" y="27" width="480" height="20" uuid="fc4fd003-adcf-4e95-b54e-bff4faae7bf0"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{BILANG_T_INSENTIF}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{BILANG_T_INSENTIF}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -333,7 +337,7 @@ UNION ALL
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{REC}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{NO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="40" y="0" width="76" height="20" uuid="6a2e9c50-9470-4167-b389-764ac9da46d6"/>

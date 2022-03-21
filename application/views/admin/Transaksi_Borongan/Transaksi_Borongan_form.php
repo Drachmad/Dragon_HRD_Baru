@@ -128,7 +128,7 @@
 							<label class="label">Bagian </label>
 						</div>
 						<div class="col-md-2 input-group">
-							<input name="KD_BAG" id="KD_BAG" maxlength="30" type="text" class="form-control KD_BAG text_input" onkeypress="return tabE(this,event)" readonly>
+							<input name="KD_BAG" id="KD_BAG" maxlength="50" type="text" class="form-control KD_BAG text_input" onkeypress="return tabE(this,event)" readonly>
 							<span class="input-group-btn">
 								<a class="btn default" onfocusout="hitung()" id="0" data-target="#mymodal_bagian" data-toggle="modal" href="#lupbagian"><i class="fa fa-search"></i></a>
 							</span>
@@ -138,6 +138,16 @@
 						</div>
 						<div class="col-md-1">
 							<input class="form-control text_input KD_GRUP" id="KD_GRUP" name="KD_GRUP" type="text" value='' readonly>
+							<input class="form-control text_input NM_GRUP" id="NM_GRUP" name="NM_GRUP" type="text" value='' hidden>
+						</div>
+						<div class="col-md-1">
+							<label class="label">Fase </label>
+						</div>
+						<div class="col-md-1">
+							<select class="form-control text_input FASE" name="FASE" id="FASE" style="width: 100%;">
+								<option value="1">1</option>
+								<option value="2">2</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -159,7 +169,7 @@
 							<label class="label">Tot Bon </label>
 						</div>
 						<div class="col-md-2">
-							<input class="form-control BON1 rightJustified text-primary font-weight-bold" id="BON1" name="BON1" value="0">
+							<input class="form-control TOT_BON rightJustified text-primary font-weight-bold" id="TOT_BON" name="TOT_BON" value="0">
 						</div>
 						<div class="col-md-1">
 							<label class="label">Other </label>
@@ -202,6 +212,45 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-12">
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label class="label"><label style="color: red;">*</label>Hitam = 2021, Merah =2022 </label>
+						</div>
+						<div class="col-md-2">
+							<label class="label"><label style="color: red;">*</label>Status Admin Dragon <?php echo $this->session->userdata['dr']; ?> </label>
+						</div>
+						<div class="col-md-2">
+							<label class="label"><label style="color: red;">*</label>
+								<label>
+									<?php
+									if ($this->session->userdata['dr'] == 'I')
+										echo 'PT + CV';
+									if ($this->session->userdata['dr'] == 'II' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'II' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'III' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'III' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'PY' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'PY' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'AB' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'AB' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'N1' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'N1' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									?>
+								</label>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -211,11 +260,12 @@
 						<thead>
 							<tr>
 								<th width="50px">No</th>
-								<th width="150px">NIP</th>
+								<th width="120px">NIP</th>
 								<th width="120px">Nama</th>
-								<th width="75px">PTKP</th>
-								<th width="75px">ST</th>
-								<th width="120px">MS</th>
+								<th width="50px">PT</th>
+								<th width="65px">PTKP</th>
+								<th width="65px">ST</th>
+								<th width="110px">MS</th>
 								<th width="120px">IK</th>
 								<th width="100px">NB</th>
 								<th width="100px">HR</th>
@@ -236,6 +286,7 @@
 								<td>
 									<select class="js-example-responsive-nm_peg form-control NM_PEG0 text_input" name="NM_PEG[]" id="NM_PEG0" onchange="nm_peg(this.id)" onfocusout="hitung()" required></select>
 								</td>
+								<td><input name="PT[]" id="PT0" type="text" class="form-control PT text_input" readonly></td>
 								<td><input name="PTKP[]" id="PTKP0" type="text" class="form-control PTKP text_input" readonly></td>
 								<td>
 									<input name="STAT[]" id="STAT0" type="text" class="form-control STAT text_input" readonly>
@@ -263,13 +314,13 @@
 								<td><input name="POTONG[]" onclick="select()" onchange="hitung()" value="0" id="POTONG0" type="text" class="form-control POTONG rightJustified text-primary"></td>
 								<td><input name="JUMLAH[]" onchange="hitung()" value="0" id="JUMLAH0" type="text" class="form-control JUMLAH rightJustified text-primary" readonly></td>
 								<td>
-									<button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick="">
-										<i class="fa fa-fw fa-trash-alt"></i>
+									<button type='button' class='btn btn-sm btn-circle btn-outline-danger btn-delete' onclick=''> <i class='fa fa-fw fa-trash'></i>
 									</button>
 								</td>
 							</tr>
 						</tbody>
 						<tfoot>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -344,7 +395,8 @@
 								hrd_premid.per AS PER,
 								hrd_premid.kik_nett AS KIK_NETT,
 								hrd_premid.netto AS TOTAL_KIK,
-								hrd_bag.kd_grup AS KD_GRUP
+								hrd_bag.kd_grup AS KD_GRUP,
+								hrd_bag.nm_grup AS NM_GRUP
 							FROM hrd_premid, hrd_bor, hrd_bag 
 							WHERE hrd_premid.dr='$dr' 
 							AND hrd_premid.per='$per' 
@@ -363,6 +415,7 @@
 								<td class='TKBVAL text_input'><?php echo number_format($b->TOTAL_KIK, 2, '.', ','); ?></td>
 								<td class='KNBVAL text_input'><?php echo number_format($b->KIK_NETT, 2, '.', ','); ?></td>
 								<td class='KGBVAL text_input'><?php echo $b->KD_GRUP; ?></td>
+								<td class='NGBVAL text_input'><?php echo $b->NM_GRUP; ?></td>
 							</tr>
 						<?php } ?>
 					</tbody>
@@ -421,11 +474,7 @@
 			aSign: '<?php echo ''; ?>',
 			vMin: '-999999999.99'
 		});
-		$("#ORG").autoNumeric('init', {
-			aSign: '<?php echo ''; ?>',
-			vMin: '-999999999.99'
-		});
-		$("#BON1").autoNumeric('init', {
+		$("#TOT_BON").autoNumeric('init', {
 			aSign: '<?php echo ''; ?>',
 			vMin: '-999999999.99'
 		});
@@ -588,6 +637,8 @@
 			target.parents("div").find(".NETTO").val(val);
 			var val = $(this).parents("tr").find(".KGBVAL").text();
 			target.parents("div").find(".KD_GRUP").val(val);
+			var val = $(this).parents("tr").find(".NGBVAL").text();
+			target.parents("div").find(".NM_GRUP").val(val);
 			$('#mymodal_bagian').modal('toggle');
 			var kd_bag = $(this).parents("tr").find(".KBBVAL").text();
 			$.ajax({
@@ -608,6 +659,7 @@
 							'<td>' +
 							'<input name="NM_PEG[]" value="' + response[i].NM_PEG + '" id=NM_PEG' + i + ' type="text" class="form-control NM_PEG text_input" readonly>' +
 							'</td>' +
+							'<td><input name="PT[]" value="' + response[i].PT + '" id=PT' + i + ' type="text" class="form-control PT text_input" readonly></td>' +
 							'<td><input name="PTKP[]" value="' + response[i].PTKP + '" id=PTKP' + i + ' type="text" class="form-control PTKP text_input" readonly></td>' +
 							'<td>' +
 							'<input name="STAT[]"  value="' + response[i].STAT + '" id=STAT' + i + ' type="text" class="form-control STAT text_input" readonly>' +
@@ -632,7 +684,7 @@
 							'<td><input name="TOT_HR[]" onclick="select()" onchange="hitung()" value="0" id=TOT_HR' + i + ' type="text" class="form-control TOT_HR rightJustified text-primary" readonly></td>' +
 							'<td><input name="POTONG[]" onclick="select()" onchange="hitung()" value="0" id=POTONG' + i + ' type="text" class="form-control POTONG rightJustified text-primary"></td>' +
 							'<td><input name="JUMLAH[]" onchange="hitung()" value="0" id=JUMLAH' + i + ' type="text" class="form-control JUMLAH rightJustified text-primary" readonly></td>' +
-							'<td><button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick=""> <i class="fa fa-fw fa-trash-alt"></i> </button></td>' +
+							'<td><button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick=""> <i class="fa fa-fw fa-trash"></i> </button>' +
 							'</tr>';
 					}
 					idrow = i;
@@ -733,6 +785,14 @@
 		$('input[type="checkbox"]').on('change', function() {
 			this.value ^= 1;
 			console.log(this.value)
+		});
+		$(".PREMI").each(function() {
+			if ($(this).is(":checked") == true) {
+				$(this).attr('value', '1');
+			} else {
+				$(this).prop('checked', true);
+				$(this).attr('value', '0');
+			}
 		});
 		$(".date").datepicker({
 			'dateFormat': 'dd-mm-yy',
@@ -1077,6 +1137,7 @@
 		var td14 = x.insertCell(13);
 		var td15 = x.insertCell(14);
 		var td16 = x.insertCell(15);
+		var td17 = x.insertCell(16);
 
 		var nm_peg0 = "<div class='input-group'><select class='js-example-responsive-nm_peg form-control NM_PEG0 text_input' name='NM_PEG[]' id=NM_PEG0" + idrow + " onchange='nm_peg(this.id)' onfocusout='hitung()' required></select></div>";
 
@@ -1086,18 +1147,19 @@
 		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG0" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
 		td3.innerHTML = nm_peg0;
 		td4.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
-		td5.innerHTML = "<input name='MSD[]' onclick='select()' onchange='hitung()' value='0' id=MSD" + idrow + " type='text' class='form-control MSD rightJustified text-primary'>";
-		td6.innerHTML = "<input name='IK[]' onclick='select()' onchange='hitung()' value='0' id=IK" + idrow + " type='text' class='form-control IK rightJustified text-primary'>";
-		td7.innerHTML = "<input name='NB[]' onclick='select()' onchange='hitung()' value='0' id=NB" + idrow + " type='text' class='form-control NB rightJustified text-primary'>";
-		td8.innerHTML = "<input name='HR[]' onchange='hitung()' value='0' id=HR" + idrow + " type='text' class='form-control HR rightJustified text-primary' readonly>";
-		td9.innerHTML = "<input name='TOTAL[]' onchange='hitung()' value='0' id=TOTAL" + idrow + " type='text' class='form-control TOTAL rightJustified text-primary' readonly>";
-		td10.innerHTML = "<input name='BON1[]' onclick='select()' onchange='hitung()' value='0' id=BON1" + idrow + " type='text' class='form-control BON1 rightJustified text-primary'>";
-		td11.innerHTML = "<input name='SUBS[]' onclick='select()' onchange='hitung()' value='0' id=SUBS" + idrow + " type='text' class='form-control SUBS rightJustified text-primary'>";
-		td12.innerHTML = "<input name='SUB[]' id=SUB0" + idrow + " type='text' class='form-control SUB'>";
-		td13.innerHTML = "<input name='TOT_HR[]' onchange='hitung()' value='0' id=TOT_HR" + idrow + " type='text' class='form-control TOT_HR rightJustified text-primary' readonly>";
-		td14.innerHTML = "<input name='POTONG[]' onclick='select()' onchange='hitung()' value='0' id=POTONG" + idrow + " type='text' class='form-control POTONG rightJustified text-primary'>";
-		td15.innerHTML = "<input name='JUMLAH[]' onclick='select()' onchange='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
-		td16.innerHTML = "<input type='hidden' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control' value='0'>" +
+		td5.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
+		td6.innerHTML = "<input name='MSD[]' onclick='select()' onchange='hitung()' value='0' id=MSD" + idrow + " type='text' class='form-control MSD rightJustified text-primary'>";
+		td7.innerHTML = "<input name='IK[]' onclick='select()' onchange='hitung()' value='0' id=IK" + idrow + " type='text' class='form-control IK rightJustified text-primary'>";
+		td8.innerHTML = "<input name='NB[]' onclick='select()' onchange='hitung()' value='0' id=NB" + idrow + " type='text' class='form-control NB rightJustified text-primary'>";
+		td9.innerHTML = "<input name='HR[]' onchange='hitung()' value='0' id=HR" + idrow + " type='text' class='form-control HR rightJustified text-primary' readonly>";
+		td10.innerHTML = "<input name='TOTAL[]' onchange='hitung()' value='0' id=TOTAL" + idrow + " type='text' class='form-control TOTAL rightJustified text-primary' readonly>";
+		td11.innerHTML = "<input name='BON1[]' onclick='select()' onchange='hitung()' value='0' id=BON1" + idrow + " type='text' class='form-control BON1 rightJustified text-primary'>";
+		td12.innerHTML = "<input name='SUBS[]' onclick='select()' onchange='hitung()' value='0' id=SUBS" + idrow + " type='text' class='form-control SUBS rightJustified text-primary'>";
+		td13.innerHTML = "<input name='SUB[]' id=SUB0" + idrow + " type='text' class='form-control SUB'>";
+		td14.innerHTML = "<input name='TOT_HR[]' onchange='hitung()' value='0' id=TOT_HR" + idrow + " type='text' class='form-control TOT_HR rightJustified text-primary' readonly>";
+		td15.innerHTML = "<input name='POTONG[]' onclick='select()' onchange='hitung()' value='0' id=POTONG" + idrow + " type='text' class='form-control POTONG rightJustified text-primary'>";
+		td16.innerHTML = "<input name='JUMLAH[]' onclick='select()' onchange='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
+		td17.innerHTML = "<input type='hidden' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control' value='0'>" +
 			" <button type='button' class='btn btn-sm btn-circle btn-outline-danger btn-delete' onclick=''> <i class='fa fa-fw fa-trash'></i> </button>";
 		jumlahdata = 100;
 		for (i = 0; i <= jumlahdata; i++) {
@@ -1212,12 +1274,14 @@
 	var kd_peg = '';
 	var ptkp = '';
 	var stat = '';
+	var pt = '';
 
 	function formatSelection_nm_peg(repo_nm_peg) {
 		nett = repo_nm_peg.nett;
 		kd_peg = repo_nm_peg.kd_peg;
 		ptkp = repo_nm_peg.ptkp;
 		stat = repo_nm_peg.stat;
+		pt = repo_nm_peg.pt;
 		return repo_nm_peg.text;
 	}
 
@@ -1227,5 +1291,6 @@
 		$('#KD_PEG' + q).val(kd_peg);
 		$('#PTKP' + q).val(ptkp);
 		$('#STAT' + q).val(stat);
+		$('#PT' + q).val(pt);
 	}
 </script>

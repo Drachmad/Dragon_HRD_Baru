@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Rekap Premi Inject" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="994" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="145"/>
@@ -38,6 +38,7 @@
 	<parameter name="P17" class="java.lang.String"/>
 	<parameter name="P18" class="java.lang.String"/>
 	<parameter name="T_PREMI" class="java.lang.String"/>
+	<parameter name="PACKING" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -64,6 +65,7 @@
 	<field name="P17" class="java.lang.String"/>
 	<field name="P18" class="java.lang.String"/>
 	<field name="T_PREMI" class="java.lang.String"/>
+	<field name="PACKING" class="java.lang.String"/>
 	<variable name="PREMI1" class="java.lang.Integer">
 		<variableExpression><![CDATA[$F{P01}+$F{P02}+$F{P03}+$F{P04}+$F{P05}}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{P01}+$F{P02}+$F{P03}+$F{P04}+$F{P05}]]></initialValueExpression>
@@ -85,7 +87,7 @@
 		<groupHeader>
 			<band height="45">
 				<textField>
-					<reportElement x="0" y="27" width="110" height="15" uuid="c2777107-fb72-4ce6-9795-f213f378fe09">
+					<reportElement x="0" y="27" width="108" height="15" uuid="c2777107-fb72-4ce6-9795-f213f378fe09">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -102,8 +104,9 @@
 					<textFieldExpression><![CDATA["NAMA"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="110" y="27" width="45" height="15" uuid="f3872fef-5d95-4ad0-b312-0ab1b95e8f9e">
+					<reportElement x="108" y="27" width="42" height="15" uuid="f3872fef-5d95-4ad0-b312-0ab1b95e8f9e">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -145,55 +148,7 @@
 					</reportElement>
 				</line>
 				<textField>
-					<reportElement x="155" y="27" width="45" height="15" uuid="79035289-f50e-4f75-bde8-cfa36ee7a29e">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box padding="0">
-						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="200" y="27" width="45" height="15" uuid="01e8f535-75d3-40e5-9704-05960be5405f">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box padding="0">
-						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="245" y="27" width="45" height="15" uuid="cb7b9b55-0704-4672-8feb-ff4fe801f7a2">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box padding="0">
-						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="425" y="27" width="45" height="15" uuid="7bcac3c6-756a-4f62-9da5-85cae1874ee1">
+					<reportElement x="150" y="27" width="42" height="15" uuid="79035289-f50e-4f75-bde8-cfa36ee7a29e">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -210,7 +165,41 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="335" y="27" width="45" height="15" uuid="06347706-21e3-4a70-bfd0-31399c881a4d">
+					<reportElement x="192" y="27" width="42" height="15" uuid="01e8f535-75d3-40e5-9704-05960be5405f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="0">
+						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="234" y="27" width="42" height="15" uuid="cb7b9b55-0704-4672-8feb-ff4fe801f7a2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="0">
+						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="402" y="27" width="42" height="15" uuid="7bcac3c6-756a-4f62-9da5-85cae1874ee1">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box padding="0">
@@ -226,8 +215,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="380" y="27" width="45" height="15" uuid="d5575a3e-c7cd-4e88-8610-6ea487d0cea3">
+					<reportElement x="318" y="27" width="42" height="15" uuid="06347706-21e3-4a70-bfd0-31399c881a4d">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -242,8 +232,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="290" y="27" width="45" height="15" uuid="fc0453db-f24a-40ca-b6d6-98fa7f4d1fbb">
+					<reportElement x="360" y="27" width="42" height="15" uuid="d5575a3e-c7cd-4e88-8610-6ea487d0cea3">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -258,8 +249,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="785" y="27" width="45" height="15" uuid="1956bbde-8bfd-4b42-a918-907a3a0848ff">
+					<reportElement x="276" y="27" width="42" height="15" uuid="fc0453db-f24a-40ca-b6d6-98fa7f4d1fbb">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -274,8 +266,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="695" y="27" width="45" height="15" uuid="89327717-e4f8-417c-b00c-811a35310471">
+					<reportElement x="738" y="27" width="42" height="15" uuid="1956bbde-8bfd-4b42-a918-907a3a0848ff">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -290,8 +283,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="605" y="27" width="45" height="15" uuid="c7a9153b-ee13-4af0-b7d9-bbfef621d718">
+					<reportElement x="654" y="27" width="42" height="15" uuid="89327717-e4f8-417c-b00c-811a35310471">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -306,8 +300,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="515" y="27" width="45" height="15" uuid="e62ce58d-c4e8-415a-b0f8-364621007d44">
+					<reportElement x="570" y="27" width="42" height="15" uuid="c7a9153b-ee13-4af0-b7d9-bbfef621d718">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -322,8 +317,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="560" y="27" width="45" height="15" uuid="5c0b64de-6e59-44d5-8f9b-0a7bed5d1a83">
+					<reportElement x="486" y="27" width="42" height="15" uuid="e62ce58d-c4e8-415a-b0f8-364621007d44">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -338,8 +334,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="650" y="27" width="45" height="15" uuid="671906e9-6357-4248-9e76-4c0b9be6fa86">
+					<reportElement x="528" y="27" width="42" height="15" uuid="5c0b64de-6e59-44d5-8f9b-0a7bed5d1a83">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -354,8 +351,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="740" y="27" width="45" height="15" uuid="b2aacfb0-f068-477e-a646-fd4e6be8a9a8">
+					<reportElement x="612" y="27" width="42" height="15" uuid="671906e9-6357-4248-9e76-4c0b9be6fa86">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -370,8 +368,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="470" y="27" width="45" height="15" uuid="bd4be6f9-76b3-48e6-bf92-592e67a5263a">
+					<reportElement x="696" y="27" width="42" height="15" uuid="b2aacfb0-f068-477e-a646-fd4e6be8a9a8">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -386,8 +385,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="830" y="27" width="45" height="15" uuid="c773f97d-4667-415a-bbf6-37130a0858a3">
+					<reportElement x="444" y="27" width="42" height="15" uuid="bd4be6f9-76b3-48e6-bf92-592e67a5263a">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -402,8 +402,9 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="875" y="27" width="45" height="15" uuid="122aa990-7fda-4fad-bc36-ba6d35008a10">
+					<reportElement x="780" y="27" width="42" height="15" uuid="c773f97d-4667-415a-bbf6-37130a0858a3">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box padding="0">
 						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -418,7 +419,24 @@
 					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="920" y="27" width="74" height="15" uuid="b4950a6a-d653-42bd-a59d-f24679b2cf10">
+					<reportElement x="822" y="27" width="42" height="15" uuid="122aa990-7fda-4fad-bc36-ba6d35008a10">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="0">
+						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["PREMI"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="906" y="27" width="88" height="15" uuid="b4950a6a-d653-42bd-a59d-f24679b2cf10">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -433,6 +451,23 @@
 						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["TOTAL PREMI"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="864" y="27" width="42" height="15" uuid="84d4bd13-9fb4-4c92-badb-40e7b6ebfda6">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box padding="0">
+						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["PACKING"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -473,8 +508,9 @@
 		<band height="16">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField pattern="#,##0.00">
-				<reportElement x="425" y="1" width="45" height="15" uuid="5a44f5d4-e4da-43c0-9961-1ee8f9a1f48f">
+				<reportElement x="402" y="1" width="42" height="15" uuid="5a44f5d4-e4da-43c0-9961-1ee8f9a1f48f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -489,9 +525,8 @@
 				<textFieldExpression><![CDATA[$F{P08}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="335" y="1" width="45" height="15" uuid="79da0476-ae91-467d-aae4-44f6f2e2a86d">
+				<reportElement x="318" y="1" width="42" height="15" uuid="79da0476-ae91-467d-aae4-44f6f2e2a86d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -506,8 +541,9 @@
 				<textFieldExpression><![CDATA[$F{P06}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="560" y="1" width="45" height="15" uuid="9408e735-6684-4353-bee2-c15155dac5ce">
+				<reportElement x="528" y="1" width="42" height="15" uuid="9408e735-6684-4353-bee2-c15155dac5ce">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -522,8 +558,9 @@
 				<textFieldExpression><![CDATA[$F{P11}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="650" y="1" width="45" height="15" uuid="8c34b5f4-66a5-488b-b04b-6ee87572669e">
+				<reportElement x="612" y="1" width="42" height="15" uuid="8c34b5f4-66a5-488b-b04b-6ee87572669e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -538,8 +575,9 @@
 				<textFieldExpression><![CDATA[$F{P13}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="245" y="1" width="45" height="15" uuid="f1751c5c-b7da-45b6-9a98-e2cde87c064d">
+				<reportElement x="234" y="1" width="42" height="15" uuid="f1751c5c-b7da-45b6-9a98-e2cde87c064d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -554,8 +592,9 @@
 				<textFieldExpression><![CDATA[$F{P04}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="155" y="1" width="45" height="15" uuid="80e6c66a-52b8-409b-82d9-81ec9e137ad8">
+				<reportElement x="150" y="1" width="42" height="15" uuid="80e6c66a-52b8-409b-82d9-81ec9e137ad8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -570,8 +609,9 @@
 				<textFieldExpression><![CDATA[$F{P02}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="200" y="1" width="45" height="15" uuid="d478b3c8-1fa4-4972-89f2-4b2758e76a85">
+				<reportElement x="192" y="1" width="42" height="15" uuid="d478b3c8-1fa4-4972-89f2-4b2758e76a85">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -586,8 +626,9 @@
 				<textFieldExpression><![CDATA[$F{P03}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="290" y="1" width="45" height="15" uuid="085efb19-d076-4499-87b9-0af2ce1d1a82">
+				<reportElement x="276" y="1" width="42" height="15" uuid="085efb19-d076-4499-87b9-0af2ce1d1a82">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -602,7 +643,7 @@
 				<textFieldExpression><![CDATA[$F{P05}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
-				<reportElement x="0" y="1" width="70" height="15" uuid="31582c7e-5871-4f4d-a4f3-593ce3f1a43b">
+				<reportElement x="0" y="1" width="68" height="15" uuid="31582c7e-5871-4f4d-a4f3-593ce3f1a43b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -619,8 +660,9 @@
 				<textFieldExpression><![CDATA[$F{NAMA}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="830" y="1" width="45" height="15" uuid="c0701eda-1fa4-445d-af88-7be6204b496b">
+				<reportElement x="780" y="1" width="42" height="15" uuid="c0701eda-1fa4-445d-af88-7be6204b496b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -635,7 +677,7 @@
 				<textFieldExpression><![CDATA[$F{P17}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="920" y="1" width="74" height="15" uuid="af9a470b-a5fe-49bd-81c3-3c8fa495a54c">
+				<reportElement x="906" y="1" width="88" height="15" uuid="af9a470b-a5fe-49bd-81c3-3c8fa495a54c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -652,8 +694,9 @@
 				<textFieldExpression><![CDATA[$F{T_PREMI}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="470" y="1" width="45" height="15" uuid="bb6db99a-0345-4122-b0bf-d8a0f80fbc84">
+				<reportElement x="444" y="1" width="42" height="15" uuid="bb6db99a-0345-4122-b0bf-d8a0f80fbc84">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -668,8 +711,9 @@
 				<textFieldExpression><![CDATA[$F{P09}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="515" y="1" width="45" height="15" uuid="6a2658aa-4972-49a7-8d6a-37161b23a77b">
+				<reportElement x="486" y="1" width="42" height="15" uuid="6a2658aa-4972-49a7-8d6a-37161b23a77b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -684,8 +728,9 @@
 				<textFieldExpression><![CDATA[$F{P10}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="875" y="1" width="45" height="15" uuid="f93455be-a9b9-45c9-aa6f-7caf0872bb77">
+				<reportElement x="822" y="1" width="42" height="15" uuid="f93455be-a9b9-45c9-aa6f-7caf0872bb77">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -700,8 +745,9 @@
 				<textFieldExpression><![CDATA[$F{P18}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="380" y="1" width="45" height="15" uuid="2bf5872d-bb18-4902-a433-4dccce000271">
+				<reportElement x="360" y="1" width="42" height="15" uuid="2bf5872d-bb18-4902-a433-4dccce000271">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -716,8 +762,9 @@
 				<textFieldExpression><![CDATA[$F{P07}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="605" y="1" width="45" height="15" uuid="597ea85e-00fb-4f26-9e8c-2e84ed84f528">
+				<reportElement x="570" y="1" width="42" height="15" uuid="597ea85e-00fb-4f26-9e8c-2e84ed84f528">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -732,8 +779,9 @@
 				<textFieldExpression><![CDATA[$F{P12}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="110" y="1" width="45" height="15" uuid="a3789fe9-49e7-4605-9599-a1986ca3cdfc">
+				<reportElement x="108" y="1" width="42" height="15" uuid="a3789fe9-49e7-4605-9599-a1986ca3cdfc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -748,8 +796,9 @@
 				<textFieldExpression><![CDATA[$F{P01}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="785" y="1" width="45" height="15" uuid="57f74612-5b47-45e2-a931-3f11336363ad">
+				<reportElement x="738" y="1" width="42" height="15" uuid="57f74612-5b47-45e2-a931-3f11336363ad">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -764,8 +813,9 @@
 				<textFieldExpression><![CDATA[$F{P16}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="695" y="1" width="45" height="15" uuid="a7365a9a-6007-48ef-8add-e9165ae90410">
+				<reportElement x="654" y="1" width="42" height="15" uuid="a7365a9a-6007-48ef-8add-e9165ae90410">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -780,8 +830,9 @@
 				<textFieldExpression><![CDATA[$F{P14}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="740" y="1" width="45" height="15" uuid="4fbdd6b2-280c-4bd3-b5d6-df7231770c29">
+				<reportElement x="696" y="1" width="42" height="15" uuid="4fbdd6b2-280c-4bd3-b5d6-df7231770c29">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
@@ -796,7 +847,7 @@
 				<textFieldExpression><![CDATA[$F{P15}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
-				<reportElement x="70" y="1" width="40" height="15" uuid="d402267a-0e61-4cfa-b322-c101d1400848">
+				<reportElement x="68" y="1" width="40" height="15" uuid="d402267a-0e61-4cfa-b322-c101d1400848">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -811,6 +862,23 @@
 					<font fontName="Times New Roman" size="7" isBold="false" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{JABATAN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="864" y="1" width="42" height="15" uuid="473288dc-8430-4540-aca6-32aa8aa0b68d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="0">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0A0A0A"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PACKING}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -9,7 +9,7 @@
 			<!-- Main Content -->
 			<div id="content">
 				<!-- Topbar -->
-				<nav class="navbar navbar-expand-lg navbar-light bg-white">
+				<nav class="navbar navbar-default navbar-fixed-top shadow-sm navbar-expand-lg navbar-light bg-white">
 					<!-- Brand -->
 					<a class="navbar-brand" href="<?php echo base_url('admin/dashboard') ?>">
 						<i class="fas fa-chart-line"></i>
@@ -23,31 +23,31 @@
 						<!-- Topbar Navbar -->
 						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 							<?php
-								if ($user_level == 'super_admin' || $super_admin == '1') {
-									$query = "SELECT menu_hrd.KODE_MENU, 
+							if ($user_level == 'super_admin' || $super_admin == '1') {
+								$query = "SELECT menu_hrd.KODE_MENU, 
 												menu_hrd.NAMA_MENU,
 												menu_hrd.URL_MENU,
 												menu_hrd.PARENT_MENU,
 												menu_hrd.`LEVEL` 
 												from menu_hrd
 												WHERE menu_hrd.`LEVEL`='0' ";
-								} else {
-									$query = " SELECT menu_hrd.KODE_MENU, 
+							} else {
+								$query = " SELECT menu_hrd.KODE_MENU, 
 												menu_hrd.NAMA_MENU, 
 												menu_hrd.URL_MENU, 
 												menu_hrd.PARENT_MENU, 
 												menu_hrd.`LEVEL`  
 												from menu_hrd,(select menu_hrd.PARENT_MENU from user_typed_hrd,menu_hrd where user_typed_hrd.kode_menu=menu_hrd.KODE_MENU and  user_typed_hrd.user_level='$user_level' and (user_typed_hrd.lihat='1' or user_typed_hrd.baru='1' or user_typed_hrd.edit='1' ) GROUP BY menu_hrd.PARENT_MENU ) A where menu_hrd.level=0 AND menu_hrd.KODE_MENU=A.PARENT_MENU";
-									}
-									$result0 = $this->db->query($query)->result();
-								foreach ($result0 as $row0) {
+							}
+							$result0 = $this->db->query($query)->result();
+							foreach ($result0 as $row0) {
 							?>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="headingTwo" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
-									<i class="fas fa-fw fa-cog"></i>
-									<span><?php echo $row0->NAMA_MENU ?></span>
-								</a>
-								<?php
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" id="headingTwo" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+										<i class="fas fa-fw fa-cog"></i>
+										<span><?php echo $row0->NAMA_MENU ?></span>
+									</a>
+									<?php
 									if ($user_level == 'super_admin' || $super_admin == '1') {
 										$query = "SELECT menu_hrd.KODE_MENU,
 													menu_hrd.NAMA_MENU, 
@@ -70,20 +70,20 @@
 									}
 									$result1 = $this->db->query($query)->result();
 									if (count($result1) > 0) {
-								?>
-								<ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" id="accordi">
-								<?php
-									foreach ($result1 as $row1) {
-										if ($user_level == 'super_admin' || $super_admin == '1') {
-											$query = "SELECT menu_hrd.KODE_MENU, 
+									?>
+										<ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" id="accordi">
+											<?php
+											foreach ($result1 as $row1) {
+												if ($user_level == 'super_admin' || $super_admin == '1') {
+													$query = "SELECT menu_hrd.KODE_MENU, 
 														menu_hrd.NAMA_MENU, 
 														menu_hrd.URL_MENU, 
 														menu_hrd.PARENT_MENU, 
 														menu_hrd.`LEVEL`  
 														from menu_hrd
 														WHERE menu_hrd.`LEVEL`='2' AND menu_hrd.PARENT_MENU='$row1->KODE_MENU' ";
-										} else {
-											$query = "SELECT menu_hrd.KODE_MENU, 
+												} else {
+													$query = "SELECT menu_hrd.KODE_MENU, 
 														menu_hrd.NAMA_MENU, 
 														menu_hrd.URL_MENU, 
 														menu_hrd.PARENT_MENU, 
@@ -92,46 +92,46 @@
 														from menu_hrd
 														INNER JOIN user_typed_hrd ON user_typed_hrd.kode_menu=menu_hrd.KODE_MENU 
 														WHERE menu_hrd.`LEVEL`='2' and user_typed_hrd.user_level='" . $this->session->userdata["level"] . "' and menu_hrd.PARENT_MENU='$row1->KODE_MENU' and (user_typed_hrd.lihat='1' or user_typed_hrd.baru='1' or user_typed_hrd.edit='1' ) ";
-										}
-										$result2 = $this->db->query($query)->result();
-										if (count($result2) <= 0) {
-								?>
-										<a class="dropdown-item" href="<?php echo base_url($row1->URL_MENU); ?>"><i class="fas fa-fw fa-cog"></i><?php echo $row1->NAMA_MENU; ?> </a>
-										<?php
-										} else {
-										?>
-										<li class="dropdown-submenu dropdown-menu-right animated--grow-in">
-											<a class="dropdown-item dropdown-toggle" href="#">
-												<i class="fas fa-fw fa-cog"></i><?php echo $row1->NAMA_MENU; ?>
-											</a>
-											<ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-											<?php
-												foreach ($result2 as $row2) {
+												}
+												$result2 = $this->db->query($query)->result();
+												if (count($result2) <= 0) {
 											?>
-												<a class="dropdown-item" href="<?php echo base_url($row2->URL_MENU); ?>"><i class="fas fa-fw fa-cog"></i><?php echo $row2->NAMA_MENU; ?> </a>
+													<a class="dropdown-item" href="<?php echo base_url($row1->URL_MENU); ?>"><i class="fas fa-fw fa-cog"></i><?php echo $row1->NAMA_MENU; ?> </a>
 												<?php
-											}
+												} else {
 												?>
-											</ul>
-										</li>
-									<?php
-										}
-									}
-									?>
-								</ul>
+													<li class="dropdown-submenu dropdown-menu-right animated--grow-in">
+														<a class="dropdown-item dropdown-toggle" href="#">
+															<i class="fas fa-fw fa-cog"></i><?php echo $row1->NAMA_MENU; ?>
+														</a>
+														<ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+															<?php
+															foreach ($result2 as $row2) {
+															?>
+																<a class="dropdown-item" href="<?php echo base_url($row2->URL_MENU); ?>"><i class="fas fa-fw fa-cog"></i><?php echo $row2->NAMA_MENU; ?> </a>
+															<?php
+															}
+															?>
+														</ul>
+													</li>
+											<?php
+												}
+											}
+											?>
+										</ul>
 								<?php
 									}
 								}
 								?>
 								<li class="nav-item">
 									<a class="nav-link" href="#" data-toggle="modal" data-target="#periodeModal">
-									<i class="fas fa-fw fa-wrench"></i>
-									<span>Ganti Periode</span></a>
+										<i class="fas fa-fw fa-wrench"></i>
+										<span>Ganti Periode</span></a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#" data-toggle="modal" data-target="#fontModal">
-									<i class="fas fa-fw fa-font"></i>
-									<span>Ganti Font</span></a>
+										<i class="fas fa-fw fa-font"></i>
+										<span>Ganti Font</span></a>
 								</li>
 								<!-- Nav Item - Tables -->
 								<!-- <li class="nav-item dropdown">
@@ -165,7 +165,7 @@
 									</div>
 								</li>
 						</ul>
-					<span>Periode <?php echo $this->session->userdata['periode']; ?></span>
+						<span>Periode <?php echo $this->session->userdata['periode']; ?> - <?php echo $this->session->userdata['fase']; ?></span>
 				</nav>
 
 				<!-- Modal -->
@@ -200,6 +200,13 @@
 									<div class="form-group">
 										<input type="text" class="form-control form-control-user" id="tahunPeriode" placeholder="Tahun..." name="tahun">
 									</div>
+									<div class="form-group">
+										<input type="text" value="1" class="form-control form-control-user" list="fase" id="fasePeriode" placeholder="Fase..." name="fase">
+										<datalist id="fase">
+											<option value='1' selected>1</option>
+											<option value='2'>2</option>
+										</datalist>
+									</div>
 
 									<button class="btn btn-primary btn-user btn-block">Ubah Periode</button>
 							</div>
@@ -211,31 +218,31 @@
 					</div>
 				</div>
 
-			<!-- Modal font -->
-			<div class="modal fade" id="fontModal" tabindex="-1" role="dialog" aria-labelledby="fontLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title"> <i class="fas fa-cogs"></i>  Ganti Font</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<!-- form mengambil 1 parameter, yaitu id font yang sudah di set dalam sesi -->
-							<form method="post" action="<?php echo base_url('admin/dashboard/ganti_font/'.$this->session->userdata('id_font')) ?>" class="user">
+				<!-- Modal font -->
+				<div class="modal fade" id="fontModal" tabindex="-1" role="dialog" aria-labelledby="fontLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"> <i class="fas fa-cogs"></i> Ganti Font</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<!-- form mengambil 1 parameter, yaitu id font yang sudah di set dalam sesi -->
+							<form method="post" action="<?php echo base_url('admin/dashboard/ganti_font/' . $this->session->userdata('id_font')) ?>" class="user">
 								<div class="modal-body">
 									<div class="form-group">
 										<label>Font</label>
 										<!-- dropdown font, akan selected dari data sesi saat ini -->
 										<select name="font" id="font_check" class="form-control">
-											<option value="Arial, sans-serif;" <?= $this->session->userdata('font') == 'Arial, sans-serif;' ? 'selected' : NULL?>>Arial</option>
-											<option value="Times New Roman, serif;" <?= $this->session->userdata('font') == 'Times New Roman, serif;' ? 'selected' : NULL?>>Times New Roman</option>
-											<option value="Tahoma, serif;" <?= $this->session->userdata('font') == 'Tahoma, serif;' ? 'selected' : NULL?>>Tahoma</option>
-											<option value="Impact, fantasy;" <?= $this->session->userdata('font') == 'Impact, fantasy;' ? 'selected' : NULL?>>Impact</option>
+											<option value="Arial, sans-serif;" <?= $this->session->userdata('font') == 'Arial, sans-serif;' ? 'selected' : NULL ?>>Arial</option>
+											<option value="Times New Roman, serif;" <?= $this->session->userdata('font') == 'Times New Roman, serif;' ? 'selected' : NULL ?>>Times New Roman</option>
+											<option value="Tahoma, serif;" <?= $this->session->userdata('font') == 'Tahoma, serif;' ? 'selected' : NULL ?>>Tahoma</option>
+											<option value="Impact, fantasy;" <?= $this->session->userdata('font') == 'Impact, fantasy;' ? 'selected' : NULL ?>>Impact</option>
 										</select>
 									</div>
 									<div class="form-group">
-									<!-- ukuran, value berdasarkan data sesi -->
+										<!-- ukuran, value berdasarkan data sesi -->
 										<label>Ukuran Font</label>
 										<input type="number" class="form-control" name="size" value="<?= $this->session->userdata('size_font') ?>">
 									</div>

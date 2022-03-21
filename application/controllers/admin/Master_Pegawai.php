@@ -11,7 +11,7 @@ class Master_Pegawai extends CI_Controller
             $this->session->set_flashdata(
                 'pesan',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Anda Belum Login
+            Anda Belum Login
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -34,13 +34,22 @@ class Master_Pegawai extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $pt = $this->session->userdata['pt'];
-        $where = array(
-            'dr' => $dr,
-            'pt' => $pt,
-        );
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+            );
+        }
         $this->db->select('*');
         $this->db->from('hrd_peg');
         $this->db->where($where);
+        $this->db->order_by("pt desc, kd_peg asc");
         $i = 0;
         foreach ($this->column_search as $item) {
             if (@$_POST['search']['value']) {
@@ -83,13 +92,22 @@ class Master_Pegawai extends CI_Controller
     {
         $dr = $this->session->userdata['dr'];
         $pt = $this->session->userdata['pt'];
-        $where = array(
-            'dr' => $dr,
-            'pt' => $pt,
-        );
+        $cv = $this->session->userdata['cv'];
+        if ($dr == 'I') {
+            $where = array(
+                'dr' => $dr,
+            );
+        } else {
+            $where = array(
+                'dr' => $dr,
+                'pt' => $pt,
+                'cv' => $cv,
+            );
+        }
         $this->db->select('*');
         $this->db->from('hrd_peg');
         $this->db->where($where);
+        $this->db->order_by("pt desc, kd_peg asc");
         return $this->db->count_all_results();
     }
 
@@ -174,26 +192,27 @@ class Master_Pegawai extends CI_Controller
         $insial = substr($nm_peg, 0, 1);
         if ($this->session->userdata['dr'] == 'I') {
             $INISIALDR = 'DR1';
-        }
-        if ($this->session->userdata['dr'] == 'II') {
+        } else if ($this->session->userdata['dr'] == 'II') {
             $INISIALDR = 'DR2';
-        }
-        if ($this->session->userdata['dr'] == 'III') {
+        } else if ($this->session->userdata['dr'] == 'III') {
             $INISIALDR = 'DR3';
-        }
-        if ($this->session->userdata['dr'] == 'IV') {
+        } else if ($this->session->userdata['dr'] == 'IV') {
             $INISIALDR = 'DR4';
-        }
-        if ($this->session->userdata['dr'] == 'PY') {
+        } else if ($this->session->userdata['dr'] == 'PY') {
             $INISIALDR = 'PY';
-        }
-        if ($this->session->userdata['dr'] == 'AB') {
+        } else if ($this->session->userdata['dr'] == 'AB') {
             $INISIALDR = 'AB';
-        }
-        if ($this->session->userdata['dr'] == 'BLA') {
+        } else if ($this->session->userdata['dr'] == 'BLA') {
             $INISIALDR = 'BLA';
         }
         $kd_peg = $INISIALDR . '.' . $insial . '.' . str_pad($get_rec[0]->REC, 5, "0", STR_PAD_LEFT);
+
+        if ($this->session->userdata['dr'] == 'I') {
+            $pt = $this->input->post('PT', TRUE);
+        } else {
+            $pt = $this->session->userdata['pt'];
+        }
+
         $data = array(
             'nik' => $this->input->post('NIK', TRUE),
             'nm_peg' => $this->input->post('NM_PEG', TRUE),
@@ -228,7 +247,7 @@ class Master_Pegawai extends CI_Controller
             'stat' => $this->input->post('STAT', TRUE),
             'email' => $this->input->post('EMAIL', TRUE),
             'hp' => $this->input->post('HP', TRUE),
-            'pt' => $this->session->userdata['pt'],
+            'pt' => $pt,
             'tgl_keluar' => date("Y-m-d", strtotime($this->input->post('TGL_KELUAR', TRUE))),
             'tgl_lahir' => date("Y-m-d", strtotime($this->input->post('TGL_LAHIR', TRUE))),
             // 'nm_bag_2' => $this->input->post('NM_BAG_2',TRUE),
@@ -249,7 +268,7 @@ class Master_Pegawai extends CI_Controller
         $this->master_model->input_data('pegd', $datad);
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Inserted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -387,7 +406,7 @@ class Master_Pegawai extends CI_Controller
         $this->master_model->hapus_data($whered, 'pegd');
         $this->session->set_flashdata(
             'pesan',
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+            '<div class="alert alert-success alert-dismissible fade show" role="alert"> 
                 Data succesfully Deleted.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

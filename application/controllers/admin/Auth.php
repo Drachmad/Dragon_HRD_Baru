@@ -97,6 +97,8 @@ class Auth extends CI_Controller
                     $sess_data['periode'] = $periode;
                     $sess_data['dr'] = $ck->DR;
                     $sess_data['pt'] = $ck->PT;
+                    $sess_data['cv'] = $ck->CV;
+                    $sess_data['fase'] = '1';
                     $sess_data['flag'] = '';
                     $sess_data['judul'] = '';
                     $sess_data['menu_hrd'] = '';
@@ -110,7 +112,7 @@ class Auth extends CI_Controller
                 } else {
                     $this->session->set_flashdata(
                         'pesan',
-                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        '<div class="alert alert-success alert-dismissible fade show" role="alert">
                             Username atau Password Anda Salah!!
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -122,7 +124,7 @@ class Auth extends CI_Controller
             } else {
                 $this->session->set_flashdata(
                     'pesan',
-                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    '<div class="alert alert-success alert-dismissible fade show" role="alert">
                         Username atau Password Anda Salah!!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

@@ -92,8 +92,14 @@
 	}
 
 	.text_input {
+		font-size: small;
 		color: black;
-		text-transform: uppercase;
+	}
+
+	.alert-container {
+		background-color: #9c774c;
+		color: black;
+		font-weight: bolder;
 	}
 </style>
 
@@ -128,6 +134,15 @@
 							<input class="form-control text_input NM_GRUP" id="NM_GRUP" name="NM_GRUP" type="hidden" readonly>
 							<input class="form-control text_input DR" id="DR" name="DR" type="hidden" readonly>
 						</div>
+						<div class="col-md-1">
+							<label class="label">Fase </label>
+						</div>
+						<div class="col-md-1">
+							<select class="form-control text_input FASE" name="FASE" id="FASE" style="width: 100%;">
+								<option value="1">1</option>
+								<option value="2">2</option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -136,15 +151,49 @@
 							<label class="label">Tgl </label>
 						</div>
 						<div class="col-md-2">
-							<input type="text" class="date form-control TGL text_input" id="TGL" name="TGL" data-date-format="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) {
-																																						echo $_POST["TGL"];
-																																					} else echo date('d-m-Y'); ?>" onclick="select()">
+							<input type="text" class="date form-control TGL" id="TGL" name="TGL" data-date-format="dd-mm-yyyy" value="<?php if (isset($_POST["tampilkan"])) {
+																																			echo $_POST["TGL"];
+																																		} else echo date('d-m-Y'); ?>" onclick="select()">
 						</div>
 						<div class="col-md-1">
 							<label class="label">Notes </label>
 						</div>
 						<div class="col-md-4">
 							<input class="form-control text_input NOTES" id="NOTES" name="NOTES" type="text" value=''>
+						</div>
+						<div class="col-md-2">
+							<label class="label"><label style="color: red;">*</label>Status Admin Dragon <?php echo $this->session->userdata['dr']; ?> </label>
+						</div>
+						<div class="col-md-2">
+							<label class="label"><label style="color: red;">*</label>
+								<label>
+									<?php
+									if ($this->session->userdata['dr'] == 'I' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'I' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'II' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'II' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'III' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'III' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'PY' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'PY' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'AB' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'AB' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									if ($this->session->userdata['dr'] == 'N1' && $this->session->userdata['pt'] == '1')
+										echo 'PT';
+									if ($this->session->userdata['dr'] == 'N1' && $this->session->userdata['pt'] == '0')
+										echo 'CV';
+									?>
+								</label>
 						</div>
 					</div>
 				</div>
@@ -157,8 +206,9 @@
 						<thead>
 							<tr>
 								<th width="50px">No</th>
-								<th width="350px">NIP</th>
-								<th width="400px">Nama</th>
+								<th width="300px">NIP</th>
+								<th width="350px">Nama</th>
+								<th width="100px">PT</th>
 								<th width="350px">Jumlah</th>
 								<th width="50px"></th>
 							</tr>
@@ -170,6 +220,7 @@
 								<td>
 									<select class="js-example-responsive-nm_peg form-control NM_PEG0 text_input" name="NM_PEG[]" id="NM_PEG0" onchange="nm_peg(this.id)" onfocusout="hitung()" required></select>
 								</td>
+								<td><input name="PT[]" id="PT0" type="text" class="form-control PT text_input" readonly></td>
 								<td><input name="ULEMBUR[]" onkeyup="hitung()" value="0" id="ULEMBUR0" type="text" class="form-control ULEMBUR rightJustified text-primary"></td>
 								<td>
 									<button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick="">
@@ -179,6 +230,7 @@
 							</tr>
 						</tbody>
 						<tfoot>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -347,16 +399,17 @@
 							'<td>' +
 							'<input name="NM_PEG[]" value="' + response[i].NM_PEG + '" id=NM_PEG' + i + ' type="text" class="form-control NM_PEG text_input" readonly>' +
 							'</td>' +
-							'<td><input name="ULEMBUR[]" onclick="select()" onkeyup="hitung()" value="0" id=ULEMBUR' + i + ' type="text" class="form-control ULEMBUR rightJustified text-primary"></td>' +
+							'<td><input name="PT[]" value="' + response[i].PT + '" id=PT' + i + ' type="text" class="form-control PT text_input" readonly></td>' +
+							'<td><input name="ULEMBUR[]" onkeyup="hitung()" value="' + numberWithCommas(response[i].ULEMBUR) + '" id=ULEMBUR' + i + ' type="text" class="form-control ULEMBUR rightJustified text-primary"></td>' +
 							'<td><input type="hidden" name="NO_ID[]" id=NO_ID' + i + '  class="form-control"  value="' + response[i].NO_ID + '"  >' +
-							'<button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick=""> <i class="fa fa-fw fa-trash-alt"></i> </button></td>' +
+							'<button type="button" class="btn btn-sm btn-circle btn-outline-danger btn-delete" onclick=""> <i class="fa fa-fw fa-trash"></i> </button>' +
 							'</tr>';
 					}
 					idrow = i;
 					$('#show-data').html(html);
 					jumlahdata = 100;
 					for (i = 0; i <= jumlahdata; i++) {
-						$("#ULEMBUR" + i.toString()).autoNumeric('init', {
+						$("#UL" + i.toString()).autoNumeric('init', {
 							aSign: '<?php echo ''; ?>',
 							vMin: '-999999999.99'
 						});
@@ -417,14 +470,16 @@
 		var td3 = x.insertCell(2);
 		var td4 = x.insertCell(3);
 		var td5 = x.insertCell(4);
+		var td6 = x.insertCell(5);
 
-		var nm_peg0 = "<div class='input-group'><select class='js-example-responsive-nm_peg form-control NM_PEG0' name='NM_PEG[]' id=NM_PEG0 text_input" + idrow + " onchange='nm_peg(this.id)' onfocusout='hitung()' required></select></div>";
+		var nm_peg0 = "<div class='input-group'><select class='js-example-responsive-nm_peg form-control NM_PEG0 text_input' name='NM_PEG[]' id=NM_PEG0" + idrow + " onchange='nm_peg(this.id)' onfocusout='hitung()' required></select></div>";
 
 		var nm_peg = nm_peg0;
 
 		td1.innerHTML = "<input name='REC[]' id=REC" + idrow + " type='text' class='REC form-control text_input' onkeypress='return tabE(this,event)' readonly>";
 		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG0" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
 		td3.innerHTML = nm_peg;
+		td3.innerHTML = "<input name='PT[]' id=PT0" + idrow + " type='text' class='form-control PT text_input' readonly>";
 		td4.innerHTML = "<input name='ULEMBUR[]' onclick='select()' onkeyup='hitung()' value='0' id=ULEMBUR" + idrow + " type='text' class='form-control ULEMBUR rightJustified text-primary'>";
 		td5.innerHTML = "<input type='hidden' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control'>" +
 			" <button type='button' class='btn btn-sm btn-circle btn-outline-danger btn-delete' onclick=''> <i class='fa fa-fw fa-trash'></i> </button>";
@@ -502,15 +557,21 @@
 		return $container;
 	}
 	var kd_peg = '';
+	var ulembur = '';
+	var pt = '';
 
 	function formatSelection_nm_peg(repo_nm_peg) {
 		kd_peg = repo_nm_peg.kd_peg;
+		ulembur = repo_nm_peg.ulembur;
+		pt = repo_nm_peg.pt;
 		return repo_nm_peg.text;
 	}
 
 	function nm_peg(x) {
 		var q = x.substring(6, 12);
 		$('#KD_PEG' + q).val(kd_peg);
+		$('#ULEMBUR' + q).val(ulembur);
+		$('#PT' + q).val(pt);
 		console.log(q);
 	}
 </script>
