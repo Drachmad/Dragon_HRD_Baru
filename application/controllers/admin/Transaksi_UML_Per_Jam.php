@@ -36,21 +36,15 @@ class Transaksi_UML_Per_Jam extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'PJ'
+        );
+
         $this->db->select('*');
         $this->db->from('hrd_lem');
         $this->db->where($where);
@@ -98,21 +92,15 @@ class Transaksi_UML_Per_Jam extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'PJ'
+        );
+
         $this->db->from('hrd_lem');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -163,21 +151,15 @@ class Transaksi_UML_Per_Jam extends CI_Controller
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
         $this->session->set_userdata('judul', 'Transaksi UML Per Jam');
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'PJ'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'PJ'
+        );
+
         $data['hrd_lem'] = $this->transaksi_model->tampil_data($where, 'hrd_lem', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');

@@ -1138,28 +1138,30 @@
 		var td15 = x.insertCell(14);
 		var td16 = x.insertCell(15);
 		var td17 = x.insertCell(16);
+		var td18 = x.insertCell(17);
 
 		var nm_peg0 = "<div class='input-group'><select class='js-example-responsive-nm_peg form-control NM_PEG0 text_input' name='NM_PEG[]' id=NM_PEG0" + idrow + " onchange='nm_peg(this.id)' onfocusout='hitung()' required></select></div>";
 
 		// var nm_peg = nm_peg0+nm_peg1+nm_peg2;
 
 		td1.innerHTML = "<input name='REC[]' id=REC" + idrow + " type='text' class='REC form-control' onkeypress='return tabE(this,event)' readonly>";
-		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG0" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
+		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
 		td3.innerHTML = nm_peg0;
-		td4.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
-		td5.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
-		td6.innerHTML = "<input name='MSD[]' onclick='select()' onchange='hitung()' value='0' id=MSD" + idrow + " type='text' class='form-control MSD rightJustified text-primary'>";
-		td7.innerHTML = "<input name='IK[]' onclick='select()' onchange='hitung()' value='0' id=IK" + idrow + " type='text' class='form-control IK rightJustified text-primary'>";
-		td8.innerHTML = "<input name='NB[]' onclick='select()' onchange='hitung()' value='0' id=NB" + idrow + " type='text' class='form-control NB rightJustified text-primary'>";
-		td9.innerHTML = "<input name='HR[]' onchange='hitung()' value='0' id=HR" + idrow + " type='text' class='form-control HR rightJustified text-primary' readonly>";
-		td10.innerHTML = "<input name='TOTAL[]' onchange='hitung()' value='0' id=TOTAL" + idrow + " type='text' class='form-control TOTAL rightJustified text-primary' readonly>";
-		td11.innerHTML = "<input name='BON1[]' onclick='select()' onchange='hitung()' value='0' id=BON1" + idrow + " type='text' class='form-control BON1 rightJustified text-primary'>";
-		td12.innerHTML = "<input name='SUBS[]' onclick='select()' onchange='hitung()' value='0' id=SUBS" + idrow + " type='text' class='form-control SUBS rightJustified text-primary'>";
-		td13.innerHTML = "<input name='SUB[]' id=SUB0" + idrow + " type='text' class='form-control SUB'>";
-		td14.innerHTML = "<input name='TOT_HR[]' onchange='hitung()' value='0' id=TOT_HR" + idrow + " type='text' class='form-control TOT_HR rightJustified text-primary' readonly>";
-		td15.innerHTML = "<input name='POTONG[]' onclick='select()' onchange='hitung()' value='0' id=POTONG" + idrow + " type='text' class='form-control POTONG rightJustified text-primary'>";
-		td16.innerHTML = "<input name='JUMLAH[]' onclick='select()' onchange='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
-		td17.innerHTML = "<input type='hidden' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control' value='0'>" +
+		td4.innerHTML = "<input name='PT[]' id=PT" + idrow + " type='text' class='form-control PT text_input' readonly>";
+		td5.innerHTML = "<input name='PTKP[]' id=PTKP" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
+		td6.innerHTML = "<input name='STAT[]' id=STAT" + idrow + " type='text' class='form-control STAT text_input' readonly>";
+		td7.innerHTML = "<input name='MSD[]' onclick='select()' onchange='hitung()' value='0' id=MSD" + idrow + " type='text' class='form-control MSD rightJustified text-primary'>";
+		td8.innerHTML = "<input name='IK[]' onclick='select()' onchange='hitung()' value='0' id=IK" + idrow + " type='text' class='form-control IK rightJustified text-primary'>";
+		td9.innerHTML = "<input name='NB[]' onclick='select()' onchange='hitung()' value='0' id=NB" + idrow + " type='text' class='form-control NB rightJustified text-primary'>";
+		td10.innerHTML = "<input name='HR[]' onchange='hitung()' value='0' id=HR" + idrow + " type='text' class='form-control HR rightJustified text-primary' readonly>";
+		td11.innerHTML = "<input name='TOTAL[]' onchange='hitung()' value='0' id=TOTAL" + idrow + " type='text' class='form-control TOTAL rightJustified text-primary' readonly>";
+		td12.innerHTML = "<input name='BON1[]' onclick='select()' onchange='hitung()' value='0' id=BON1" + idrow + " type='text' class='form-control BON1 rightJustified text-primary'>";
+		td13.innerHTML = "<input name='SUBS[]' onclick='select()' onchange='hitung()' value='0' id=SUBS" + idrow + " type='text' class='form-control SUBS rightJustified text-primary'>";
+		td14.innerHTML = "<input name='SUB[]' id=SUB0" + idrow + " type='text' class='form-control SUB'>";
+		td15.innerHTML = "<input name='TOT_HR[]' onchange='hitung()' value='0' id=TOT_HR" + idrow + " type='text' class='form-control TOT_HR rightJustified text-primary' readonly>";
+		td16.innerHTML = "<input name='POTONG[]' onclick='select()' onchange='hitung()' value='0' id=POTONG" + idrow + " type='text' class='form-control POTONG rightJustified text-primary'>";
+		td17.innerHTML = "<input name='JUMLAH[]' onclick='select()' onchange='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
+		td18.innerHTML = "<input type='hidden' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control' value='0'>" +
 			" <button type='button' class='btn btn-sm btn-circle btn-outline-danger btn-delete' onclick=''> <i class='fa fa-fw fa-trash'></i> </button>";
 		jumlahdata = 100;
 		for (i = 0; i <= jumlahdata; i++) {

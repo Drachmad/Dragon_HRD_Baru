@@ -36,21 +36,15 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'JS'
+        );
+
         $this->db->select('*');
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
@@ -98,21 +92,15 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'JS'
+        );
+
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -163,21 +151,15 @@ class Transaksi_Tunjangan_Jasa extends CI_Controller
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
         $this->session->set_userdata('judul', 'Transaksi Tunjangan Jasa');
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'JS'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'JS'
+        );
+
         $data['hrd_tunjang'] = $this->transaksi_model->tampil_data($where, 'hrd_tunjang', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');

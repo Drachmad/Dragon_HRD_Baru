@@ -967,6 +967,7 @@ class Laporan extends CI_Controller
 			$PHPJasperXML = new \PHPJasperXML();
 			$PHPJasperXML->load_xml_file("phpjasperxml/Laporan_KikPerBagian.jrxml");
 			$PHPJasperXML->transferDBtoArray($servername, $username, $password, $database);
+			$this->load->helper("terbilang");
 			$kd_bag_1 = $this->input->post('KD_BAG_1');
 			$kd_bag_2 = $this->input->post('KD_BAG_2');
 			$tgl_1 = date("Y-m-d", strtotime($this->input->post('TGL_1', TRUE)));
@@ -1059,8 +1060,7 @@ class Laporan extends CI_Controller
 
 					"hasil" => $row1["hasil"],
 					"GT" => $row1["GT"],
-
-
+					"GT_TERBILANG" => number_to_words($row1["GT"]),
 				));
 			}
 			ob_end_clean();

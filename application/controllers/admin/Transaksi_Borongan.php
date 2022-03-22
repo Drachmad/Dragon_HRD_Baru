@@ -227,6 +227,8 @@ class Transaksi_Borongan extends CI_Controller
             'tpotong' => str_replace(',', '', $this->input->post('TPOTONG', TRUE)),
             'tjumlah' => str_replace(',', '', $this->input->post('TJUMLAH', TRUE)),
             'dr' => $this->session->userdata['dr'],
+            'pt' => $this->session->userdata['pt'],
+            'cv' => $this->session->userdata['cv'],
             'per' => $this->session->userdata['periode'],
             'usrnm' => $this->session->userdata['username'],
             'i_tgl' => date("Y-m-d h:i a")
@@ -665,10 +667,10 @@ class Transaksi_Borongan extends CI_Controller
             FROM hrd_peg 
             LEFT JOIN hrd_bor ON hrd_peg.kd_bag=hrd_bor.kd_bag AND hrd_peg.stat=hrd_bor.stat 
             WHERE hrd_peg.kd_bag='$kd_bag'
-            AND hrd_peg.cv='$cv'
+            AND hrd_peg.cv!='CKR'
             AND hrd_peg.aktif='1' 
             GROUP BY hrd_peg.kd_peg
-            ORDER BY hrd_peg.STAT 
+            ORDER BY hrd_peg.pt DESC, hrd_peg.STAT
             DESC,hrd_peg.kd_peg ";
         } else {
             $q1 = "SELECT hrd_peg.kd_peg AS KD_PEG, 

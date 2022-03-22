@@ -35,19 +35,14 @@ class Master_Pegawai extends CI_Controller
         $dr = $this->session->userdata['dr'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-            );
-        }
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+        );
         $this->db->select('*');
         $this->db->from('hrd_peg');
+        $this->db->where($where);
         $this->db->where($where);
         $this->db->order_by("pt desc, kd_peg asc");
         $i = 0;
@@ -93,17 +88,11 @@ class Master_Pegawai extends CI_Controller
         $dr = $this->session->userdata['dr'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-            );
-        }
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+        );
         $this->db->select('*');
         $this->db->from('hrd_peg');
         $this->db->where($where);

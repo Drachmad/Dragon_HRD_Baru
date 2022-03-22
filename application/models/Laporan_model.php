@@ -32,6 +32,7 @@ class Laporan_model extends CI_Model
 		$kd_bag_1 = $this->input->post('KD_BAG_1');
 		$dr = $this->session->userdata['dr'];
 		$pt = $this->session->userdata['pt'];
+		$cv = $this->session->userdata['cv'];
 		$tempKD_BAG = " ";
 		if ($kd_bag_1 != "") {
 			$tempKD_BAG = "AND hrd_peg.kd_bag='$kd_bag_1'";
@@ -46,6 +47,7 @@ class Laporan_model extends CI_Model
 			WHERE hrd_peg.kd_bag=hrd_bag.kd_bag 
 			AND hrd_peg.aktif='1' 
 			AND hrd_peg.pt='$pt'
+			AND hrd_peg.cv='$cv'
 			AND hrd_peg.dr='$dr'
 			$tempKD_BAG
 			ORDER BY hrd_peg.kd_peg, hrd_peg.kd_bag";
@@ -174,6 +176,7 @@ class Laporan_model extends CI_Model
 		$kd_peg_2 = $this->input->post('KD_PEG_2');
 		$dr = $this->session->userdata['dr'];
 		$pt = $this->session->userdata['pt'];
+		$cv = $this->session->userdata['cv'];
 		if ($kd_peg_2 != "") {
 			$tempKD_PEG = "AND hrd_peg.kd_peg BETWEEN '$kd_peg_1' AND '$kd_peg_2'";
 		}
@@ -193,6 +196,7 @@ class Laporan_model extends CI_Model
 			FROM hrd_peg
 			WHERE hrd_peg.pt='$pt'
 			AND hrd_peg.dr='$dr'
+			AND hrd_peg.cv='$cv'
 			$tempKD_PEG
 			ORDER BY hrd_peg.kd_peg";
 		return $this->db->query($q1);

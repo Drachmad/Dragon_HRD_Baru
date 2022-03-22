@@ -248,9 +248,9 @@
 								<td><input name="JAM1RP[]" onchange="hitung()" value="0" id="JAM1RP0" type="text" class="form-control JAM1RP rightJustified text-primary" readonly></td>
 								<td><input name="JAM2RP[]" onchange="hitung()" value="0" id="JAM2RP0" type="text" class="form-control JAM2RP rightJustified text-primary" readonly></td>
 								<td><input name="NK[]" onclick="select()" onchange="hitung()" value="0" id="NK0" type="text" class="form-control NK rightJustified text-primary"></td>
-								<td><input name="KELILING[]" onclick="select()" onchange="hitung()" value="0" id="KELILING0" type="text" class="form-control KELILING rightJustified text-primary"></td>
+								<td><input name="KELILING[]" onclick="select()" onchange="hitung()" value="0" id="KELILING0" type="text" class="form-control KELILING rightJustified text-primary" readonly></td>
 								<td><input name="NO[]" onclick="select()" onchange="hitung()" value="0" id="NO0" type="text" class="form-control NO rightJustified text-primary"></td>
-								<td><input name="OVERTIME[]" onclick="select()" onchange="hitung()" value="0" id="OVERTIME0" type="text" class="form-control OVERTIME rightJustified text-primary"></td>
+								<td><input name="OVERTIME[]" onclick="select()" onchange="hitung()" value="0" id="OVERTIME0" type="text" class="form-control OVERTIME rightJustified text-primary" readonly></td>
 								<td><input name="LAIN[]" onclick="select()" onchange="hitung()" value="0" id="LAIN0" type="text" class="form-control LAIN rightJustified text-primary"></td>
 								<td><input name="POT[]" onclick="select()" onchange="hitung()" value="0" id="POT0" type="text" class="form-control POT rightJustified text-danger"></td>
 								<td><input name="TPERBULAN[]" onchange="hitung()" value="0" id="TPERBULAN0" type="text" class="form-control TPERBULAN rightJustified text-primary" readonly></td>
@@ -581,9 +581,9 @@
 							'<td><input name="JAM1RP[]" onkeyup="hitung()" id=JAM1RP' + i + ' value="0" type="text" class="form-control JAM1RP rightJustified text-primary" readonly></td>' +
 							'<td><input name="JAM2RP[]" onkeyup="hitung()" id=JAM2RP' + i + ' value="0" type="text" class="form-control JAM2RP rightJustified text-primary" readonly></td>' +
 							'<td><input name="NK[]" onclick="select()" onkeyup="hitung()" value="0" id=NK' + i + ' type="text" class="form-control NK rightJustified text-primary"></td>' +
-							'<td><input name="KELILING[]" onclick="select()" onkeyup="hitung()" value="0" id=KELILING' + i + ' type="text" class="form-control KELILING rightJustified text-primary"></td>' +
+							'<td><input name="KELILING[]" onclick="select()" onkeyup="hitung()" value="0" id=KELILING' + i + ' type="text" class="form-control KELILING rightJustified text-primary" readonly></td>' +
 							'<td><input name="NO[]" onclick="select()" onkeyup="hitung()" value="0" id=NO' + i + ' type="text" class="form-control NO rightJustified text-primary"></td>' +
-							'<td><input name="OVERTIME[]" onclick="select()" onkeyup="hitung()" value="0" id=OVERTIME' + i + ' type="text" class="form-control OVERTIME rightJustified text-primary"></td>' +
+							'<td><input name="OVERTIME[]" onclick="select()" onkeyup="hitung()" value="0" id=OVERTIME' + i + ' type="text" class="form-control OVERTIME rightJustified text-primary" readonly></td>' +
 							'<td><input name="LAIN[]" onclick="select()" onkeyup="hitung()" value="0" id=LAIN' + i + ' type="text" class="form-control LAIN rightJustified text-primary"></td>' +
 							'<td><input name="POT[]" onclick="select()" onkeyup="hitung()" value="0" id=POT' + i + ' type="text" class="form-control POT rightJustified text-danger"></td>' +
 							'<td><input name="TPERBULAN[]" onkeyup="hitung()" value="' + numberWithCommas(response[i].TPERBULAN) + '" id=TPERBULAN' + i + ' type="text" class="form-control TPERBULAN rightJustified text-primary" readonly></td>' +
@@ -875,6 +875,10 @@
 		var td17 = x.insertCell(16);
 		var td18 = x.insertCell(17);
 		var td19 = x.insertCell(18);
+		var td20 = x.insertCell(19);
+		var td21 = x.insertCell(20);
+		var td22 = x.insertCell(21);
+		var td23 = x.insertCell(22);
 
 		var nm_peg0 = "<div class='input-group'><select class='js-example-responsive-nm_peg form-control NM_PEG' name='NM_PEG[]' id=NM_PEG" + idrow + " onchange='nm_peg(this.id)' onfocusout='hitung()'></select></div>";
 		var nm_peg1 = "<input name='NETT[]' onclick='select()' onkeyup='hitung()' value='0' id=NETT" + idrow + " type='hidden' class='form-control NETT rightJustified text-primary'>";
@@ -884,10 +888,10 @@
 		var nm_peg = nm_peg0 + nm_peg1 + nm_peg2 + nm_peg3;
 
 		td1.innerHTML = "<input name='REC[]' id=REC" + idrow + " type='text' class='REC form-control text_input' onkeypress='return tabE(this,event)' readonly>";
-		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG0" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
+		td2.innerHTML = "<input name='KD_PEG[]' id=KD_PEG" + idrow + " type='text' class='form-control KD_PEG text_input' readonly>";
 		td3.innerHTML = nm_peg;
-		td4.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
-		td5.innerHTML = "<input name='PTKP[]' id=PTKP0" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
+		td4.innerHTML = "<input name='PT[]' id=PT" + idrow + " type='text' class='form-control PT text_input' readonly>";
+		td5.innerHTML = "<input name='PTKP[]' id=PTKP" + idrow + " type='text' class='form-control PTKP text_input' readonly>";
 		td6.innerHTML = "<input name='HR[]' onclick='select()' onkeyup='hitung()' value='0' id=HR" + idrow + " type='text' class='form-control HR rightJustified text-primary'>";
 		td7.innerHTML = "<input name='JAM1THL[]' onclick='select()' onkeyup='hitung()' value='0' id=JAM1THL" + idrow + " type='text' class='form-control JAM1THL rightJustified text-primary'>";
 		td8.innerHTML = "<input name='JAM2THL[]' onclick='select()' onkeyup='hitung()' value='0' id=JAM2THL" + idrow + " type='text' class='form-control JAM2THL rightJustified text-primary'>";
@@ -898,14 +902,14 @@
 		td13.innerHTML = "<input name='JAM1RP[]' onclick='select()' onkeyup='hitung()' value='0' id=JAM1RP" + idrow + " type='text' class='form-control JAM1RP rightJustified text-primary' readonly>";
 		td14.innerHTML = "<input name='JAM2RP[]' onclick='select()' onkeyup='hitung()' value='0' id=JAM2RP" + idrow + " type='text' class='form-control JAM2RP rightJustified text-primary' readonly>";
 		td15.innerHTML = "<input name='NK[]' onclick='select()' onkeyup='hitung()' value='0' id=NK" + idrow + " type='text' class='form-control NK rightJustified text-primary'>";
-		td15.innerHTML = "<input name='KELILING[]' onclick='select()' onkeyup='hitung()' value='0' id=KELILING" + idrow + " type='text' class='form-control KELILING rightJustified text-primary'>";
-		td15.innerHTML = "<input name='NO[]' onclick='select()' onkeyup='hitung()' value='0' id=NO" + idrow + " type='text' class='form-control NO rightJustified text-primary'>";
-		td15.innerHTML = "<input name='OVERTIME[]' onclick='select()' onkeyup='hitung()' value='0' id=OVERTIME" + idrow + " type='text' class='form-control OVERTIME rightJustified text-primary'>";
-		td15.innerHTML = "<input name='LAIN[]' onclick='select()' onkeyup='hitung()' value='0' id=LAIN" + idrow + " type='text' class='form-control LAIN rightJustified text-primary'>";
-		td16.innerHTML = "<input name='POT[]' onclick='select()' onkeyup='hitung()' value='0' id=POT" + idrow + " type='text' class='form-control POT rightJustified text-danger'>";
-		td17.innerHTML = "<input name='TPERBULAN[]' onclick='select()' onkeyup='hitung()' value='0' id=TPERBULAN" + idrow + " type='text' class='form-control TPERBULAN rightJustified text-primary' readonly>";
-		td18.innerHTML = "<input name='JUMLAH[]' onclick='select()' onkeyup='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
-		td19.innerHTML = "<input type='hidden' value='0' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control'>" +
+		td16.innerHTML = "<input name='KELILING[]' onclick='select()' onkeyup='hitung()' value='0' id=KELILING" + idrow + " type='text' class='form-control KELILING rightJustified text-primary' readonly>";
+		td17.innerHTML = "<input name='NO[]' onclick='select()' onkeyup='hitung()' value='0' id=NO" + idrow + " type='text' class='form-control NO rightJustified text-primary'>";
+		td18.innerHTML = "<input name='OVERTIME[]' onclick='select()' onkeyup='hitung()' value='0' id=OVERTIME" + idrow + " type='text' class='form-control OVERTIME rightJustified text-primary' readonly>";
+		td19.innerHTML = "<input name='LAIN[]' onclick='select()' onkeyup='hitung()' value='0' id=LAIN" + idrow + " type='text' class='form-control LAIN rightJustified text-primary'>";
+		td20.innerHTML = "<input name='POT[]' onclick='select()' onkeyup='hitung()' value='0' id=POT" + idrow + " type='text' class='form-control POT rightJustified text-danger'>";
+		td21.innerHTML = "<input name='TPERBULAN[]' onclick='select()' onkeyup='hitung()' value='0' id=TPERBULAN" + idrow + " type='text' class='form-control TPERBULAN rightJustified text-primary' readonly>";
+		td22.innerHTML = "<input name='JUMLAH[]' onclick='select()' onkeyup='hitung()' value='0' id=JUMLAH" + idrow + " type='text' class='form-control JUMLAH rightJustified text-primary' readonly>";
+		td23.innerHTML = "<input type='hidden' value='0' name='NO_ID[]' id=NO_ID" + idrow + "  class='form-control'>" +
 			" <button type='button' class='btn btn-sm btn-circle btn-outline-danger btn-delete' onclick=''> <i class='fa fa-fw fa-trash'></i> </button>";
 		jumlahdata = 100;
 		for (i = 0; i <= jumlahdata; i++) {
