@@ -36,21 +36,15 @@ class Transaksi_Tunjangan_Nikah_Mati extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'NM'
+        );
+
         $this->db->select('*');
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
@@ -98,21 +92,15 @@ class Transaksi_Tunjangan_Nikah_Mati extends CI_Controller
         $per = $this->session->userdata['periode'];
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'NM'
+        );
+
         $this->db->from('hrd_tunjang');
         $this->db->where($where);
         return $this->db->count_all_results();
@@ -163,21 +151,15 @@ class Transaksi_Tunjangan_Nikah_Mati extends CI_Controller
         $this->session->set_userdata('judul', 'Transaksi Nikah Mati');
         $pt = $this->session->userdata['pt'];
         $cv = $this->session->userdata['cv'];
-        if ($dr == 'I') {
-            $where = array(
-                'dr' => $dr,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        } else {
-            $where = array(
-                'dr' => $dr,
-                'pt' => $pt,
-                'cv' => $cv,
-                'per' => $per,
-                'flag' => 'NM'
-            );
-        }
+
+        $where = array(
+            'dr' => $dr,
+            'pt' => $pt,
+            'cv' => $cv,
+            'per' => $per,
+            'flag' => 'NM'
+        );
+
         $data['hrd_tunjang'] = $this->transaksi_model->tampil_data($where, 'hrd_tunjang', 'no_id')->result();
         $this->load->view('templates_admin/header');
         $this->load->view('templates_admin/navbar');

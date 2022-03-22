@@ -612,6 +612,9 @@ class Transaksi_Harian_N1 extends CI_Controller
     {
         $search = $this->input->post('search');
         $page = ((int)$this->input->post('page'));
+        $pt = $this->session->userdata['pt'];
+        $cv = $this->session->userdata['cv'];
+        $dr = $this->session->userdata['dr'];
         if ($page == 0) {
             $xa = 0;
         } else {
@@ -630,7 +633,7 @@ class Transaksi_Harian_N1 extends CI_Controller
 					WHEN pt = 1 THEN 'PT'
 				END AS pt
             FROM hrd_peg
-            WHERE nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR ptkp LIKE '%$search%' OR nett LIKE '%$search%' OR tperbulan LIKE '%$search%' 
+            WHERE dr='$dr' AND pt='$pt' AND cv='$cv' AND (nm_peg LIKE '%$search%' OR kd_peg LIKE '%$search%' OR ptkp LIKE '%$search%' OR nett LIKE '%$search%' OR tperbulan LIKE '%$search%')
             ORDER BY nm_peg LIMIT $xa,$perPage");
         $selectajax = array();
         foreach ($results->RESULT_ARRAY() as $row) {
